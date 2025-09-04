@@ -25,6 +25,9 @@ contextBridge.exposeInMainWorld('electron', {
   
   // Invokable
   getAppVersion: () => ipcRenderer.invoke('get-app-version'),
+  checkForUpdates: () => ipcRenderer.invoke('update-check'),
+  downloadUpdate: () => ipcRenderer.invoke('update-download'),
+  installUpdate: () => ipcRenderer.invoke('update-install'),
 });
 
 // Expose API_URL to the renderer process

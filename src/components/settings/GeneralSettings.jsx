@@ -1,5 +1,5 @@
 // GeneralSettings.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Helper function untuk mendapatkan URL gambar yang kompatibel dengan Electron
 const getImageUrl = (path) => {
@@ -12,6 +12,25 @@ const getImageUrl = (path) => {
 const GeneralSettings = ({ formState, handleChange  }) => {
   const [logoPreview, setLogoPreview] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [appVersion, setAppVersion] = useState('');
+  const [updateInfo, setUpdateInfo] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const v = await window.electron?.getAppVersion();
+        if (v) setAppVersion(v);
+      } catch (_) {}
+    })();
+
+    let unsub;
+    if (window.electron?.onUpdateStatus) {
+      unsub = window.electron.onUpdateStatus((payload) => setUpdateInfo(payload));
+    }
+    return () => {
+      if (unsub?.remove) unsub.remove();
+    };
+  }, []);
 
   const handleLogoUpload = async (event) => {
     const file = event.target.files[0];
@@ -263,6 +282,46 @@ const GeneralSettings = ({ formState, handleChange  }) => {
             </p>
           </div>
         </div>
+    {/* Pembaruan Aplikasi */}
+      <div className="mt-6 p-4 border rounded-lg dark:border-[var(--border-default)] bg-white dark:bg-[var(--bg-secondary)]">
+        <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-[var(--text-default)]">Pembaruan Aplikasi</h3>
+        <p className="text-sm text-gray-600 dark:text-[var(--text-muted)]">Versi terpasang: {appVersion || '-'}</p>
+        {updateInfo?.status && (
+          <p className="text-sm mt-1 text-gray-600 dark:text-[var(--text-muted)]">
+            Status: {updateInfo.status} {typeof updateInfo.percent === 'number' ? `(${updateInfo.percent.toFixed(0)}%)` : ''}
+          </p>
+        )}
+        <div className="mt-3 flex gap-2 flex-wrap">
+          <button
+            type="button"
+            onClick={() => window.electron?.checkForUpdates()}
+            className="px-3 py-1 text-sm rounded bg-blue-600 text-white hover:bg-blue-700"
+          >
+            Cek Pembaruan
+          </button>
+          {updateInfo?.status === 'available' && (
+            <button
+              type="button"
+              onClick={() => window.electron?.downloadUpdate()}
+              className="px-3 py-1 text-sm rounded bg-emerald-600 text-white hover:bg-emerald-700"
+            >
+              Unduh
+            </button>
+          )}
+          {updateInfo?.status === 'downloaded' && (
+            <button
+              type="button"
+              onClick={() => window.electron?.installUpdate()}
+              className="px-3 py-1 text-sm rounded bg-green-600 text-white hover:bg-green-700"
+            >
+              Instal Sekarang
+            </button>
+          )}
+          {updateInfo?.status === 'downloading' && (
+            <span className="text-sm opacity-80 self-center">Mengunduh...</span>
+          )}
+        </div>
+      </div>
     </div>
     </div>
   );

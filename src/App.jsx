@@ -35,12 +35,9 @@ const Logout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-
-    // Listen for backend status updates
+    let backendStatusListener;
     if (window.electron) {
-      window.electron.onBackendStatus((statusPayload) => {
+      backendStatusListener = window.electron.onBackendStatus((statusPayload) => {
         if (statusPayload.status === 'connected') {
           navigate('/login');
         } else {
@@ -56,8 +53,8 @@ const Logout = () => {
 
     // Cleanup listener on unmount
     return () => {
-      if (window.electron) {
-        window.electron.cleanup(); // Remove all listeners, including backend-status
+      if (backendStatusListener) {
+        backendStatusListener.remove();
       }
     };
   }, [navigate]);

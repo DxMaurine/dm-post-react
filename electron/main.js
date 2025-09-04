@@ -4,8 +4,94 @@ const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const http = require('http');
 const { fork } = require('child_process');
-const { autoUpdater } = require('electron-updater');
-const log = require('electron-log');
+let log;
+try { log = require('electron-log/main'); }
+catch (e) {
+  try { log = require('electron-log'); } catch (_) { log = console; }
+}
+let autoUpdater;
+try { ({ autoUpdater } = require('electron-updater')); }
+catch (e) {
+  try {
+    const altPath = path.join(process.resourcesPath || '', 'app.asar.unpacked', 'node_modules', 'electron-updater');
+    ({ autoUpdater } = require(altPath));
+  } catch (e2) {
+    autoUpdater = null;
+  }
+}
+
+// Broadcast updater status to all renderer windows
+function broadcastUpdateStatus(status, message = '', extra = {}) {
+  const payload = { status, message, ...extra };
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.webContents.send('update-status', payload);
+  }
+  if (customerDisplayWindow && !customerDisplayWindow.isDestroyed()) {
+    customerDisplayWindow.webContents.send('update-status', payload);
+  }
+  if (barcodePrinterWindow && !barcodePrinterWindow.isDestroyed()) {
+    barcodePrinterWindow.webContents.send('update-status', payload);
+  }
+}
+
+function initAutoUpdater() {
+  try {
+    // Lazy resolve electron-updater using createRequire from app base path
+    if (!autoUpdater) {
+      try {
+        const { createRequire } = require('module');
+        const base = app.isPackaged ? app.getAppPath() : __dirname;
+        const req = createRequire(base.endsWith('/') ? base : base + '/');
+        ({ autoUpdater } = req('electron-updater'));
+      } catch (e1) {
+        try {
+          // Fallback to resourcesPath/node_modules for some packaging layouts
+          const alt = path.join(process.resourcesPath || '', 'node_modules', 'electron-updater');
+          ({ autoUpdater } = require(alt));
+        } catch (e2) {
+          // leave autoUpdater null
+        }
+      }
+    }
+
+    if (!autoUpdater) {
+      broadcastUpdateStatus('error', 'Komponen updater tidak tersedia.');
+      return;
+    }
+
+    try { if (log && log.transports && log.transports.file) { log.transports.file.level = 'info'; } } catch {}
+    autoUpdater.logger = log || console;
+    autoUpdater.autoDownload = false; // manual download via UI
+    autoUpdater.autoInstallOnAppQuit = true;
+
+    autoUpdater.on('checking-for-update', () => {
+      broadcastUpdateStatus('checking', 'Mengecek pembaruan...');
+    });
+    autoUpdater.on('update-available', (info) => {
+      broadcastUpdateStatus('available', `Versi ${info.version} tersedia.`, { version: info.version });
+    });
+    autoUpdater.on('update-not-available', () => {
+      broadcastUpdateStatus('not-available', 'Aplikasi sudah versi terbaru.');
+    });
+    autoUpdater.on('error', (err) => {
+      broadcastUpdateStatus('error', `Gagal update: ${err?.message || String(err)}`);
+    });
+    autoUpdater.on('download-progress', (p) => {
+      const percent = typeof p.percent === 'number' ? p.percent : 0;
+      broadcastUpdateStatus('downloading', `Mengunduh ${percent.toFixed(1)}%`, {
+        percent,
+        transferred: p.transferred,
+        total: p.total,
+        bytesPerSecond: p.bytesPerSecond,
+      });
+    });
+    autoUpdater.on('update-downloaded', (info) => {
+      broadcastUpdateStatus('downloaded', 'Unduhan selesai. Siap instal.', { version: info.version });
+    });
+  } catch (e) {
+    // ignore init errors in dev
+  }
+}
 
 let backendProcess;
 let mainWindow = null;
@@ -29,13 +115,7 @@ function sendBackendStatus(status, message = '') {
   }
 }
 
-// Add this function to send update status to renderer processes
-function sendUpdateStatus(status, message = '') {
-  const statusPayload = { status, message };
-  if (mainWindow && !mainWindow.isDestroyed()) {
-    mainWindow.webContents.send('update-status', statusPayload);
-  }
-}
+
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({
@@ -381,66 +461,11 @@ app.whenReady().then(async () => {
     // NOW, we can create the main window.
     createMainWindow();
 
-    // --- Auto-update logic starts here ---
-    if (app.isPackaged) { // Only check for updates in packaged app
-      log.transports.file.level = 'info'; // Set log level for file transport
-      autoUpdater.logger = log; // Assign electron-log to autoUpdater's logger
-
-      autoUpdater.autoDownload = false; // Don't auto-download, let user confirm
-
-      autoUpdater.on('checking-for-update', () => {
-        sendUpdateStatus('checking', 'Mencari pembaruan...');
-      });
-
-      autoUpdater.on('update-available', (info) => {
-        sendUpdateStatus('available', `Pembaruan tersedia! Versi: ${info.version}. Mengunduh...`);
-        dialog.showMessageBox(mainWindow, {
-          type: 'info',
-          title: 'Pembaruan Tersedia',
-          message: `Versi ${info.version} tersedia. Apakah Anda ingin mengunduhnya sekarang?`,
-          buttons: ['Ya', 'Tidak']
-        }).then(result => {
-          if (result.response === 0) { // 'Ya' button clicked
-            autoUpdater.downloadUpdate();
-          } else {
-            sendUpdateStatus('cancelled', 'Pengunduhan pembaruan dibatalkan.');
-          }
-        });
-      });
-
-      autoUpdater.on('update-not-available', () => {
-        sendUpdateStatus('not-available', 'Tidak ada pembaruan tersedia.');
-      });
-
-      autoUpdater.on('error', (err) => {
-        sendUpdateStatus('error', `Kesalahan pembaruan: ${err.message}`);
-        dialog.showErrorBox('Kesalahan Pembaruan', `Terjadi kesalahan saat memeriksa pembaruan: ${err.message}`);
-      });
-
-      autoUpdater.on('download-progress', (progressObj) => {
-        let log_message = `Kecepatan unduh: ${progressObj.bytesPerSecond}`;
-        log_message = log_message + ' - Diunduh ' + progressObj.percent + '%';
-        log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
-        sendUpdateStatus('downloading', log_message);
-      });
-
-      autoUpdater.on('update-downloaded', (info) => {
-        sendUpdateStatus('downloaded', 'Pembaruan berhasil diunduh. Aplikasi akan di-restart untuk menginstal.');
-        dialog.showMessageBox(mainWindow, {
-          type: 'info',
-          title: 'Instal Pembaruan',
-          message: 'Pembaruan berhasil diunduh. Aplikasi akan di-restart untuk menginstal.',
-          buttons: ['Restart Sekarang', 'Nanti']
-        }).then(result => {
-          if (result.response === 0) { // 'Restart Sekarang' button clicked
-            autoUpdater.quitAndInstall();
-          }
-        });
-      });
-
-      autoUpdater.checkForUpdates(); // Initiate update check
+    // Initialize and trigger updater check (only in production builds)
+    initAutoUpdater();
+    if (app.isPackaged && autoUpdater) {
+      try { await autoUpdater.checkForUpdates(); } catch (_) {}
     }
-    // --- Auto-update logic ends here ---
 
   } catch (startError) {
     // If startBackend fails, we show an error.
@@ -514,4 +539,49 @@ ipcMain.on('promo-content-updated', () => {
 
 ipcMain.handle('get-app-version', () => {
   return app.getVersion();
+});
+
+ipcMain.handle('update-check', async () => {
+  try {
+    if (!autoUpdater) {
+      const msg = 'Komponen updater tidak tersedia.';
+      broadcastUpdateStatus('error', msg);
+      return { ok: false, error: msg };
+    }
+    const res = await autoUpdater.checkForUpdates();
+    return { ok: true, version: res?.updateInfo?.version };
+  } catch (e) {
+    broadcastUpdateStatus('error', e?.message || String(e));
+    return { ok: false, error: e?.message || String(e) };
+  }
+});
+
+ipcMain.handle('update-download', async () => {
+  try {
+    if (!autoUpdater) {
+      const msg = 'Komponen updater tidak tersedia.';
+      broadcastUpdateStatus('error', msg);
+      return { ok: false, error: msg };
+    }
+    await autoUpdater.downloadUpdate();
+    return { ok: true };
+  } catch (e) {
+    broadcastUpdateStatus('error', e?.message || String(e));
+    return { ok: false, error: e?.message || String(e) };
+  }
+});
+
+ipcMain.handle('update-install', async () => {
+  try {
+    if (!autoUpdater) {
+      const msg = 'Komponen updater tidak tersedia.';
+      broadcastUpdateStatus('error', msg);
+      return { ok: false, error: msg };
+    }
+    setImmediate(() => autoUpdater.quitAndInstall());
+    return { ok: true };
+  } catch (e) {
+    broadcastUpdateStatus('error', e?.message || String(e));
+    return { ok: false, error: e?.message || String(e) };
+  }
 });

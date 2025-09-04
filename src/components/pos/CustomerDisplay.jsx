@@ -154,17 +154,17 @@ const CustomerDisplay = () => {
       fetchPromoContent();
     };
 
+    let updateListener, paymentListener, refreshListener;
     if (window.electron) {
-      window.electron.onUpdateDisplay(handleUpdate);
-      window.electron.onPaymentComplete(handlePaymentComplete);
-      window.electron.onRefreshPromoContent(handleRefreshPromoContent); // Register new listener
+      updateListener = window.electron.onUpdateDisplay(handleUpdate);
+      paymentListener = window.electron.onPaymentComplete(handlePaymentComplete);
+      refreshListener = window.electron.onRefreshPromoContent(handleRefreshPromoContent);
     }
 
     return () => {
-      if (window.electron) {
-        window.electron.cleanup();
-        // window.electron.removeListener('refresh-promo-content', handleRefreshPromoContent); // This line is no longer needed as onRefreshPromoContent handles cleanup internally
-      }
+      if (updateListener) updateListener.remove();
+      if (paymentListener) paymentListener.remove();
+      if (refreshListener) refreshListener.remove();
     };
   }, [view]);
 

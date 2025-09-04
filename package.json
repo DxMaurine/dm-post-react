@@ -1,7 +1,7 @@
 {
   "name": "dm-pos-retail",
   "private": true,
-  "version": "1.5.8",
+  "version": "1.5.10",
   "author": "dmpos.dev@gmail.com",
   "description": "A desktop application for managing sales, inventory, and customers in a retail environment.",
   "main": "electron/main.js",
@@ -11,7 +11,8 @@
     "dist": "vite build && electron-builder",
     "build:electron": "vite build && electron-builder",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "release": "vite build && electron-builder -p always"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -20,8 +21,9 @@
     "@mui/material": "^7.3.1",
     "@zxing/library": "^0.21.3",
     "animate.css": "^4.1.1",
+    "axios": "^1.11.0",
     "date-fns": "^4.1.0",
-    "electron-log": "^4.4.8",
+    "electron-log": "^5.4.3",
     "electron-updater": "^6.6.2",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
@@ -59,11 +61,19 @@
   "build": {
     "appId": "com.piccacode.dm-pos-solution",
     "productName": "DM POS",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "DxMaurine",
+        "repo": "dm-post-react"
+      }
+    ],
     "beforeBuild": "scripts/beforeBuild.js",
     "files": [
       "dist/**/*",
       "electron/**/*",
-      "package.json"
+      "package.json",
+      "node_modules/**/*"
     ],
     "extraResources": [
       {
@@ -86,16 +96,6 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    },
-    "publish": {
-      "provider": "github",
-      "owner": "DxMaurine",
-      "repo": "dm-post-react",
-      "releaseType": "draft"
-    },
-    "asarUnpack": [
-      "**/node_modules/electron-updater/**",
-      "**/node_modules/electron-log/**"
-    ]
+    }
   }
 }
