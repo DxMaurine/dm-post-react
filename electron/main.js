@@ -2,6 +2,8 @@ const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const http = require('http');
 const { fork } = require('child_process');
+const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
 
 let backendProcess;
 let mainWindow = null;
@@ -22,6 +24,14 @@ function sendBackendStatus(status, message = '') {
   }
   if (barcodePrinterWindow && !barcodePrinterWindow.isDestroyed()) {
     barcodePrinterWindow.webContents.send('backend-status', statusPayload);
+  }
+}
+
+// Add this function to send update status to renderer processes
+function sendUpdateStatus(status, message = '') {
+  const statusPayload = { status, message };
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.webContents.send('update-status', statusPayload);
   }
 }
 
@@ -369,6 +379,67 @@ app.whenReady().then(async () => {
     // NOW, we can create the main window.
     createMainWindow();
 
+    // --- Auto-update logic starts here ---
+    if (app.isPackaged) { // Only check for updates in packaged app
+      log.transports.file.level = 'info'; // Set log level for file transport
+      autoUpdater.logger = log; // Assign electron-log to autoUpdater's logger
+
+      autoUpdater.autoDownload = false; // Don't auto-download, let user confirm
+
+      autoUpdater.on('checking-for-update', () => {
+        sendUpdateStatus('checking', 'Mencari pembaruan...');
+      });
+
+      autoUpdater.on('update-available', (info) => {
+        sendUpdateStatus('available', `Pembaruan tersedia! Versi: ${info.version}. Mengunduh...`);
+        dialog.showMessageBox(mainWindow, {
+          type: 'info',
+          title: 'Pembaruan Tersedia',
+          message: `Versi ${info.version} tersedia. Apakah Anda ingin mengunduhnya sekarang?`,
+          buttons: ['Ya', 'Tidak']
+        }).then(result => {
+          if (result.response === 0) { // 'Ya' button clicked
+            autoUpdater.downloadUpdate();
+          } else {
+            sendUpdateStatus('cancelled', 'Pengunduhan pembaruan dibatalkan.');
+          }
+        });
+      });
+
+      autoUpdater.on('update-not-available', () => {
+        sendUpdateStatus('not-available', 'Tidak ada pembaruan tersedia.');
+      });
+
+      autoUpdater.on('error', (err) => {
+        sendUpdateStatus('error', `Kesalahan pembaruan: ${err.message}`);
+        dialog.showErrorBox('Kesalahan Pembaruan', `Terjadi kesalahan saat memeriksa pembaruan: ${err.message}`);
+      });
+
+      autoUpdater.on('download-progress', (progressObj) => {
+        let log_message = `Kecepatan unduh: ${progressObj.bytesPerSecond}`;
+        log_message = log_message + ' - Diunduh ' + progressObj.percent + '%';
+        log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
+        sendUpdateStatus('downloading', log_message);
+      });
+
+      autoUpdater.on('update-downloaded', (info) => {
+        sendUpdateStatus('downloaded', 'Pembaruan berhasil diunduh. Aplikasi akan di-restart untuk menginstal.');
+        dialog.showMessageBox(mainWindow, {
+          type: 'info',
+          title: 'Instal Pembaruan',
+          message: 'Pembaruan berhasil diunduh. Aplikasi akan di-restart untuk menginstal.',
+          buttons: ['Restart Sekarang', 'Nanti']
+        }).then(result => {
+          if (result.response === 0) { // 'Restart Sekarang' button clicked
+            autoUpdater.quitAndInstall();
+          }
+        });
+      });
+
+      autoUpdater.checkForUpdates(); // Initiate update check
+    }
+    // --- Auto-update logic ends here ---
+
   } catch (startError) {
     // If startBackend fails, we show an error.
     // We still create a window to show the error message.
@@ -437,4 +508,8 @@ ipcMain.on('promo-content-updated', () => {
   if (customerDisplayWindow && !customerDisplayWindow.isDestroyed()) {
     customerDisplayWindow.webContents.send('refresh-promo-content');
   }
+});
+
+ipcMain.handle('get-app-version', () => {
+  return app.getVersion();
 });

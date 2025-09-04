@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './sidebar';
 import CatalogModal from './CatalogModal';
@@ -12,6 +12,47 @@ const Layout = () => {
     message: '',
     severity: 'info',
   });
+  const [appVersion, setAppVersion] = useState('');
+
+  useEffect(() => {
+    if (window.electron && window.electron.getAppVersion) {
+      window.electron.getAppVersion().then(version => {
+        setAppVersion(version);
+      });
+    }
+
+    // Listen for update status messages
+    if (window.electron && window.electron.onUpdateStatus) {
+      const handleUpdateStatus = (payload) => {
+        let severity = 'info';
+        switch (payload.status) {
+          case 'downloaded':
+            severity = 'success';
+            break;
+          case 'error':
+            severity = 'error';
+            break;
+          case 'cancelled':
+            severity = 'warning';
+            break;
+          default:
+            severity = 'info';
+        }
+        setSnackbar({
+          open: true,
+          message: `Pembaruan: ${payload.message}`,
+          severity: severity,
+        });
+      };
+
+      window.electron.onUpdateStatus(handleUpdateStatus);
+
+      // Cleanup listener
+      return () => {
+        window.electron.removeAllListeners('update-status'); // Assuming a cleanup method for all listeners or specific one
+      };
+    }
+  }, []);
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
@@ -28,6 +69,11 @@ const Layout = () => {
           <div className="p-6">
             <Outlet context={{ setSnackbar }} />
           </div>
+          {appVersion && (
+            <div className="absolute bottom-2 right-2 text-xs text-gray-500 dark:text-gray-400">
+              Versi: {appVersion}
+            </div>
+          )}
         </main>
         <CatalogModal isOpen={isCatalogOpen} onClose={() => setIsCatalogOpen(false)} />
       </ThemeProvider>

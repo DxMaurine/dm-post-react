@@ -1,15 +1,14 @@
 {
   "name": "dm-pos-retail",
-  "oneClick": false,
   "private": true,
-  "version": "1.5.5",
+  "version": "1.5.7",
   "author": "dmpos.dev@gmail.com",
   "description": "A desktop application for managing sales, inventory, and customers in a retail environment.",
   "main": "electron/main.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development concurrently -k \"vite\" \"electron .\"",
     "build": "vite build",
-    "build:electron": "vite build && electron-builder",
+    "dist": "vite build && electron-builder",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -21,6 +20,8 @@
     "@zxing/library": "^0.21.3",
     "animate.css": "^4.1.1",
     "date-fns": "^4.1.0",
+    "electron-log": "^4.4.8",
+    "electron-updater": "^6.3.0",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.541.0",
@@ -60,23 +61,13 @@
     "beforeBuild": "scripts/beforeBuild.js",
     "files": [
       "dist/**/*",
-      "electron/**/*"
+      "electron/**/*",
+      "package.json"
     ],
     "extraResources": [
       {
         "from": "pos-backend/",
-        "to": "pos-backend/",
-        "filter": [
-          "**/*",
-          "node_modules/**/*"
-        ]
-      },
-      {
-        "from": "pos-backend/node_modules/",
-        "to": "pos-backend/node_modules/",
-        "filter": [
-          "**/*"
-        ]
+        "to": "pos-backend/"
       }
     ],
     "directories": {
@@ -90,6 +81,20 @@
     },
     "linux": {
       "target": "AppImage"
-    }
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "DxMaurine",
+      "repo": "dm-post-react",
+      "releaseType": "draft"
+    },
+    "asarUnpack": [
+      "**/node_modules/electron-updater/**",
+      "**/node_modules/electron-log/**"
+    ]
   }
 }

@@ -21,6 +21,7 @@ contextBridge.exposeInMainWorld('electron', {
     ipcRenderer.removeAllListeners('refresh-promo-content'); // Add cleanup for new listener
   },
   sendPromoContentUpdated: () => ipcRenderer.send('promo-content-updated'), // New function
+  getAppVersion: () => ipcRenderer.invoke('get-app-version'),
 });
 
 // Expose API_URL to the renderer process
