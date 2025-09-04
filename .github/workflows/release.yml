@@ -1,0 +1,40 @@
+# Nama workflow yang akan muncul di tab "Actions" GitHub
+name: Build & Release DM POS
+
+# Pemicu: Workflow ini hanya akan berjalan saat ada tag baru (misal: v1.5.7) di-push
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  # Nama pekerjaan, bisa apa saja
+  release:
+    # Menggunakan mesin virtual Windows terbaru untuk membuat file .exe
+    runs-on: windows-latest
+
+    steps:
+      # Langkah 1: Mengunduh kode dari repository Anda ke mesin virtual
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      # Langkah 2: Menyiapkan lingkungan Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Menggunakan Node.js versi 18.x
+          cache: 'npm'      # Mengaktifkan cache untuk mempercepat instalasi
+
+      # Langkah 3: Menginstal semua dependencies dari package.json
+      - name: Install dependencies
+        run: npm install
+
+      # Langkah 4: Menjalankan script build dan rilis
+      # Menggunakan script "dist" yang sudah kita siapkan di package.json
+      - name: Build and release application
+        run: npm run dist
+        env:
+          # Ini adalah bagian KUNCI untuk otentikasi.
+          # Token ini disediakan secara otomatis oleh GitHub Actions.
+          # Anda TIDAK PERLU membuat Personal Access Token (PAT) manual.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
