@@ -1,39 +1,41 @@
-# Nama workflow yang akan muncul di tab "Actions" GitHub
 name: Build & Release DM POS
 
-# Pemicu: Workflow ini hanya akan berjalan saat ada tag baru (misal: v1.5.7) di-push
 on:
   push:
     tags:
       - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  # Nama pekerjaan, bisa apa saja
-  release:
-    # Menggunakan mesin virtual Windows terbaru untuk membuat file .exe
+  release-windows:
     runs-on: windows-latest
-
     steps:
-      # Langkah 1: Mengunduh kode dari repository Anda ke mesin virtual
-      - name: Check out Git repository
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # Langkah 2: Menyiapkan lingkungan Node.js
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          # PERBAIKAN: Menggunakan Node.js versi 20 yang dibutuhkan oleh Vite
           node-version: '20'
-          cache: 'npm'      # Mengaktifkan cache untuk mempercepat instalasi
+          cache: 'npm'
 
-      # Langkah 3: Menginstal semua dependencies dari package.json
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies (clean)
+        run: npm ci
 
-      # Langkah 4: Menjalankan script build dan rilis
-      - name: Build and release application
-        # Menggunakan script "dist" atau "build:electron" dari package.json
-        run: npm run dist
+      - name: Build and publish with electron-builder
+        run: npm run release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Optional: upload release folder if build fails (debugging)
+      - name: Upload release folder (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-folder
+          path: release/**/*
