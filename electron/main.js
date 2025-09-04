@@ -1,3 +1,5 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-unused-vars */
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const http = require('http');

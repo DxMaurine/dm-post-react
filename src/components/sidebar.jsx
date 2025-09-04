@@ -127,6 +127,7 @@ const AccordionGroup = ({ group, isCollapsed, location, userRole }) => {
 const Sidebar = ({ onOpenCatalog }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [user, setUser] = useState(null);
+  const [appVersion, setAppVersion] = useState('');
   const { settings } = useContext(SettingsContext);
   const location = useLocation();
 
@@ -140,6 +141,19 @@ const Sidebar = ({ onOpenCatalog }) => {
         localStorage.removeItem('user');
       }
     }
+
+    const fetchVersion = async () => {
+      if (window.electron) {
+        try {
+          const version = await window.electron.getAppVersion();
+          setAppVersion(version);
+        } catch (error) {
+          console.error('Failed to get app version:', error);
+        }
+      }
+    };
+
+    fetchVersion();
   }, []);
 
   const userRole = user?.role || 'kasir';
@@ -222,7 +236,7 @@ const Sidebar = ({ onOpenCatalog }) => {
     
       <div className="mt-auto">
         <ThemeDropdown isCollapsed={isCollapsed} />
-        <div className="p-4 border-t border-[var(--border-default)]">
+        <div className="p-4 border-t border-[var(--border-default)] mb-2">
             <NavLink
               to="/logout"
               className={`flex items-center p-3 rounded-xl bg-red-600 text-white hover:bg-red-700 transition-colors group ${isCollapsed ? 'justify-center w-12 h-12 mx-auto' : ''}`}>
@@ -232,6 +246,11 @@ const Sidebar = ({ onOpenCatalog }) => {
               )}
             </NavLink>
         </div>
+        {appVersion && (
+          <div className="pb-4 px-2 text-center text-xs text-gray-500 dark:text-gray-400">
+            {isCollapsed ? `v${appVersion}` : `Version ${appVersion}`}
+          </div>
+        )}
       </div>
     </div>
   );
