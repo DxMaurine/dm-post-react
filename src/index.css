@@ -1,0 +1,84 @@
+/* Import Tailwind base styles */
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 
+  Varian 1: Default (VS Code Inspired)
+  Kontras tinggi, latar belakang gelap pekat, aksen biru kuat.
+  Memberikan nuansa teknis dan modern.
+*/
+.dark {
+  --bg-default: #1e1e1e;
+  --bg-secondary: #252526;
+  --text-default: #D4D4D4;
+  --text-muted: #858585;
+  --border-default: #333333;
+  --primary-color: #007ACC;
+  --primary-color-hover: #0099ff;
+  --selection-bg: #264f78;
+
+  /* Component-specific variables */
+  --sidebar-bg-dark: #252526;
+  --layout-bg-dark: #1E1E1E;
+  --card-bg-dark: #252526;
+  --primary-bg-dark: #007ACC;
+}
+
+/* 
+  Varian 2: Midnight (Microsoft Word Green Inspired)
+  Hijau telur asin yang lembut, memberikan nuansa hangat dan nyaman.
+  Terinspirasi dari tema hijau Microsoft Word dengan sentuhan profesional.
+*/
+.dark.theme-midnight {
+  --bg-default: #2D3A2E;
+  --bg-secondary: #3A4A3C;
+  --text-default: #E8F5E8;
+  --text-muted: #B8D4B8;
+  --border-default: #4A5F4C;
+  --primary-color: #7CB342;
+  --primary-color-hover: #8BC34A;
+  --selection-bg: #5A6F5C;
+
+  /* Component-specific variables */
+  --sidebar-bg-dark: #3A4A3C;
+  --layout-bg-dark: #2D3A2E;
+  --card-bg-dark: #4A5F4C;
+  --primary-bg-dark: #7CB342;
+}
+
+/* 
+  Varian 3: Fusion (Hybrid Theme) - formerly Forest
+  Kontras tinggi, modern, perpaduan terbaik dari keduanya.
+*/
+.dark.theme-forest {
+  --bg-default: #1A1D21;
+  --bg-secondary: #282C34;
+  --text-default: #E6E6E6;
+  --text-muted: #A0A0A0;
+  --border-default: #40454F;
+  --primary-color: #61AFEF;
+  --primary-color-hover: #82C0FF;
+  --selection-bg: #4A5C78;
+
+  /* Component-specific variables */
+  --sidebar-bg-dark: #282C34;
+  --layout-bg-dark: #1A1D21;
+  --card-bg-dark: #282C34;
+  --primary-bg-dark: #61AFEF;
+}
+
+@keyframes emerge-and-zoom {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.carousel-image-container {
+  animation: emerge-and-zoom 0.4s ease-out forwards;
+}

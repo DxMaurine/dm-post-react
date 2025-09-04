@@ -1,0 +1,55 @@
+/**
+ * Combines class names into a single string, filtering out falsy values.
+ * @param {...(string|Object)} inputs - Class names or objects with conditional class names
+ * @returns {string} Combined class names
+ */
+export function cn(...inputs) {
+  return inputs
+    .flatMap(input => {
+      if (typeof input === 'string') {
+        return input.split(' ');
+      }
+      if (typeof input === 'object' && input !== null) {
+        return Object.entries(input)
+          .filter(([_, value]) => Boolean(value))
+          .map(([key]) => key);
+      }
+      return [];
+    })
+    .filter(Boolean)
+    .join(' ');
+}
+
+/**
+ * Simple object check.
+ * @param item
+ * @returns {boolean}
+ */
+function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+/**
+ * Deep merge two objects.
+ * @param target
+ * @param ...sources
+ */
+export function mergeDeep(target, ...sources) {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+
+  return mergeDeep(target, ...sources);
+}
+
+// You can add more utilities here as needed

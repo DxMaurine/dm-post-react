@@ -1,0 +1,49 @@
+
+.line-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px; /* Thin line */
+  z-index: 9999;
+  pointer-events: none; /* Allow clicks to go through */
+}
+
+.line-progress-bar {
+  height: 100%;
+  width: 100%;
+}
+
+.line-progress-bar--success { background-color: #4caf50; animation: progress-animation 3s linear forwards; }
+.line-progress-bar--error { background-color: #f44336; animation: progress-animation 3s linear forwards; }
+.line-progress-bar--warning { background-color: #ff9800; animation: progress-animation 3s linear forwards; }
+.line-progress-bar--info { background-color: #2196f3; animation: progress-animation 3s linear forwards; }
+
+@keyframes progress-animation {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.line-progress-bar--indeterminate {
+  position: relative;
+  background-color: rgba(33, 150, 243, 0.3); /* Lighter background for the track */
+  overflow: hidden;
+}
+
+.line-progress-bar--indeterminate::before {
+  content: '';
+  position: absolute;
+  background-color: #2196f3; /* The moving bar */
+  height: 100%;
+  width: 60%; /* Width of the moving part */
+  animation: indeterminate-animation 1.5s infinite ease-in-out;
+}
+
+@keyframes indeterminate-animation {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}

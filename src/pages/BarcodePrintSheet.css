@@ -1,0 +1,93 @@
+/* General body styling */
+
+body {
+  margin: 0;
+  background-color: #ccc;
+  font-family: 'Roboto', sans-serif;
+}
+.no-print {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: #333;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+/* A4 Sheet with proper margins */
+.a4-sheet {
+  background: white;
+  width: 210mm;
+  height: 297mm; /* Correct A4 height */
+  display: block;
+  margin: 0.5cm auto;
+  /* Top/Bottom: 10mm, Left/Right: 5mm to center the 200mm grid */
+  padding: 10mm 5mm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+  box-sizing: border-box;
+}
+
+/* Label grid - 4 columns with exact 50x30mm size */
+.label-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 50mm);
+  grid-auto-rows: 30mm;
+  /* Vertical gap: 0.875mm, Horizontal gap: 0mm */
+  gap: 0.875mm 0mm;
+  width: 100%;
+  height: 100%;
+}
+
+/* Individual label styling */
+.barcode-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around; /* Better vertical distribution */
+  text-align: center;
+  overflow: hidden;
+  border: 0.25mm dashed #eee; /* Lighter border */
+  box-sizing: border-box;
+  width: 50mm;
+  height: 30mm;
+  padding: 1mm;
+}
+
+.product-name {
+  font-size: 8pt;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.1;
+  max-width: 100%;
+  white-space: nowrap; /* Mencegah teks turun baris */
+  overflow: hidden; /* Sembunyikan teks yang meluber */
+  text-overflow: ellipsis; /* Tambahkan "..." di akhir */
+}
+
+.product-price {
+  font-size: 9pt;
+  font-weight: bold;
+  margin: 0;
+}
+
+@media print {
+  body {
+    background-color: white;
+    margin: 0;
+    padding: 0;
+  }
+  .a4-sheet {
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+    padding: 10mm;
+  }
+  .no-print {
+    display: none;
+  }
+  .barcode-label {
+    border: none; /* Remove border when printing */
+  }
+}
