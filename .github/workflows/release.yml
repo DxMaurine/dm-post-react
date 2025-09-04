@@ -22,7 +22,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18' # Menggunakan Node.js versi 18.x
+          # PERBAIKAN: Menggunakan Node.js versi 20 yang dibutuhkan oleh Vite
+          node-version: '20'
           cache: 'npm'      # Mengaktifkan cache untuk mempercepat instalasi
 
       # Langkah 3: Menginstal semua dependencies dari package.json
@@ -30,11 +31,9 @@ jobs:
         run: npm install
 
       # Langkah 4: Menjalankan script build dan rilis
-      # Menggunakan script "dist" yang sudah kita siapkan di package.json
       - name: Build and release application
+        # Menggunakan script "dist" atau "build:electron" dari package.json
         run: npm run dist
         env:
-          # Ini adalah bagian KUNCI untuk otentikasi.
-          # Token ini disediakan secara otomatis oleh GitHub Actions.
-          # Anda TIDAK PERLU membuat Personal Access Token (PAT) manual.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
