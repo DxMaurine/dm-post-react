@@ -1,7 +1,7 @@
 {
   "name": "dm-pos-retail",
   "private": true,
-  "version": "1.5.7",
+  "version": "1.5.8",
   "author": "dmpos.dev@gmail.com",
   "description": "A desktop application for managing sales, inventory, and customers in a retail environment.",
   "main": "electron/main.js",
@@ -22,7 +22,7 @@
     "animate.css": "^4.1.1",
     "date-fns": "^4.1.0",
     "electron-log": "^4.4.8",
-    "electron-updater": "^6.3.0",
+    "electron-updater": "^6.6.2",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.541.0",
@@ -99,4 +99,3 @@
     ]
   }
 }
-
