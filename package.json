@@ -1,7 +1,7 @@
 {
   "name": "dm-pos-retail",
   "private": true,
-  "version": "1.5.17",
+  "version": "1.5.18",
   "author": "dmpos.dev@gmail.com",
   "description": "A desktop application for managing sales, inventory, and customers in a retail environment.",
   "main": "electron/main.js",
@@ -11,7 +11,7 @@
     "dist": "vite build && cross-env NODE_ENV=production electron-builder",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "release": "npm run build && electron-builder --publish always"
+    "release": "npm run build && npx electron-builder --publish always"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
