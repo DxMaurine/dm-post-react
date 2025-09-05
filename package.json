@@ -1,7 +1,7 @@
 {
   "name": "dm-pos-retail",
   "private": true,
-  "version": "1.5.16",
+  "version": "1.5.17",
   "author": "dmpos.dev@gmail.com",
   "description": "A desktop application for managing sales, inventory, and customers in a retail environment.",
   "main": "electron/main.js",
@@ -11,7 +11,7 @@
     "dist": "vite build && cross-env NODE_ENV=production electron-builder",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "release": "cross-env GH_TOKEN=your_github_token npm run build && electron-builder --publish always"
+    "release": "npm run build && electron-builder --publish always"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -46,6 +46,7 @@
     "autoprefixer": "^10.4.21",
     "concurrently": "^9.2.0",
     "cross-env": "^10.0.0",
+    "dotenv-cli": "^10.0.0",
     "electron": "^37.3.1",
     "electron-builder": "^26.0.12",
     "electron-squirrel-startup": "^1.0.1",
@@ -85,7 +86,10 @@
       {
         "from": "pos-backend/",
         "to": "pos-backend/",
-        "filter": ["**/*", "!node_modules/**"]
+        "filter": [
+          "**/*",
+          "!node_modules/**"
+        ]
       }
     ],
     "asarUnpack": [
