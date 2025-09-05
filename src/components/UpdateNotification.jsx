@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { FiInfo, FiDownload, FiCheckCircle, FiXCircle, FiRefreshCw } from 'react-icons/fi';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 const UpdateNotification = () => {
   const [updateInfo, setUpdateInfo] = useState(null);
@@ -9,8 +11,38 @@ const UpdateNotification = () => {
       console.log('Update Status:', statusPayload);
       setUpdateInfo(statusPayload);
 
+      // Show SweetAlert2 for dev mode and not-available status
+      if (statusPayload.status === 'dev-mode') {
+        Swal.fire({
+          icon: 'info',
+          title: 'Mode Development',
+          text: 'Aplikasi dalam mode development. Fitur update tidak tersedia.',
+          confirmButtonText: 'Mengerti',
+          customClass: {
+            popup: 'dark:bg-[var(--bg-default)] dark:text-white',
+            title: 'dark:text-white',
+            htmlContainer: 'dark:text-gray-300',
+            confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded'
+          }
+        });
+      } else if (statusPayload.status === 'not-available') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Versi Terbaru',
+          text: 'Aplikasi Anda sudah menggunakan versi terbaru.',
+          confirmButtonText: 'OK',
+          timer: 3000,
+          customClass: {
+            popup: 'dark:bg-[var(--bg-default)] dark:text-white',
+            title: 'dark:text-white',
+            htmlContainer: 'dark:text-gray-300',
+            confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded'
+          }
+        });
+      }
+
       // Automatically hide some messages after a delay
-      if (statusPayload.status === 'checking' || statusPayload.status === 'not-available') {
+      if (statusPayload.status === 'checking' || statusPayload.status === 'not-available' || statusPayload.status === 'dev-mode') {
         setTimeout(() => {
           setUpdateInfo(current => (current?.message === statusPayload.message ? null : current));
         }, 4000);
@@ -68,13 +100,25 @@ const UpdateNotification = () => {
   }
 
   const onCheck = async () => {
-    try { await window.electron?.checkForUpdates(); } catch (_) {}
+    try {
+      await window.electron?.checkForUpdates();
+    } catch (error) {
+      console.error('Failed to check for updates:', error);
+    }
   };
   const onDownload = async () => {
-    try { await window.electron?.downloadUpdate(); } catch (_) {}
+    try {
+      await window.electron?.downloadUpdate();
+    } catch (error) {
+      console.error('Failed to download update:', error);
+    }
   };
   const onInstall = async () => {
-    try { await window.electron?.installUpdate(); } catch (_) {}
+    try {
+      await window.electron?.installUpdate();
+    } catch (error) {
+      console.error('Failed to install update:', error);
+    }
   };
 
   const renderActions = () => (

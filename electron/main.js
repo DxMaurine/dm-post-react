@@ -4,21 +4,74 @@ const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const http = require('http');
 const { fork } = require('child_process');
-let log;
-try { log = require('electron-log/main'); }
-catch (e) {
-  try { log = require('electron-log'); } catch (_) { log = console; }
-}
-let autoUpdater;
-try { ({ autoUpdater } = require('electron-updater')); }
-catch (e) {
-  try {
-    const altPath = path.join(process.resourcesPath || '', 'app.asar.unpacked', 'node_modules', 'electron-updater');
-    ({ autoUpdater } = require(altPath));
-  } catch (e2) {
-    autoUpdater = null;
+
+const log = require('electron-log');
+log.initialize();
+log.transports.file.level = 'info';
+log.catchErrors({
+  showDialog: true,
+  onError: (error) => {
+    log.error('Application error:', error);
   }
-}
+});
+
+const { autoUpdater } = require('electron-updater');
+autoUpdater.logger = log;
+autoUpdater.autoDownload = false; // manual download via UI
+autoUpdater.autoInstallOnAppQuit = true;
+
+// Set up auto-updater handlers
+autoUpdater.on('checking-for-update', () => {
+  broadcastUpdateStatus('checking');
+});
+
+autoUpdater.on('update-available', (info) => {
+  broadcastUpdateStatus('available', '', info);
+});
+
+autoUpdater.on('update-not-available', (info) => {
+  broadcastUpdateStatus('not-available', '', info);
+});
+
+autoUpdater.on('error', (err) => {
+  broadcastUpdateStatus('error', err.message);
+});
+
+autoUpdater.on('download-progress', (progressObj) => {
+  broadcastUpdateStatus('downloading', '', progressObj);
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+  broadcastUpdateStatus('downloaded', '', info);
+});
+
+// Handle IPC messages for updates
+ipcMain.handle('update-check', () => {
+  if (!app.isPackaged) {
+    // If in development mode, send a special status
+    broadcastUpdateStatus('dev-mode', 'Aplikasi dalam mode development. Fitur update tidak tersedia.');
+    return Promise.resolve({ isDev: true });
+  }
+  return autoUpdater.checkForUpdates().catch(err => {
+    broadcastUpdateStatus('error', `Error checking for updates: ${err.message}`);
+    return { error: err.message };
+  });
+});
+
+ipcMain.handle('update-download', () => {
+  if (!app.isPackaged) {
+    broadcastUpdateStatus('dev-mode', 'Tidak bisa mengunduh update dalam mode development.');
+    return Promise.resolve({ isDev: true });
+  }
+  return autoUpdater.downloadUpdate().catch(err => {
+    broadcastUpdateStatus('error', `Error downloading update: ${err.message}`);
+    return { error: err.message };
+  });
+});
+
+ipcMain.handle('update-install', () => {
+  autoUpdater.quitAndInstall(false, true);
+});
 
 // Broadcast updater status to all renderer windows
 function broadcastUpdateStatus(status, message = '', extra = {}) {
@@ -34,64 +87,6 @@ function broadcastUpdateStatus(status, message = '', extra = {}) {
   }
 }
 
-function initAutoUpdater() {
-  try {
-    // Lazy resolve electron-updater using createRequire from app base path
-    if (!autoUpdater) {
-      try {
-        const { createRequire } = require('module');
-        const base = app.isPackaged ? app.getAppPath() : __dirname;
-        const req = createRequire(base.endsWith('/') ? base : base + '/');
-        ({ autoUpdater } = req('electron-updater'));
-      } catch (e1) {
-        try {
-          // Fallback to resourcesPath/node_modules for some packaging layouts
-          const alt = path.join(process.resourcesPath || '', 'node_modules', 'electron-updater');
-          ({ autoUpdater } = require(alt));
-        } catch (e2) {
-          // leave autoUpdater null
-        }
-      }
-    }
-
-    if (!autoUpdater) {
-      broadcastUpdateStatus('error', 'Update manager is not available.');
-      return;
-    }
-
-    try { if (log && log.transports && log.transports.file) { log.transports.file.level = 'info'; } } catch {}
-    autoUpdater.logger = log || console;
-    autoUpdater.autoDownload = false; // manual download via UI
-    autoUpdater.autoInstallOnAppQuit = true;
-
-    autoUpdater.on('checking-for-update', () => {
-      broadcastUpdateStatus('checking', 'Mengecek pembaruan...');
-    });
-    autoUpdater.on('update-available', (info) => {
-      broadcastUpdateStatus('available', `Versi ${info.version} tersedia.`, { version: info.version });
-    });
-    autoUpdater.on('update-not-available', () => {
-      broadcastUpdateStatus('not-available', 'Aplikasi sudah versi terbaru.');
-    });
-    autoUpdater.on('error', (err) => {
-      broadcastUpdateStatus('error', `Gagal update: ${err?.message || String(err)}`);
-    });
-    autoUpdater.on('download-progress', (p) => {
-      const percent = typeof p.percent === 'number' ? p.percent : 0;
-      broadcastUpdateStatus('downloading', `Mengunduh ${percent.toFixed(1)}%`, {
-        percent,
-        transferred: p.transferred,
-        total: p.total,
-        bytesPerSecond: p.bytesPerSecond,
-      });
-    });
-    autoUpdater.on('update-downloaded', (info) => {
-      broadcastUpdateStatus('downloaded', 'Unduhan selesai. Siap instal.', { version: info.version });
-    });
-  } catch (e) {
-    // ignore init errors in dev
-  }
-}
 
 let backendProcess;
 let mainWindow = null;
@@ -462,9 +457,33 @@ app.whenReady().then(async () => {
     createMainWindow();
 
     // Initialize and trigger updater check (only in production builds)
-    initAutoUpdater();
     if (app.isPackaged && autoUpdater) {
-      try { await autoUpdater.checkForUpdates(); } catch (_) {}
+      autoUpdater.on('checking-for-update', () => {
+        broadcastUpdateStatus('checking', 'Mengecek pembaruan...');
+      });
+      autoUpdater.on('update-available', (info) => {
+        broadcastUpdateStatus('available', 'Pembaruan tersedia.', { version: info.version });
+      });
+      autoUpdater.on('update-not-available', (info) => {
+        broadcastUpdateStatus('not-available', 'Tidak ada pembaruan tersedia.');
+      });
+      autoUpdater.on('error', (err) => {
+        broadcastUpdateStatus('error', `Gagal memeriksa pembaruan: ${err == null ? "unknown" : (err.message || String(err))}`);
+      });
+      autoUpdater.on('download-progress', (progressObj) => {
+        const percent = Math.round(progressObj.percent);
+        broadcastUpdateStatus('downloading', `Mengunduh pembaruan... (${percent}%)`, { progress: percent });
+      });
+      autoUpdater.on('update-downloaded', (info) => {
+        broadcastUpdateStatus('downloaded', 'Pembaruan siap diinstal.', { version: info.version });
+      });
+
+      // Trigger an initial update check
+      setImmediate(() => {
+        autoUpdater.checkForUpdates().catch((err) => {
+          broadcastUpdateStatus('error', `Gagal memeriksa pembaruan: ${err == null ? "unknown" : (err.message || String(err))}`);
+        });
+      });
     }
 
   } catch (startError) {
@@ -541,57 +560,3 @@ ipcMain.handle('get-app-version', () => {
   return app.getVersion();
 });
 
-ipcMain.handle('update-check', async () => {
-  try {
-    // If updater module isn't loaded OR if we are in dev mode,
-    // treat the updater as "not available" for the UI.
-    if (!autoUpdater || !app.isPackaged) {
-      const msg = 'Update manager is not available.';
-      broadcastUpdateStatus('error', msg);
-      if (!autoUpdater) {
-        log.error('Update check failed: autoUpdater module is null.');
-      } else {
-        log.info('Update check skipped: running in development mode.');
-      }
-      return { ok: false, error: msg };
-    }
-
-    // Only proceed to check for updates if we are in a packaged app
-    const res = await autoUpdater.checkForUpdates();
-    return { ok: true, version: res?.updateInfo?.version };
-
-  } catch (e) {
-    broadcastUpdateStatus('error', e?.message || String(e));
-    return { ok: false, error: e?.message || String(e) };
-  }
-});
-
-ipcMain.handle('update-download', async () => {
-  try {
-    if (!autoUpdater) {
-      const msg = 'Update manager is not available.';
-      broadcastUpdateStatus('error', msg);
-      return { ok: false, error: msg };
-    }
-    await autoUpdater.downloadUpdate();
-    return { ok: true };
-  } catch (e) {
-    broadcastUpdateStatus('error', e?.message || String(e));
-    return { ok: false, error: e?.message || String(e) };
-  }
-});
-
-ipcMain.handle('update-install', async () => {
-  try {
-    if (!autoUpdater) {
-      const msg = 'Update manager is not available.';
-      broadcastUpdateStatus('error', msg);
-      return { ok: false, error: msg };
-    }
-    setImmediate(() => autoUpdater.quitAndInstall());
-    return { ok: true };
-  } catch (e) {
-    broadcastUpdateStatus('error', e?.message || String(e));
-    return { ok: false, error: e?.message || String(e) };
-  }
-});

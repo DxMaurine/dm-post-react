@@ -8,10 +8,10 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development concurrently -k \"vite\" \"electron .\"",
     "build": "vite build",
-    "dist": "vite build && electron-builder",
+    "dist": "vite build && cross-env NODE_ENV=production electron-builder",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "release": "npm run build && electron-builder --publish always"
+    "release": "cross-env GH_TOKEN=your_github_token npm run build && electron-builder --publish always"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -64,18 +64,32 @@
       "provider": "github",
       "owner": "DxMaurine",
       "repo": "dm-post-react",
-      "private": true
+      "private": false
     },
-    "beforeBuild": "scripts/beforeBuild.js",
     "files": [
       "dist/**/*",
-      "electron/**/*"
+      "electron/**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!.editorconfig",
+      "!**/._*",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+      "!**/{appveyor.yml,.travis.yml,circle.yml}",
+      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
     ],
     "extraResources": [
       {
         "from": "pos-backend/",
-        "to": "pos-backend/"
+        "to": "pos-backend/",
+        "filter": ["**/*", "!node_modules/**"]
       }
+    ],
+    "asarUnpack": [
+      "electron/**/*"
     ],
     "directories": {
       "output": "release"
@@ -95,4 +109,3 @@
     }
   }
 }
-

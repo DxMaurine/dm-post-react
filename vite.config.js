@@ -15,6 +15,8 @@ export default defineConfig({
         'http',
         'os',
         'assert',
+        'electron-updater',
+        'elecron-log',
       ],
     },
   },

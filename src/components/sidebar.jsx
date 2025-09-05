@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import {
   FiHome, FiBookOpen, FiShoppingCart, FiPackage, FiUsers, FiBarChart2,
   FiSettings, FiLogOut, FiChevronLeft, FiChevronRight, FiTag, FiList,
   FiTrendingUp, FiUserCheck, FiAward, FiTruck, FiRepeat, FiClipboard,
   FiArchive, FiChevronDown, FiTrendingDown, FiPrinter, FiCpu, FiBox,
-  FiPieChart, FiGrid, FiServer, FiDatabase, FiFileText, FiTool, FiMonitor
+  FiPieChart, FiGrid, FiServer, FiDatabase, FiFileText, FiTool, FiMonitor,
+  FiInfo
 } from 'react-icons/fi';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
@@ -69,6 +71,7 @@ const menuGroups = [
     roles: ['admin', 'manager'],
     links: [
       { icon: FiSettings, name: 'Pengaturan', path: '/pengaturan', roles: ['admin', 'manager'] },
+      { icon: FiInfo, name: 'Tentang Aplikasi', path: '/tentang-aplikasi', roles: ['admin', 'manager'] },
     ]
   }
 ];
@@ -246,11 +249,7 @@ const Sidebar = ({ onOpenCatalog }) => {
               )}
             </NavLink>
         </div>
-        {appVersion && (
-          <div className="pb-4 px-2 text-center text-xs text-gray-500 dark:text-gray-400">
-            {isCollapsed ? `v${appVersion}` : `Version ${appVersion}`}
-          </div>
-        )}
+
       </div>
     </div>
   );

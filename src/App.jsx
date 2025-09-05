@@ -1,6 +1,7 @@
 
 import PrintReportsPage from './pages/PrintReportsPage';
 import React, {  useEffect } from 'react';
+import TentangAplikasiPage from './pages/TentangAplikasiPage';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
@@ -98,6 +99,7 @@ function App() {
           <Route path="history" element={<ProtectedRoute allowedRoles={['admin', 'manager', 'kasir']}><HistoryPage /></ProtectedRoute>} />
           <Route path="list-produk" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><ListProduk /></ProtectedRoute>} />
           <Route path="pengaturan" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><PengaturanPage /></ProtectedRoute>} />
+          <Route path="tentang-aplikasi" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><TentangAplikasiPage /></ProtectedRoute>} />
           <Route path="shift" element={<ProtectedRoute allowedRoles={['admin', 'manager', 'kasir']}><ShiftManagementPage /></ProtectedRoute>} />
           <Route path="beban-operasional" element={<ProtectedRoute allowedRoles={['admin', 'manager', 'kasir']}><BebanOperasionalPage /></ProtectedRoute>} />
           <Route path="print-barcode/:productId" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><PrintBarcodePage /></ProtectedRoute>} />
