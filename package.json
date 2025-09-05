@@ -65,7 +65,8 @@
       "provider": "github",
       "owner": "DxMaurine",
       "repo": "dm-post-react",
-      "private": false
+      "private": true,
+      "token": "${process.env.GH_TOKEN}" 
     },
     "files": [
       "dist/**/*",
