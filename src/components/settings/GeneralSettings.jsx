@@ -1,3 +1,5 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-unused-vars */
 // GeneralSettings.jsx
 import React, { useState, useEffect } from 'react';
 
@@ -287,17 +289,18 @@ const GeneralSettings = ({ formState, handleChange  }) => {
         <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-[var(--text-default)]">Pembaruan Aplikasi</h3>
         <p className="text-sm text-gray-600 dark:text-[var(--text-muted)]">Versi terpasang: {appVersion || '-'}</p>
         {updateInfo?.status && (
-          <p className="text-sm mt-1 text-gray-600 dark:text-[var(--text-muted)]">
-            Status: {updateInfo.status} {typeof updateInfo.percent === 'number' ? `(${updateInfo.percent.toFixed(0)}%)` : ''}
+          <p className={`text-sm mt-1 ${updateInfo.status === 'error' ? 'text-red-500' : 'text-gray-600 dark:text-[var(--text-muted)]'}`}>
+            Status: {updateInfo.message || updateInfo.status} {typeof updateInfo.percent === 'number' ? `(${updateInfo.percent.toFixed(0)}%)` : ''}
           </p>
         )}
         <div className="mt-3 flex gap-2 flex-wrap">
           <button
             type="button"
             onClick={() => window.electron?.checkForUpdates()}
-            className="px-3 py-1 text-sm rounded bg-blue-600 text-white hover:bg-blue-700"
+            disabled={updateInfo?.message === 'Update manager is not available.'}
+            className="px-3 py-1 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
-            Cek Pembaruan
+            {updateInfo?.message === 'Update manager is not available.' ? 'Updater Tidak Tersedia' : 'Cek Pembaruan'}
           </button>
           {updateInfo?.status === 'available' && (
             <button

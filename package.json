@@ -1,7 +1,7 @@
 {
   "name": "dm-pos-retail",
   "private": true,
-  "version": "1.5.11",
+  "version": "1.5.14",
   "author": "dmpos.dev@gmail.com",
   "description": "A desktop application for managing sales, inventory, and customers in a retail environment.",
   "main": "electron/main.js",
@@ -9,10 +9,9 @@
     "dev": "cross-env NODE_ENV=development concurrently -k \"vite\" \"electron .\"",
     "build": "vite build",
     "dist": "vite build && electron-builder",
-    "build:electron": "vite build && electron-builder",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "release": "vite build && electron-builder -p always"
+    "release": "npm run build && electron-builder --publish always"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -61,19 +60,16 @@
   "build": {
     "appId": "com.piccacode.dm-pos-solution",
     "productName": "DM POS",
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "DxMaurine",
-        "repo": "dm-post-react"
-      }
-    ],
+    "publish": {
+      "provider": "github",
+      "owner": "DxMaurine",
+      "repo": "dm-post-react",
+      "private": true
+    },
     "beforeBuild": "scripts/beforeBuild.js",
     "files": [
       "dist/**/*",
-      "electron/**/*",
-      "package.json",
-      "node_modules/**/*"
+      "electron/**/*"
     ],
     "extraResources": [
       {
@@ -99,3 +95,4 @@
     }
   }
 }
+

@@ -55,7 +55,7 @@ function initAutoUpdater() {
     }
 
     if (!autoUpdater) {
-      broadcastUpdateStatus('error', 'Komponen updater tidak tersedia.');
+      broadcastUpdateStatus('error', 'Update manager is not available.');
       return;
     }
 
@@ -543,13 +543,23 @@ ipcMain.handle('get-app-version', () => {
 
 ipcMain.handle('update-check', async () => {
   try {
-    if (!autoUpdater) {
-      const msg = 'Komponen updater tidak tersedia.';
+    // If updater module isn't loaded OR if we are in dev mode,
+    // treat the updater as "not available" for the UI.
+    if (!autoUpdater || !app.isPackaged) {
+      const msg = 'Update manager is not available.';
       broadcastUpdateStatus('error', msg);
+      if (!autoUpdater) {
+        log.error('Update check failed: autoUpdater module is null.');
+      } else {
+        log.info('Update check skipped: running in development mode.');
+      }
       return { ok: false, error: msg };
     }
+
+    // Only proceed to check for updates if we are in a packaged app
     const res = await autoUpdater.checkForUpdates();
     return { ok: true, version: res?.updateInfo?.version };
+
   } catch (e) {
     broadcastUpdateStatus('error', e?.message || String(e));
     return { ok: false, error: e?.message || String(e) };
@@ -559,7 +569,7 @@ ipcMain.handle('update-check', async () => {
 ipcMain.handle('update-download', async () => {
   try {
     if (!autoUpdater) {
-      const msg = 'Komponen updater tidak tersedia.';
+      const msg = 'Update manager is not available.';
       broadcastUpdateStatus('error', msg);
       return { ok: false, error: msg };
     }
@@ -574,7 +584,7 @@ ipcMain.handle('update-download', async () => {
 ipcMain.handle('update-install', async () => {
   try {
     if (!autoUpdater) {
-      const msg = 'Komponen updater tidak tersedia.';
+      const msg = 'Update manager is not available.';
       broadcastUpdateStatus('error', msg);
       return { ok: false, error: msg };
     }

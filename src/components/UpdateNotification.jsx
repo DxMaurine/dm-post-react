@@ -81,7 +81,8 @@ const UpdateNotification = () => {
     <div className="ml-4 flex items-center gap-2">
       <button
         onClick={onCheck}
-        className="px-2 py-1 text-xs bg-white/20 rounded hover:bg-white/30 flex items-center gap-1"
+        disabled={updateInfo?.message === 'Update manager is not available.'}
+        className="px-2 py-1 text-xs bg-white/20 rounded hover:bg-white/30 flex items-center gap-1 disabled:bg-gray-400 disabled:cursor-not-allowed"
         title="Check for updates"
       >
         <FiRefreshCw size={14} /> Cek
