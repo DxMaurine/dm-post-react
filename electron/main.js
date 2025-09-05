@@ -20,29 +20,50 @@ autoUpdater.logger = log;
 autoUpdater.autoDownload = false; // manual download via UI
 autoUpdater.autoInstallOnAppQuit = true;
 
-// Set up auto-updater handlers
+// Tambah variable untuk kontrol notifikasi
+let hasShownUpdateNotification = false;
+
+// Set up auto-updater handlers dengan notifikasi yang lebih subtle
 autoUpdater.on('checking-for-update', () => {
-  broadcastUpdateStatus('checking');
+  broadcastUpdateStatus('checking', 'Memeriksa pembaruan...', null, true);
 });
 
 autoUpdater.on('update-available', (info) => {
-  broadcastUpdateStatus('available', '', info);
+  if (!hasShownUpdateNotification) {
+    // Hanya tampilkan notifikasi sekali per sesi
+    broadcastUpdateStatus('available', 'Pembaruan tersedia', {
+      version: info.version,
+      silent: true,  // Flag untuk UI agar menampilkan notifikasi kecil
+      message: `Versi ${info.version} tersedia. Update akan diunduh di latar belakang.`
+    });
+    hasShownUpdateNotification = true;
+  }
 });
 
 autoUpdater.on('update-not-available', (info) => {
-  broadcastUpdateStatus('not-available', '', info);
+  broadcastUpdateStatus('not-available', '', info, true);
 });
 
 autoUpdater.on('error', (err) => {
-  broadcastUpdateStatus('error', err.message);
+  // Error tetap dilog tapi tidak ditampilkan ke user saat startup
+  log.error('Update error:', err.message);
+  broadcastUpdateStatus('error', err.message, null, true);
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
-  broadcastUpdateStatus('downloading', '', progressObj);
+  broadcastUpdateStatus('downloading', '', {
+    ...progressObj,
+    silent: true  // Download progress ditampilkan subtle
+  });
 });
 
 autoUpdater.on('update-downloaded', (info) => {
-  broadcastUpdateStatus('downloaded', '', info);
+  // Notifikasi update siap install
+  broadcastUpdateStatus('downloaded', '', {
+    version: info.version,
+    silent: false,  // Ini bisa ditampilkan normal karena penting
+    message: 'Update siap diinstall saat aplikasi ditutup'
+  });
 });
 
 // Handle IPC messages for updates
@@ -74,16 +95,22 @@ ipcMain.handle('update-install', () => {
 });
 
 // Broadcast updater status to all renderer windows
-function broadcastUpdateStatus(status, message = '', extra = {}) {
-  const payload = { status, message, ...extra };
+function broadcastUpdateStatus(status, message = '', extra = {}, silent = false) {
+  const payload = { 
+    status, 
+    message, 
+    ...extra,
+    silent: silent || extra.silent // Prioritaskan silent dari extra jika ada
+  };
+  
+  // Jangan broadcast ke customer display dan barcode printer untuk update status
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send('update-status', payload);
   }
-  if (customerDisplayWindow && !customerDisplayWindow.isDestroyed()) {
-    customerDisplayWindow.webContents.send('update-status', payload);
-  }
-  if (barcodePrinterWindow && !barcodePrinterWindow.isDestroyed()) {
-    barcodePrinterWindow.webContents.send('update-status', payload);
+  
+  // Log untuk tracking
+  if (status !== 'checking') {
+    log.info('Update status:', { status, message, silent });
   }
 }
 
@@ -456,29 +483,22 @@ app.whenReady().then(async () => {
     // NOW, we can create the main window.
     createMainWindow();
 
-    // Initialize and trigger updater check (only in production builds)
-    if (app.isPackaged && autoUpdater) {
-      autoUpdater.on('checking-for-update', () => {
-        broadcastUpdateStatus('checking', 'Mengecek pembaruan...');
-      });
-      autoUpdater.on('update-available', (info) => {
-        broadcastUpdateStatus('available', 'Pembaruan tersedia.', { version: info.version });
-      });
-      autoUpdater.on('update-not-available', (info) => {
-        broadcastUpdateStatus('not-available', 'Tidak ada pembaruan tersedia.');
-      });
-      autoUpdater.on('error', (err) => {
-        broadcastUpdateStatus('error', `Gagal memeriksa pembaruan: ${err == null ? "unknown" : (err.message || String(err))}`);
-      });
-      autoUpdater.on('download-progress', (progressObj) => {
-        const percent = Math.round(progressObj.percent);
-        broadcastUpdateStatus('downloading', `Mengunduh pembaruan... (${percent}%)`, { progress: percent });
-      });
-      autoUpdater.on('update-downloaded', (info) => {
-        broadcastUpdateStatus('downloaded', 'Pembaruan siap diinstal.', { version: info.version });
-      });
-
-      // Trigger an initial update check
+      // Initialize and trigger updater check (only in production builds)
+      if (app.isPackaged && autoUpdater) {
+        // Event handlers sudah didefinisikan di atas, tidak perlu didefinisikan ulang
+        
+        // Delay check update beberapa detik setelah aplikasi start
+        setTimeout(() => {
+          // Check update dengan silent notification
+          autoUpdater.checkForUpdates().catch((err) => {
+            log.error('Initial update check failed:', err);
+            broadcastUpdateStatus('error', 
+              `Gagal memeriksa pembaruan: ${err == null ? "unknown" : (err.message || String(err))}`,
+              null,
+              true // silent notification
+            );
+          });
+        }, 10000); // Delay 10 detik      // Trigger an initial update check
       setImmediate(() => {
         autoUpdater.checkForUpdates().catch((err) => {
           broadcastUpdateStatus('error', `Gagal memeriksa pembaruan: ${err == null ? "unknown" : (err.message || String(err))}`);
