@@ -1,7 +1,7 @@
 {
   "name": "dm-pos-retail",
   "private": true,
-  "version": "1.5.19",
+  "version": "1.5.20",
   "author": "dmpos.dev@gmail.com",
   "description": "A desktop application for managing sales, inventory, and customers in a retail environment.",
   "main": "electron/main.js",
