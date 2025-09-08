@@ -47,7 +47,7 @@ const AddCustomerModal = ({ show, onClose, onSave, onError }) => {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm" data-pos-no-refocus>
       <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-[var(--border-default)]">
         <div className="flex justify-between items-start mb-4">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-[var(--text-default)]">

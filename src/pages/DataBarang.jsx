@@ -210,7 +210,8 @@ const DataBarang = () => {
       return (
         product.name.toLowerCase().includes(term) ||
         String(product.id).toLowerCase().includes(term) ||
-        (product.keyword && product.keyword.toLowerCase().includes(term))
+        (product.keyword && product.keyword.toLowerCase().includes(term)) ||
+        (product.barcode && product.barcode.toLowerCase().includes(term))
       );
     });
 

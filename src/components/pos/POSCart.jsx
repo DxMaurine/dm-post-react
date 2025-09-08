@@ -1,5 +1,5 @@
-import { forwardRef, useImperativeHandle, useRef } from 'react';
-import { FiShoppingCart } from 'react-icons/fi';
+import { forwardRef, useImperativeHandle, useRef, useEffect, useState } from 'react';
+import { FiShoppingCart, FiMinus, FiPlus, FiTrash2, FiPause, FiAward } from 'react-icons/fi';
 import React from 'react';
 
 const POSCart = forwardRef(({
@@ -18,8 +18,30 @@ const POSCart = forwardRef(({
   const POINT_TO_RUPIAH_CONVERSION_RATE = 100;
   const pointsDiscount = (selectedCustomer ? pointsToRedeem : 0) * POINT_TO_RUPIAH_CONVERSION_RATE;
   const finalTotal = totalBelanja - pointsDiscount;
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const lastItemRef = useRef(null);
+  const cartBodyRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (cartBodyRef.current) {
+        setIsScrolled(cartBodyRef.current.scrollTop > 0);
+      }
+    };
+
+    const cartBody = cartBodyRef.current;
+    if (cartBody) {
+      cartBody.addEventListener('scroll', handleScroll);
+      return () => cartBody.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (lastItemRef.current) {
+      lastItemRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [cartItems]);
 
   useImperativeHandle(ref, () => ({
     focus: () => {
@@ -28,130 +50,203 @@ const POSCart = forwardRef(({
         setTimeout(() => {
           lastItemRef.current.focus();
           lastItemRef.current.select();
-        }, 300); // Small delay to ensure scrolling has time to start/finish
+        }, 300);
       }
     }
   }));
 
   return (
-    <div className="mt-8">
-      <h2 className="text-lg font-bold text-blue-700 dark:text-blue-400 mb-2 flex items-center"> <FiShoppingCart size={18} fontSize= "18" className= "mr-2" />Keranjang Belanja</h2>
-      <div className="overflow-x-auto rounded-xl shadow bg-white dark:bg-[var(--layout-bg-dark)] p-4 ">
-        <table className="min-w-full text-sm rounded-xl shadow-md">
-          <thead>
-            <tr className="bg-blue-100 dark:bg-[var(--sidebar-bg-dark)] text-blue-700 dark:text-white rounded-xl">
-              <th className="px-3 py-2 text-left">Nama</th>
-              <th className="px-3 py-2 text-right">Harga</th>
-              <th className="px-3 py-2 text-center">Qty</th>
-              <th className="px-3 py-2 text-right">Subtotal</th>
-              <th className="px-3 py-2 text-center">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cartItems.map((item, idx) => (
-              <tr 
-                key={item.id} 
-                className={`border-b border-blue-200 dark:border-slate-600 ${idx === cartItems.length - 1 ? 'last:border-b-2 last:border-blue-400 dark:last:border-blue-600' : ''}`}
-              >
-                <td className="px-3 py-2 dark:text-gray-300">{item.name}</td>
-                <td className="px-3 py-2 text-right dark:text-gray-300">
-                  Rp {item.price.toLocaleString('id-ID')}
-                </td>
-                <td className="px-3 py-2 text-center">
-                  <input
-                    ref={idx === cartItems.length - 1 ? lastItemRef : null}
-                    type="number"
-                    value={item.qty}
-                    onChange={(e) => onQtyChange(item, e.target.value)}
-                    onBlur={(e) => {
-                      if (e.target.value === '' || parseInt(e.target.value, 10) < 1) {
-                        onQtyChange(item, '1');
-                      }
-                    }}
-                    className="w-20 text-center bg-gray-100 dark:bg-[var(--sidebar-bg-dark)] border border-gray-300 dark:border-slate-600 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-                    min="1"
-                    max={item.stock}
-                  />
-                </td>
-                <td className="px-3 py-2 text-right dark:text-gray-300">
-                  Rp {(item.price * item.qty).toLocaleString('id-ID')}
-                </td>
-                <td className="px-3 py-2 text-center flex items-center justify-center space-x-2">
-                  <button 
-                    className="bg-red-100 hover:bg-red-300 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-600 dark:text-red-300 rounded-xl px-3 py-2 text-lg font-bold"
-                    onClick={() => onRemoveFromCart(item)}
-                  >
-                    -
-                  </button>
-                  <button 
-                    className="bg-green-100 hover:bg-green-300 dark:bg-green-900/30 dark:hover:bg-green-900/50 text-green-600 dark:text-green-300 rounded-xl px-3 py-2 text-lg font-bold"
-                    onClick={() => onAddToCart(item)}
-                  >
-                    +
-                  </button>
-                  <button 
-                    className="bg-gray-100 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-600 dark:text-gray-300 rounded-xl p-2"
-                    onClick={() => onRemoveItemCompletely(item)}
-                    title="Hapus Item"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            ))}
-            
-            <tr className="bg-blue-50 dark:bg-[var(--sidebar-bg-dark)] text-blue-700 dark:text-white font-bold">
-              <td className="px-3 py-2 text-right" colSpan="3">Subtotal</td>
-              <td className="px-3 py-2 text-right" colSpan="2">
-                Rp {totalBelanja.toLocaleString('id-ID')}
-              </td>
-            </tr>
-            
-            {selectedCustomer && selectedCustomer.loyalty_points > 0 && (
-              <tr className="bg-blue-50 dark:bg-[var(--layout-bg-dark)] text-blue-700 dark:text-white font-bold">
-                <td className="px-3 py-2 text-right" colSpan="3">
-                  <div className="flex items-center justify-end gap-2">
-                    <span>Tukar Poin (Maks: {selectedCustomer.loyalty_points})</span>
-                    <input 
-                      type="number" 
-                      value={pointsToRedeem} 
-                      onChange={onPointsRedeemChange}
-                      className="w-24 rounded-md p-1 text-right text-black dark:bg-slate-800 dark:text-white" 
-                    />
+    <div className="mt-8" data-pos-no-refocus>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold text-blue-700 dark:text-[var(--primary-color)] flex items-center">
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-700 dark:bg-[var(--primary-color)] p-2 rounded-lg mr-3">
+            <FiShoppingCart size={20} className="text-white" />
+          </div>
+          Keranjang Belanja
+        </h2>
+        {cartItems.length > 0 && (
+          <span className="bg-blue-100 text-blue-800 dark:bg-[var(--primary-color)]/20 dark:text-[var(--primary-color)] px-3 py-1 rounded-full text-sm font-medium">
+            {cartItems.length} item
+          </span>
+        )}
+      </div>
+
+      <div className="bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-[var(--border-default)]">
+        {/* Cart Header - Sticky */}
+        <div className={`bg-gradient-to-r from-blue-600 to-indigo-700 dark:bg-[var(--primary-color)] text-white px-4 py-3 sticky top-0 z-10 ${isScrolled ? 'shadow-md' : ''}`}>
+          <div className="grid grid-cols-12 gap-2 font-semibold text-sm">
+            <div className="col-span-5">Nama Produk</div>
+            <div className="col-span-2 text-right">Harga</div>
+            <div className="col-span-2 text-center">Qty</div>
+            <div className="col-span-2 text-right">Subtotal</div>
+            <div className="col-span-1 text-center">Aksi</div>
+          </div>
+        </div>
+
+        {/* Cart Body - Scrollable */}
+        <div ref={cartBodyRef} className="max-h-[40vh] overflow-y-auto">
+          {cartItems.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-gray-400 dark:text-[var(--text-muted)]">
+              <FiShoppingCart className="h-12 w-12 mb-3 opacity-50" />
+              <p className="text-lg">Keranjang kosong</p>
+              <p className="text-sm">Tambahkan produk untuk mulai berbelanja</p>
+            </div>
+          ) : (
+            <div className="divide-y divide-gray-200 dark:divide-[var(--border-default)]">
+              {cartItems.map((item, idx) => (
+                <div 
+                  key={item.id} 
+                  className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)] transition-colors duration-200"
+                  ref={idx === cartItems.length - 1 ? lastItemRef : null}
+                >
+                  <div className="grid grid-cols-12 gap-2 items-center">
+                    <div className="col-span-5">
+                      <div className="font-medium text-gray-800 dark:text-[var(--text-default)]">{item.name}</div>
+                      {item.stock < 10 && (
+                        <div className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+                          Stok hampir habis: {item.stock}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="col-span-2 text-right">
+                      <div className="text-gray-700 dark:text-[var(--text-default)]">
+                        Rp {item.price.toLocaleString('id-ID')}
+                      </div>
+                    </div>
+                    
+                    <div className="col-span-2">
+                      <div className="flex items-center justify-center">
+                        <input
+                          type="number"
+                          value={item.qty}
+                          onChange={(e) => onQtyChange(item, e.target.value)}
+                          onBlur={(e) => {
+                            let finalQty = parseInt(e.target.value, 10);
+                            if (isNaN(finalQty) || finalQty < 1) finalQty = 1;
+                            if (finalQty > item.stock) finalQty = item.stock;
+                            onQtyChange(item, finalQty);
+                          }}
+                          className="w-16 text-center bg-gray-100 dark:bg-[var(--bg-secondary)] border border-gray-300 dark:border-[var(--border-default)] rounded-lg py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-[var(--text-default)]"
+                          min="1"
+                          max={item.stock}
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="col-span-2 text-right">
+                      <div className="font-medium text-gray-800 dark:text-[var(--text-default)]">
+                        Rp {(item.price * item.qty).toLocaleString('id-ID')}
+                      </div>
+                    </div>
+                    
+                    <div className="col-span-1">
+                      <div className="flex items-center justify-center space-x-1">
+                        <button 
+                          onClick={() => onRemoveFromCart(item)}
+                          className="p-1 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                          title="Kurangi jumlah"
+                        >
+                          <FiMinus size={16} />
+                        </button>
+                        <button 
+                          onClick={() => onAddToCart(item)}
+                          className="p-1 text-green-500 hover:bg-green-100 dark:hover:bg-green-900/30 rounded-lg transition-colors"
+                          title="Tambah jumlah"
+                        >
+                          <FiPlus size={16} />
+                        </button>
+                        <button 
+                          onClick={() => onRemoveItemCompletely(item)}
+                          className="p-1 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                          title="Hapus item"
+                        >
+                          <FiTrash2 size={16} />
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </td>
-                <td className="px-3 py-2 text-right" colSpan="2">
-                  - Rp {pointsDiscount.toLocaleString('id-ID')}
-                </td>
-              </tr>
-            )}
-            
-            <tr className="bg-blue-50 dark:bg-[var(--sidebar-bg-dark)] text-blue-700 dark:text-white font-bold text-lg">
-              <td className="px-3 py-2 text-right" colSpan="3">Total</td>
-              <td className="px-3 py-2 text-right" colSpan="2">
-                Rp {finalTotal.toLocaleString('id-ID')}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        
-        <div className="flex justify-end mt-4 gap-4">
-          <button 
-            className="bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-lg disabled:bg-gray-400 dark:disabled:bg-gray-600"
-            onClick={onHoldCart}
-            disabled={cartItems.length === 0}
-          >
-            Tahan (F7)
-          </button>
-          <button 
-            className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg disabled:bg-gray-400 dark:disabled:bg-gray-600"
-            onClick={onOpenPayment}
-            disabled={cartItems.length === 0}
-          >
-            Bayar (F8)
-          </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Cart Footer - Fixed (Not affected by scroll) */}
+        <div className="border-t border-gray-200 dark:border-[var(--border-default)] bg-white dark:bg-[var(--card-bg-dark)] p-4">
+          {/* Subtotal */}
+          <div className="flex justify-between items-center py-2">
+            <span className="text-gray-600 dark:text-[var(--text-muted)] font-medium">Subtotal</span>
+            <span className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">
+              Rp {totalBelanja.toLocaleString('id-ID')}
+            </span>
+          </div>
+
+          {/* Points Redeem Section */}
+          {selectedCustomer && selectedCustomer.loyalty_points > 0 && (
+            <div className="bg-white dark:bg-[var(--bg-default)] p-3 rounded-lg mb-3 border border-amber-200 dark:border-white-700/30">
+              <div className="flex items-center justify-between ">
+                <div className="flex items-center">
+                  <div className="bg-amber-100 dark:bg-[var(--bg-secondary)] p-2 rounded-lg mr-3">
+                    <FiAward className="text-amber-600 dark:text-amber-400" size={18} />
+                  </div>
+                  <div>
+                    <div className="font-medium text-amber-800 dark:text-[var(--text-default)]">
+                      Tukar Poin
+                    </div>
+                    <div className="text-sm text-amber-600 dark:text-[var(--text-muted)]">
+                      Maks: {selectedCustomer.loyalty_points} poin
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <input 
+                    type="number" 
+                    value={pointsToRedeem} 
+                    onChange={onPointsRedeemChange}
+                    className="w-20 p-2 border border-amber-300 dark:border-amber-600 rounded-lg text-right bg-white dark:bg-[var(--bg-default)] text-amber-800 dark:text-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    min="0"
+                    max={selectedCustomer.loyalty_points}
+                  />
+                </div>
+              </div>
+              {pointsToRedeem > 0 && (
+                <div className="mt-2 pt-2 border-t border-amber-200 dark:border-amber-700/50 text-right">
+                  <span className="text-amber-700 dark:text-amber-300 font-medium">
+                    Diskon: - Rp {pointsDiscount.toLocaleString('id-ID')}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Total */}
+          <div className="flex justify-between items-center py-3 border-t border-gray-200 dark:border-[var(--border-default)]">
+            <span className="text-lg font-bold text-gray-800 dark:text-[var(--text-default)]">Total</span>
+            <span className="text-xl font-bold text-blue-600 dark:text-[var(--primary-color)]">
+              Rp {finalTotal.toLocaleString('id-ID')}
+            </span>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            <button 
+              onClick={onHoldCart} 
+              disabled={cartItems.length === 0}
+              className="flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700 text-white font-semibold py-3 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
+            >
+              <FiPause size={18} />
+              <span>Tahan (F7)</span>
+            </button>
+            <button 
+              onClick={onOpenPayment} 
+              disabled={cartItems.length === 0}
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-700 dark:bg-[var(--primary-color)] dark:hover:bg-[var(--primary-color-hover)] text-white font-semibold py-3 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
+            >
+              <span className="font-bold text-base -mt-0.5">Rp</span>
+              <span>Bayar (F8)</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

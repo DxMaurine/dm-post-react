@@ -1,5 +1,6 @@
 
 import PrintReportsPage from './pages/PrintReportsPage';
+import RiwayatPoinPage from './pages/RiwayatPoinPage';
 import React, {  useEffect } from 'react';
 import TentangAplikasiPage from './pages/TentangAplikasiPage';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
@@ -21,6 +22,7 @@ import StockOpname from './pages/StockOpname';
 import LaporanProdukTerlaris from './pages/LaporanProdukTerlaris';
 import LaporanPerKasir from './pages/LaporanPerKasir';
 import DiscountManagementPage from './pages/DiscountManagementPage';
+import PointManagementPage from './pages/PointManagementPage'; // Impor halaman baru
 import KartuStokPage from './pages/KartuStokPage';
 import HistoryPage from './pages/HistoryPage';
 import ListProduk from './pages/ListProduk';
@@ -95,8 +97,10 @@ function App() {
           <Route path="suppliers" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><SupplierManagementPage /></ProtectedRoute>} />
           <Route path="manajemen-pengguna" element={<ProtectedRoute allowedRoles={['admin']}><ManajemenPengguna /></ProtectedRoute>} />
           <Route path="discounts" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><DiscountManagementPage /></ProtectedRoute>} />
+          <Route path="manajemen-poin" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><PointManagementPage /></ProtectedRoute>} />
           <Route path="kartu-stok" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><KartuStokPage /></ProtectedRoute>} />
           <Route path="history" element={<ProtectedRoute allowedRoles={['admin', 'manager', 'kasir']}><HistoryPage /></ProtectedRoute>} />
+          <Route path="riwayat-poin" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><RiwayatPoinPage /></ProtectedRoute>} />
           <Route path="list-produk" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><ListProduk /></ProtectedRoute>} />
           <Route path="pengaturan" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><PengaturanPage /></ProtectedRoute>} />
           <Route path="tentang-aplikasi" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><TentangAplikasiPage /></ProtectedRoute>} />

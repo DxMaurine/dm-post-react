@@ -23,9 +23,9 @@ let publicPath;
 if (process.env.NODE_ENV === 'production') {
   // In production, try multiple possible paths
   const possiblePaths = [
-    path.join(__dirname, 'public'),  // Same directory as backend
+    path.join(path.dirname(module.filename), 'public'),  // Same directory as backend
     path.join(process.resourcesPath, 'pos-backend', 'public'),  // Electron main process resources
-    path.join(path.dirname(__dirname), 'pos-backend', 'public')  // Parent directory structure
+    path.join(path.dirname(path.dirname(module.filename)), 'pos-backend', 'public')  // Parent directory structure
   ];
   
   // Use the first path that exists
@@ -1821,7 +1821,7 @@ app.post('/api/transactions', authenticateToken, async (req, res) => {
       await pool.query('UPDATE products SET stock = stock - ? WHERE id=?', [it.qty, it.product_id]);
     }
     
-    // 6. Handle loyalty points UPDATE
+    // 6. Handle loyalty points UPDATE and History
     let updatedTotalPoints = null; // Default to null
     if (customer_id) {
         // Lock the customer row for update to prevent race conditions
@@ -1842,6 +1842,24 @@ app.post('/api/transactions', authenticateToken, async (req, res) => {
             
             // Set the value to be returned to the frontend
             updatedTotalPoints = finalPoints;
+
+            // 7. Record point history
+            // Record points redeemed for discount first
+            if (pointsToRedeem > 0) {
+                const balanceAfterRedeem = currentPoints - pointsToRedeem;
+                await conn.query(
+                    'INSERT INTO point_history (customer_id, type, points_change, balance_after, description, reference_id) VALUES (?, ?, ?, ?, ?, ?)',
+                    [customer_id, 'redeem_discount', -pointsToRedeem, balanceAfterRedeem, `Diskon poin pada transaksi ${transactionCode}`, transactionCode]
+                );
+            }
+            
+            // Record points earned
+            if (pointsEarned > 0) {
+                await conn.query(
+                    'INSERT INTO point_history (customer_id, type, points_change, balance_after, description, reference_id) VALUES (?, ?, ?, ?, ?, ?)',
+                    [customer_id, 'earn', pointsEarned, finalPoints, `Poin dari transaksi ${transactionCode}`, transactionCode]
+                );
+            }
         }
     }
 
@@ -2201,6 +2219,301 @@ app.delete('/api/customers/:id', authenticateToken, authorizeAdminOrManager, asy
 });
 
 /* =========================================================
+   POINTS MANAGEMENT
+   ========================================================= */
+
+// GET point history for a customer or all customers
+app.get('/api/points/history', authenticateToken, async (req, res) => {
+  try {
+    const { startDate, endDate, type, customerName } = req.query;
+
+    let query = `
+      SELECT 
+        ph.id,
+        ph.customer_id,
+        c.name as customer_name,
+        ph.type,
+        ph.points_change,
+        ph.balance_after,
+        ph.description,
+        ph.reference_id,
+        ph.created_at
+      FROM point_history ph
+      JOIN customers c ON ph.customer_id = c.id
+    `;
+    
+    const whereClauses = [];
+    const params = [];
+
+    if (startDate && endDate) {
+      whereClauses.push(`DATE(ph.created_at) BETWEEN ? AND ?`);
+      params.push(startDate, endDate);
+    }
+    if (type) {
+      whereClauses.push(`ph.type = ?`);
+      params.push(type);
+    }
+    if (customerName) {
+      whereClauses.push(`c.name LIKE ?`);
+      params.push(`%${customerName}%`);
+    }
+
+    if (whereClauses.length > 0) {
+      query += ` WHERE ${whereClauses.join(' AND ')}`;
+    }
+
+    query += ` ORDER BY ph.created_at DESC LIMIT 200`; // Add a limit for performance
+
+    const [history] = await pool.query(query, params);
+
+    res.json({
+      success: true,
+      data: history
+    });
+
+  } catch (e) {
+    console.error("Error fetching point history:", e);
+    res.status(500).json({ message: 'Gagal mengambil riwayat poin: ' + e.message });
+  }
+});
+
+// POST to transfer points between customers
+app.post('/api/points/transfer', authenticateToken, async (req, res) => {
+  const { fromCustomerId, toCustomerId, amount } = req.body;
+  const parsedAmount = parseInt(amount, 10);
+
+  // 1. Validation
+  if (!fromCustomerId || !toCustomerId || !parsedAmount) {
+    return res.status(400).json({ message: 'ID pengirim, ID penerima, dan jumlah poin wajib diisi.' });
+  }
+  if (fromCustomerId === toCustomerId) {
+    return res.status(400).json({ message: 'Pengirim dan penerima tidak boleh sama.' });
+  }
+  if (parsedAmount <= 0) {
+    return res.status(400).json({ message: 'Jumlah poin yang ditransfer harus lebih dari 0.' });
+  }
+
+  const conn = await pool.getConnection();
+  try {
+    await conn.beginTransaction();
+
+    // 2. Lock both customer rows and get their data
+    const [customers] = await conn.query(
+      'SELECT id, name, loyalty_points FROM customers WHERE id IN (?) FOR UPDATE',
+      [[fromCustomerId, toCustomerId]]
+    );
+
+    const sender = customers.find(c => c.id === fromCustomerId);
+    const receiver = customers.find(c => c.id === toCustomerId);
+
+    if (!sender || !receiver) {
+      await conn.rollback();
+      return res.status(404).json({ message: 'Satu atau kedua pelanggan tidak ditemukan.' });
+    }
+
+    // 3. Check if sender has enough points
+    if (sender.loyalty_points < parsedAmount) {
+      await conn.rollback();
+      return res.status(400).json({ message: 'Poin pengirim tidak mencukupi.' });
+    }
+
+    // 4. Perform the transfer
+    const senderNewPoints = sender.loyalty_points - parsedAmount;
+    const receiverNewPoints = receiver.loyalty_points + parsedAmount;
+
+    await conn.query('UPDATE customers SET loyalty_points = ? WHERE id = ?', [senderNewPoints, fromCustomerId]);
+    await conn.query('UPDATE customers SET loyalty_points = ? WHERE id = ?', [receiverNewPoints, toCustomerId]);
+
+    // 5. Record history for sender and receiver, and link them
+    const descriptionToReceiver = `Transfer ke ${receiver.name}`;
+    const descriptionFromSender = `Transfer dari ${sender.name}`;
+
+    const [senderHistory] = await conn.query(
+      'INSERT INTO point_history (customer_id, type, points_change, balance_after, description) VALUES (?, ?, ?, ?, ?)',
+      [fromCustomerId, 'transfer_out', -parsedAmount, senderNewPoints, descriptionToReceiver]
+    );
+    const senderHistoryId = senderHistory.insertId;
+
+    const [receiverHistory] = await conn.query(
+      'INSERT INTO point_history (customer_id, type, points_change, balance_after, description, reference_id) VALUES (?, ?, ?, ?, ?, ?)',
+      [toCustomerId, 'transfer_in', parsedAmount, receiverNewPoints, descriptionFromSender, senderHistoryId]
+    );
+    const receiverHistoryId = receiverHistory.insertId;
+
+    // Link the sender's record to the receiver's record
+    await conn.query('UPDATE point_history SET reference_id = ? WHERE id = ?', [receiverHistoryId, senderHistoryId]);
+
+    await conn.commit();
+
+    res.json({ 
+        success: true, 
+        message: 'Transfer poin berhasil.',
+        data: {
+            from: { id: fromCustomerId, new_balance: senderNewPoints },
+            to: { id: toCustomerId, new_balance: receiverNewPoints }
+        }
+    });
+
+  } catch (e) {
+    await conn.rollback();
+    console.error("Point Transfer Error:", e);
+    res.status(500).json({ message: 'Terjadi kesalahan pada server saat mentransfer poin.' });
+  } finally {
+    conn.release();
+  }
+});
+
+// POST to redeem points for a catalog reward
+app.post('/api/points/redeem', authenticateToken, async (req, res) => {
+  const { customerId, rewardName, rewardCost } = req.body;
+  const parsedCost = parseInt(rewardCost, 10);
+
+  // 1. Validation
+  if (!customerId || !rewardName || !parsedCost) {
+    return res.status(400).json({ message: 'ID pelanggan, nama hadiah, dan harga poin wajib diisi.' });
+  }
+  if (parsedCost <= 0) {
+    return res.status(400).json({ message: 'Harga poin harus lebih dari 0.' });
+  }
+
+  const conn = await pool.getConnection();
+  try {
+    await conn.beginTransaction();
+
+    // 2. Lock customer row and get data
+    const [customers] = await conn.query(
+      'SELECT id, loyalty_points FROM customers WHERE id = ? FOR UPDATE',
+      [customerId]
+    );
+
+    if (customers.length === 0) {
+      await conn.rollback();
+      return res.status(404).json({ message: 'Pelanggan tidak ditemukan.' });
+    }
+    const customer = customers[0];
+
+    // 3. Check if customer has enough points
+    if (customer.loyalty_points < parsedCost) {
+      await conn.rollback();
+      return res.status(400).json({ message: 'Poin pelanggan tidak mencukupi untuk menukar hadiah ini.' });
+    }
+
+    // 4. Perform the redemption
+    const newPointBalance = customer.loyalty_points - parsedCost;
+    await conn.query('UPDATE customers SET loyalty_points = ? WHERE id = ?', [newPointBalance, customerId]);
+
+    // 5. Record in history
+    await conn.query(
+      'INSERT INTO point_history (customer_id, type, points_change, balance_after, description) VALUES (?, ?, ?, ?, ?)',
+      [customerId, 'redeem_catalog', -parsedCost, newPointBalance, `Tukar hadiah: ${rewardName}`]
+    );
+
+    await conn.commit();
+
+    res.json({ 
+        success: true, 
+        message: 'Penukaran hadiah berhasil.',
+        data: {
+            customerId: customerId,
+            new_balance: newPointBalance
+        }
+    });
+
+  } catch (e) {
+    await conn.rollback();
+    console.error("Point Redemption Error:", e);
+    res.status(500).json({ message: 'Terjadi kesalahan pada server saat menukar poin.' });
+  } finally {
+    conn.release();
+  }
+});
+
+/* =========================================================
+   REWARDS MANAGEMENT
+   ========================================================= */
+
+// GET all active rewards (for customer redemption)
+app.get('/api/rewards', authenticateToken, async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM rewards WHERE is_active = 1 ORDER BY points_cost ASC');
+    res.json(rows);
+  } catch (e) {
+    console.error("Error fetching active rewards:", e);
+    res.status(500).json({ message: 'Gagal mengambil data hadiah.' });
+  }
+});
+
+// GET all rewards (for admin management)
+app.get('/api/rewards/all', authenticateToken, authorizeAdminOrManager, async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM rewards ORDER BY created_at DESC');
+    res.json(rows);
+  } catch (e) {
+    console.error("Error fetching all rewards:", e);
+    res.status(500).json({ message: 'Gagal mengambil semua data hadiah.' });
+  }
+});
+
+// POST a new reward
+app.post('/api/rewards', authenticateToken, authorizeAdminOrManager, async (req, res) => {
+  const { name, description, points_cost, stock, is_active } = req.body;
+  if (!name || !points_cost) {
+    return res.status(400).json({ message: 'Nama hadiah dan harga poin wajib diisi.' });
+  }
+  try {
+    const [result] = await pool.query(
+      'INSERT INTO rewards (name, description, points_cost, stock, is_active) VALUES (?, ?, ?, ?, ?)',
+      [name, description || null, points_cost, stock || null, is_active ?? true]
+    );
+    res.status(201).json({ id: result.insertId, ...req.body });
+  } catch (e) {
+    console.error("Error creating reward:", e);
+    res.status(500).json({ message: 'Gagal membuat hadiah baru.' });
+  }
+});
+
+// PUT to update a reward
+app.put('/api/rewards/:id', authenticateToken, authorizeAdminOrManager, async (req, res) => {
+  const { id } = req.params;
+  const { name, description, points_cost, stock, is_active } = req.body;
+  if (!name || !points_cost) {
+    return res.status(400).json({ message: 'Nama hadiah dan harga poin wajib diisi.' });
+  }
+  try {
+    const [result] = await pool.query(
+      'UPDATE rewards SET name = ?, description = ?, points_cost = ?, stock = ?, is_active = ? WHERE id = ?',
+      [name, description || null, points_cost, stock || null, is_active ?? true, id]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Hadiah tidak ditemukan.' });
+    }
+    res.json({ message: 'Hadiah berhasil diperbarui.' });
+  } catch (e) {
+    console.error("Error updating reward:", e);
+    res.status(500).json({ message: 'Gagal memperbarui hadiah.' });
+  }
+});
+
+// DELETE a reward
+app.delete('/api/rewards/:id', authenticateToken, authorizeAdminOrManager, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [result] = await pool.query('DELETE FROM rewards WHERE id = ?', [id]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Hadiah tidak ditemukan.' });
+    }
+    res.json({ message: 'Hadiah berhasil dihapus.' });
+  } catch (e) {
+    console.error("Error deleting reward:", e);
+    // Handle foreign key constraints if rewards are linked to other tables in the future
+    if (e.code === 'ER_ROW_IS_REFERENCED_2') {
+        return res.status(400).json({ message: 'Hadiah ini tidak dapat dihapus karena mungkin sudah pernah ditukarkan atau terhubung dengan data lain.' });
+    }
+    res.status(500).json({ message: 'Gagal menghapus hadiah.' });
+  }
+});
+
+/* =========================================================
    SHIFT MANAGEMENT
    ========================================================= */
 
@@ -2494,6 +2807,27 @@ app.post('/api/reports/print', authenticateToken, authorizeAdminOrManager, async
                         ORDER BY s.start_time DESC
                     `, [startDate, endDate]);
                     results.shift_report = { title: 'Laporan Shift', data: shiftReports };
+                    break;
+                }
+
+                case 'point_history': {
+                    const [pointHistory] = await conn.query(`
+                        SELECT 
+                            ph.id,
+                            ph.customer_id,
+                            c.name as customer_name,
+                            ph.type,
+                            ph.points_change,
+                            ph.balance_after,
+                            ph.description,
+                            ph.reference_id,
+                            ph.created_at
+                        FROM point_history ph
+                        JOIN customers c ON ph.customer_id = c.id
+                        WHERE DATE(ph.created_at) BETWEEN ? AND ?
+                        ORDER BY ph.created_at DESC
+                    `, [startDate, endDate]);
+                    results.point_history = { title: 'Laporan Riwayat Poin', data: pointHistory };
                     break;
                 }
             }

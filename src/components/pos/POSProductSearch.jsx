@@ -9,7 +9,7 @@ const POSProductSearch = forwardRef(({ search, onSearchChange, onSearchSubmit, o
         <input 
           ref={ref}
           type="text" 
-          className="w-full dark:bg-[var(--layout-bg-dark)] rounded-lg p-2 px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 bg-white  dark:text-white" 
+          className="w-full bg-white dark:bg-[var(--bg-default)] rounded-lg p-2 px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-gray-900 dark:text-[var(--text-default)] border border-gray-200 dark:border-[var(--border-default)]" 
           placeholder="Cari atau scan produk (F2 untuk fokus)..." 
           value={search} 
           onChange={(e) => onSearchChange(e.target.value)} 

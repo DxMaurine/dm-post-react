@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { FiPrinter, FiCalendar, FiFileText, FiBarChart2, FiUserCheck, FiTrendingUp, FiRepeat } from 'react-icons/fi';
+import { FiPrinter, FiCalendar, FiFileText, FiBarChart2, FiUserCheck, FiTrendingUp, FiRepeat, FiAward } from 'react-icons/fi';
 import { format } from 'date-fns';
 import * as XLSX from 'xlsx';
 import { reportAPI } from '../api';
@@ -15,6 +15,7 @@ const reportOptions = [
   { id: 'profit_loss', label: 'Laporan Laba Rugi', icon: FiTrendingUp, roles: ['admin'] },
   { id: 'sales_by_cashier', label: 'Laporan per Kasir', icon: FiUserCheck, roles: ['admin', 'manager'] },
   { id: 'shift_report', label: 'Laporan Shift', icon: FiRepeat, roles: ['admin', 'manager'] },
+  { id: 'point_history', label: 'Laporan Riwayat Poin', icon: FiAward, roles: ['admin', 'manager'] },
 ];
 
 const PrintReportsPage = () => {
@@ -148,6 +149,19 @@ const PrintReportsPage = () => {
                         shift.transactionCount,
                         shift.startTime ? format(new Date(shift.startTime), 'Pp') : '-',
                         shift.endTime ? format(new Date(shift.endTime), 'Pp') : '-'
+                    ]);
+                });
+                break;
+            case 'point_history':
+                dataForSheet.push(['Tanggal', 'Pelanggan', 'Jenis', 'Deskripsi', 'Perubahan Poin', 'Sisa Poin']);
+                report.data.forEach(item => {
+                    dataForSheet.push([
+                        format(new Date(item.created_at), 'dd-MM-yyyy HH:mm'),
+                        item.customer_name,
+                        item.type,
+                        item.description,
+                        item.points_change,
+                        item.balance_after
                     ]);
                 });
                 break;

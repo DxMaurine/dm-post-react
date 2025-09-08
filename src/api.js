@@ -154,6 +154,13 @@ export const customerAPI = {
   delete: (id) => api.delete(`/api/customers/${id}`),
 };
 
+// POINTS API
+export const pointsAPI = {
+  getHistory: (params) => api.get('/api/points/history', { params }),
+  transfer: (transferData) => api.post('/api/points/transfer', transferData),
+  redeem: (redeemData) => api.post('/api/points/redeem', redeemData),
+};
+
 // SHIFTS API
 export const shiftAPI = {
   getStatus: () => api.get('/api/shifts/status'),
@@ -189,6 +196,15 @@ export const discountAPI = {
 export const settingsAPI = {
   getQuickProducts: () => api.get('/api/settings/quick-products'),
   updateQuickProducts: (quickProducts) => api.post('/api/settings/quick-products', { quickProducts }),
+};
+
+// REWARDS API
+export const rewardsAPI = {
+  getActive: () => api.get('/api/rewards'),
+  getAll: () => api.get('/api/rewards/all'),
+  create: (rewardData) => api.post('/api/rewards', rewardData),
+  update: (id, rewardData) => api.put(`/api/rewards/${id}`, rewardData),
+  delete: (id) => api.delete(`/api/rewards/${id}`),
 };
 
 // ---------------------------

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { FiPlus, FiTrash2, FiChevronDown, FiCalendar, FiUser, FiTruck, FiDollarSign } from 'react-icons/fi';
 import PurchaseReturnList from '../components/PurchaseReturnList';
-import { purchaseReturnAPI } from '../api';
+import { purchaseReturnAPI, productAPI } from '../api';
 import React from 'react';
 
 // Helper function to format currency
@@ -10,14 +10,30 @@ const formatRupiah = (number) => {
   return new Intl.NumberFormat('id-ID').format(number);
 };
 
+// Generator nomor faktur: F-RET-DD-MM-YY
+const genInvoiceNumber = (dateStr) => {
+  const d = dateStr ? new Date(dateStr) : new Date();
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yy = String(d.getFullYear()).slice(-2);
+  return `FRET-${dd}-${mm}-${yy}`;
+};
+
 const ReturPembelianPage = () => {
   const { setSnackbar } = useOutletContext();
   const [returns, setReturns] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState({}); // { index: [products] }
+  const [suggestionOverlay, setSuggestionOverlay] = useState({ open: false, index: null });
+  const [notFound, setNotFound] = useState({ open: false, index: null, query: '' });
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
+  const [newProduct, setNewProduct] = useState({ name: '', barcode: '', price: 0, harga_beli: 0, unit: 'pcs', stock: 0 });
   const [formData, setFormData] = useState({
     returnNumber: `RET-${new Date().getTime().toString().slice(-6)}`,
     returnDate: new Date().toISOString().slice(0, 10),
-    invoiceNumber: '',
-    invoiceDate: '',
+    invoiceNumber: genInvoiceNumber(new Date().toISOString().slice(0, 10)),
+    invoiceDate: new Date().toISOString().slice(0, 10),
     supplierName: '',
     supplierCode: '',
     supplierContact: '',
@@ -60,6 +76,22 @@ const ReturPembelianPage = () => {
   useEffect(() => {
     fetchReturns();
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Load master produk untuk autocomplete
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setProductsLoading(true);
+        const res = await productAPI.getAll();
+        setProducts(Array.isArray(res.data) ? res.data : []);
+      } catch (e) {
+        console.error('Gagal memuat produk:', e);
+      } finally {
+        setProductsLoading(false);
+      }
+    };
+    loadProducts();
   }, []);
 
   const handleUpdateStatus = async (returnId, status) => {
@@ -114,7 +146,13 @@ const ReturPembelianPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => {
+      const next = { ...prev, [name]: value };
+      if (name === 'invoiceDate') {
+        next.invoiceNumber = genInvoiceNumber(value);
+      }
+      return next;
+    });
   };
 
   const handleItemChange = (index, e) => {
@@ -128,6 +166,106 @@ const ReturPembelianPage = () => {
     }
     
     setFormData({ ...formData, items });
+  };
+
+  // Khusus harga: input berformat Rupiah tanpa .00
+  const handlePriceChange = (index, rawValue) => {
+    const digits = (rawValue || '').toString().replace(/\D/g, '');
+    const price = digits ? parseInt(digits, 10) : '';
+    const items = [...formData.items];
+    items[index].price = price;
+    items[index].total = (items[index].quantity || 0) * (price || 0);
+    setFormData({ ...formData, items });
+  };
+
+  // Autocomplete: update suggestions berdasarkan input
+  const updateSuggestions = (index, raw) => {
+    const v = (raw || '').toString().trim().toLowerCase();
+    if (!v) {
+      setSuggestions(prev => ({ ...prev, [index]: [] }));
+      return;
+    }
+    const matches = products
+      .filter(p =>
+        (p.name && p.name.toLowerCase().includes(v)) ||
+        (p.id && p.id.toString().includes(v)) ||
+        (p.barcode && p.barcode.toString().includes(v))
+      )
+      .slice(0, 8);
+    setSuggestions(prev => ({ ...prev, [index]: matches }));
+  };
+
+  const handleProductNameChange = (index, value) => {
+    const items = [...formData.items];
+    items[index].productName = value;
+    setFormData({ ...formData, items });
+    updateSuggestions(index, value);
+    setSuggestionOverlay({ open: true, index });
+  };
+
+  const handleProductCodeChange = (index, value) => {
+    const items = [...formData.items];
+    items[index].productCode = value;
+    setFormData({ ...formData, items });
+    updateSuggestions(index, value);
+    setSuggestionOverlay({ open: true, index });
+  };
+
+  const selectProductForItem = (index, product) => {
+    const items = [...formData.items];
+    items[index].productCode = product?.id ?? product?.barcode ?? '';
+    items[index].productName = product?.name ?? '';
+    if (!items[index].price || items[index].price === '') {
+      items[index].price = product?.harga_beli ?? product?.price ?? 0;
+      items[index].total = (items[index].quantity || 0) * (items[index].price || 0);
+    }
+    if (!items[index].unit) items[index].unit = 'pcs';
+    setFormData({ ...formData, items });
+    setSuggestions(prev => ({ ...prev, [index]: [] }));
+    setSuggestionOverlay({ open: false, index: null });
+  };
+
+  const handleProductBlur = (index) => {
+    const name = formData.items[index]?.productName?.trim();
+    const code = formData.items[index]?.productCode?.toString().trim();
+    if (!name && !code) return;
+    const exists = products.some(p =>
+      (name && p.name?.toLowerCase() === name.toLowerCase()) ||
+      (code && (p.id?.toString() === code || p.barcode?.toString() === code))
+    );
+    if (!exists) {
+      setNotFound({ open: true, index, query: name || code });
+    }
+  };
+
+  const handleNewProductChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCreateProduct = async () => {
+    try {
+      const payload = {
+        name: newProduct.name,
+        barcode: newProduct.barcode || null,
+        price: parseFloat(newProduct.price) || 0,
+        harga_beli: parseFloat(newProduct.harga_beli) || 0,
+        unit: newProduct.unit || 'pcs',
+        stock: parseInt(newProduct.stock, 10) || 0,
+      };
+      const res = await productAPI.create(payload);
+      const created = res.data;
+      setProducts(prev => [created, ...prev]);
+      if (notFound.index !== null) {
+        selectProductForItem(notFound.index, created);
+      }
+      setShowAddProductModal(false);
+      setNotFound({ open: false, index: null, query: '' });
+      setSnackbar({ open: true, message: 'Produk berhasil ditambahkan.', severity: 'success' });
+    } catch (e) {
+      console.error('Gagal menambah produk:', e);
+      setSnackbar({ open: true, message: e.response?.data?.message || 'Gagal menambah produk', severity: 'error' });
+    }
   };
 
   const addItem = () => {
@@ -170,8 +308,8 @@ const ReturPembelianPage = () => {
       setFormData({
         returnNumber: `RET-${new Date().getTime().toString().slice(-6)}`,
         returnDate: new Date().toISOString().slice(0, 10),
-        invoiceNumber: '',
-        invoiceDate: '',
+        invoiceNumber: genInvoiceNumber(new Date().toISOString().slice(0, 10)),
+        invoiceDate: new Date().toISOString().slice(0, 10),
         supplierName: '',
         supplierCode: '',
         supplierContact: '',
@@ -277,11 +415,12 @@ const ReturPembelianPage = () => {
                 <label className="text-sm font-medium text-gray-700 dark:text-[var(--text-default)]">Tanggal Faktur</label>
                 <div className="relative">
                   <input
-                    type="date"
-                    name="invoiceDate"
-                    value={formData.invoiceDate}
-                    onChange={handleInputChange}
-                    className="w-full p-2.5 pl-10 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                  type="date"
+                  name="invoiceDate"
+                  value={formData.invoiceDate}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-2.5 pl-10 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
                   />
                   <FiCalendar className="absolute left-3 top-3.5 text-gray-400 dark:text-[var(--text-muted)]" />
                 </div>
@@ -320,7 +459,7 @@ const ReturPembelianPage = () => {
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Barang Diretur</h2>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto overflow-y-visible">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
                 <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
                   <tr>
@@ -342,18 +481,23 @@ const ReturPembelianPage = () => {
                           type="text"
                           name="productCode"
                           value={item.productCode}
-                          onChange={(e) => handleItemChange(index, e)}
+                          onChange={(e) => handleProductCodeChange(index, e.target.value)}
+                          onBlur={() => handleProductBlur(index)}
                           className="w-full p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
                         />
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-4 py-3 whitespace-nowrap relative">
                         <input
                           type="text"
                           name="productName"
                           value={item.productName}
-                          onChange={(e) => handleItemChange(index, e)}
+                          onChange={(e) => handleProductNameChange(index, e.target.value)}
+                          onBlur={() => handleProductBlur(index)}
                           className="w-full p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                          placeholder={productsLoading ? 'Memuat produk...' : 'Ketik nama produk'}
                         />
+                        {/* Saran dipindah ke overlay */}
+                        {null}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
                         <input
@@ -383,10 +527,10 @@ const ReturPembelianPage = () => {
                         <div className="relative">
                           <span className="absolute left-2 top-2.5 text-gray-500 dark:text-[var(--text-muted)]">Rp</span>
                           <input
-                            type="number"
+                            type="text"
                             name="price"
-                            value={item.price}
-                            onChange={(e) => handleItemChange(index, e)}
+                            value={item.price === '' ? '' : formatRupiah(item.price)}
+                            onChange={(e) => handlePriceChange(index, e.target.value)}
                             className="w-28 p-2 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
                           />
                         </div>
@@ -622,6 +766,81 @@ const ReturPembelianPage = () => {
             </button>
           </div>
         </form>
+
+        {/* Overlay Saran Produk */}
+        {suggestionOverlay.open && Array.isArray(suggestions[suggestionOverlay.index]) && (
+          <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/40" onClick={() => setSuggestionOverlay({ open: false, index: null })}>
+            <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-lg shadow-xl p-4 w-full max-w-xl mx-4" onClick={(e) => e.stopPropagation()}>
+              <h3 className="text-base font-semibold mb-2 text-gray-800 dark:text-[var(--text-default)]">Pilih Barang</h3>
+              <div className="max-h-80 overflow-auto divide-y divide-gray-200 dark:divide-[var(--border-default)]">
+                {suggestions[suggestionOverlay.index].length === 0 ? (
+                  <div className="p-3 text-sm text-gray-500 dark:text-[var(--text-muted)]">Tidak ada produk cocok.</div>
+                ) : (
+                  suggestions[suggestionOverlay.index].map((p) => (
+                    <div key={p.id} className="p-3 hover:bg-gray-50 dark:hover:bg-[var(--bg-default)] cursor-pointer" onClick={() => selectProductForItem(suggestionOverlay.index, p)}>
+                      <div className="text-sm text-gray-800 dark:text-[var(--text-default)]">{p.name}</div>
+                      <div className="text-xs text-gray-500 dark:text-[var(--text-muted)]">ID: {p.id}{p.barcode ? ` • Barcode: ${p.barcode}` : ''}</div>
+                    </div>
+                  ))
+                )}
+              </div>
+              <div className="mt-3 text-right">
+                <button className="px-3 py-1.5 border border-gray-300 dark:border-[var(--border-default)] rounded text-sm" onClick={() => setSuggestionOverlay({ open: false, index: null })}>Tutup</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Popup: Produk tidak ditemukan */}
+        {notFound.open && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+            <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-lg shadow-xl p-5 w-full max-w-md">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)] mb-2">Produk tidak ditemukan</h3>
+              <p className="text-sm text-gray-600 dark:text-[var(--text-muted)]">"{notFound.query}" belum termasuk produk yang ada saat ini.</p>
+              <div className="mt-4 flex justify-end gap-2">
+                <button
+                  className="px-4 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-lg text-gray-700 dark:text-[var(--text-default)] hover:bg-gray-50 dark:hover:bg-[var(--bg-default)]"
+                  onClick={() => setNotFound({ open: false, index: null, query: '' })}
+                >
+                  Catat saja
+                </button>
+                <button
+                  className="px-4 py-2 bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)] text-white rounded-lg"
+                  onClick={() => { setNewProduct(prev => ({ ...prev, name: notFound.query })); setShowAddProductModal(true); }}
+                >
+                  Tambah ke database
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal: Tambah Produk */}
+        {showAddProductModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+            <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-lg shadow-xl p-5 w-full max-w-md">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)] mb-3">Tambah Produk Baru</h3>
+              <div className="grid grid-cols-1 gap-3">
+                <input name="name" value={newProduct.name} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Nama produk" />
+                <input name="barcode" value={newProduct.barcode} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Barcode/SKU (opsional)" />
+                <input name="harga_beli" value={newProduct.harga_beli} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Harga Beli" type="number" />
+                <input name="price" value={newProduct.price} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Harga Jual (opsional)" type="number" />
+                <input name="stock" value={newProduct.stock} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Stok awal" type="number" />
+                <select name="unit" value={newProduct.unit} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]">
+                  <option value="pcs">pcs</option>
+                  <option value="kg">kg</option>
+                  <option value="m">m</option>
+                  <option value="l">l</option>
+                  <option value="pack">pack</option>
+                </select>
+              </div>
+              <div className="mt-4 flex justify-end gap-2">
+                <button className="px-4 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-lg" onClick={() => { setShowAddProductModal(false); setNotFound({ open: false, index: null, query: '' }); }}>Batal</button>
+                <button className="px-4 py-2 bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)] text-white rounded-lg" onClick={handleCreateProduct}>Simpan</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

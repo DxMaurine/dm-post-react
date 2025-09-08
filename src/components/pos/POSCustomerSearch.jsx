@@ -77,7 +77,7 @@ const POSCustomerSearch = ({
   };
 
   return (
-    <div className="mb-4 flex flex-col md:flex-row md:items-center gap-2">
+    <div className="mb-4 flex flex-col md:flex-row md:items-center gap-2" data-pos-no-refocus>
       <div className="flex-1 relative">
         <input
           type="text"

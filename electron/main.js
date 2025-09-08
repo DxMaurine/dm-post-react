@@ -20,24 +20,25 @@ autoUpdater.logger = log;
 autoUpdater.autoDownload = false; // manual download via UI
 autoUpdater.autoInstallOnAppQuit = true;
 
-// Tambah variable untuk kontrol notifikasi
+// Tambah variable untuk kontrol notifikasi dan interval
 let hasShownUpdateNotification = false;
+let updateCheckInterval = null;
 
 // Set up auto-updater handlers dengan notifikasi yang lebih subtle
 autoUpdater.on('checking-for-update', () => {
+  log.info('Checking for update...');
   broadcastUpdateStatus('checking', 'Memeriksa pembaruan...', null, true);
 });
 
 autoUpdater.on('update-available', (info) => {
-  if (!hasShownUpdateNotification) {
-    // Hanya tampilkan notifikasi sekali per sesi
-    broadcastUpdateStatus('available', 'Pembaruan tersedia', {
-      version: info.version,
-      silent: true,  // Flag untuk UI agar menampilkan notifikasi kecil
-      message: `Versi ${info.version} tersedia. Update akan diunduh di latar belakang.`
-    });
-    hasShownUpdateNotification = true;
-  }
+  log.info('Update available:', info.version);
+  // Selalu tampilkan jika ada update, tapi dengan mode yang sesuai
+  broadcastUpdateStatus('available', 'Pembaruan tersedia', {
+    version: info.version,
+    silent: false,  // Selalu tampilkan notifikasi update yang tersedia
+    message: `Versi ${info.version} tersedia. Update akan diunduh di latar belakang.`
+  });
+  hasShownUpdateNotification = true;
 });
 
 autoUpdater.on('update-not-available', (info) => {
@@ -66,6 +67,30 @@ autoUpdater.on('update-downloaded', (info) => {
   });
 });
 
+const CHECK_INTERVAL = 5 * 60 * 1000; // 5 menit
+
+// Fungsi untuk setup pengecekan update
+function setupUpdateChecker() {
+  // Clear existing interval if any
+  if (updateCheckInterval) {
+    clearInterval(updateCheckInterval);
+  }
+
+  // Initial check on startup
+  if (app.isPackaged) {
+    autoUpdater.checkForUpdates().catch(err => {
+      log.error('Initial update check error:', err);
+    });
+
+    // Set interval for subsequent checks
+    updateCheckInterval = setInterval(() => {
+      autoUpdater.checkForUpdates().catch(err => {
+        log.error('Periodic update check error:', err);
+      });
+    }, CHECK_INTERVAL);
+  }
+}
+
 // Handle IPC messages for updates
 ipcMain.handle('update-check', () => {
   if (!app.isPackaged) {
@@ -73,6 +98,8 @@ ipcMain.handle('update-check', () => {
     broadcastUpdateStatus('dev-mode', 'Aplikasi dalam mode development. Fitur update tidak tersedia.');
     return Promise.resolve({ isDev: true });
   }
+
+  // Manual check triggered by user
   return autoUpdater.checkForUpdates().catch(err => {
     broadcastUpdateStatus('error', `Error checking for updates: ${err.message}`);
     return { error: err.message };
@@ -483,27 +510,10 @@ app.whenReady().then(async () => {
     // NOW, we can create the main window.
     createMainWindow();
 
-      // Initialize and trigger updater check (only in production builds)
-      if (app.isPackaged && autoUpdater) {
-        // Event handlers sudah didefinisikan di atas, tidak perlu didefinisikan ulang
-        
-        // Delay check update beberapa detik setelah aplikasi start
-        setTimeout(() => {
-          // Check update dengan silent notification
-          autoUpdater.checkForUpdates().catch((err) => {
-            log.error('Initial update check failed:', err);
-            broadcastUpdateStatus('error', 
-              `Gagal memeriksa pembaruan: ${err == null ? "unknown" : (err.message || String(err))}`,
-              null,
-              true // silent notification
-            );
-          });
-        }, 10000); // Delay 10 detik      // Trigger an initial update check
-      setImmediate(() => {
-        autoUpdater.checkForUpdates().catch((err) => {
-          broadcastUpdateStatus('error', `Gagal memeriksa pembaruan: ${err == null ? "unknown" : (err.message || String(err))}`);
-        });
-      });
+    // Setup update checker (only in production builds)
+    if (app.isPackaged && autoUpdater) {
+      // Setup update checker dengan interval
+      setupUpdateChecker();
     }
 
   } catch (startError) {
@@ -543,6 +553,10 @@ app.on('window-all-closed', () => {
   if (backendProcess) {
     // Killing backend process
     backendProcess.kill();
+  }
+  // Clear update check interval
+  if (updateCheckInterval) {
+    clearInterval(updateCheckInterval);
   }
   if (process.platform !== 'darwin') {
     app.quit();

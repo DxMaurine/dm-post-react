@@ -118,7 +118,7 @@ const CreateReturnModal = ({ isOpen, onClose, setSnackbar, onReturnCreated }) =>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-lg font-semibold text-gray-800 dark:text-green-400 mb-4">
                 <p><strong>ID:</strong> {transaction.transaction_code || transaction.id}</p>
                 <p><strong>Date:</strong> {new Date(transaction.tanggal).toLocaleDateString()}</p>
-                <p><strong>Customer:</strong> {transaction.customer}</p>
+                <p><strong>Customer:</strong> {typeof transaction.customer === 'string' ? transaction.customer : (transaction.customer?.name || transaction.customer?.customer_uuid || 'Umum')}</p>
                 <p><strong>Total:</strong> Rp {transaction.total.toLocaleString('id-ID')}</p>
               </div>
 

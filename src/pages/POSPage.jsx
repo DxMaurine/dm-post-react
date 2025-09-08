@@ -94,61 +94,71 @@ const POSPage = () => {
   };
 
   // Product and cart functions
-  const addToCart = (product) => {
+  const addToCart = (product, options = {}) => {
     if (product.stock <= 0) {
-      setSnackbar({ open: true, message: `Stok ${product.name} sudah habis!`, severity: 'error' });
+      setTimeout(() => setSnackbar({ open: true, message: `Stok ${product.name} sudah habis!`, severity: 'error' }), 0);
       return;
     }
-    
-    const exist = cartItems.find((item) => item.id === product.id);
-    if (exist && exist.qty >= product.stock) {
-      setSnackbar({ open: true, message: `Stok ${product.name} tidak mencukupi!`, severity: 'warning' });
-      return;
-    }
-    
-    setCartItems(exist 
-      ? cartItems.map((item) => item.id === product.id ? { ...exist, qty: exist.qty + 1 } : item)
-      : [...cartItems, { ...product, qty: 1 }]
+
+    const exist = cartItems.find((item) => 
+      (product.barcode && item.barcode === product.barcode) || item.id === product.id
     );
-    setSearch('');
-    setTimeout(() => cartRef.current?.focus(), 100); 
+
+    if (exist) {
+      const newQty = (parseInt(exist.qty, 10) || 0) + 1;
+      handleQtyChange(exist, newQty); 
+    } else {
+      setCartItems([...cartItems, { ...product, qty: 1 }]);
+    }
+
+    const { suppressFocus = false, keepSearch = false } = options;
+    if (!keepSearch) {
+      setSearch('');
+    }
+    // Kembalikan fokus ke kolom pencarian (F2 behavior) bila tidak disupress
+    if (!suppressFocus) {
+      setTimeout(() => searchInputRef.current?.focus(), 0);
+    }
+    // HAPUS FOKUS KE KERANJANG: setTimeout(() => cartRef.current?.focus(), 100);
   };
 
   const removeFromCart = (product) => {
     const exist = cartItems.find((item) => item.id === product.id);
-    if (exist.qty === 1) {
-      setCartItems(cartItems.filter((item) => item.id !== product.id));
+    if (!exist) return;
+
+    const newQty = exist.qty - 1;
+    if (newQty > 0) {
+      handleQtyChange(exist, newQty);
     } else {
-      setCartItems(cartItems.map((item) => 
-        item.id === product.id ? { ...exist, qty: exist.qty - 1 } : item
-      ));
+      setCartItems(cartItems.filter((item) => item.id !== product.id));
     }
   };
 
   const handleQtyChange = (product, newQty) => {
     const qty = parseInt(newQty, 10);
-    if (isNaN(qty) || qty < 1) {
-      setCartItems(cartItems.map((item) =>
-        item.id === product.id ? { ...item, qty: "" } : item
-      ));
-      return;
-    }
 
-    if (qty > product.stock) {
-      setSnackbar({ 
-        open: true, 
-        message: `Stok ${product.name} tidak mencukupi! Hanya ada ${product.stock}.`, 
-        severity: 'warning' 
-      });
-      setCartItems(cartItems.map((item) =>
-        item.id === product.id ? { ...item, qty: product.stock } : item
-      ));
-      return;
-    }
+    setCartItems(prevCartItems => {
+      if (isNaN(qty) || qty < 1) {
+        return prevCartItems.map(item =>
+          item.id === product.id ? { ...item, qty: "" } : item
+        );
+      }
 
-    setCartItems(cartItems.map((item) =>
-      item.id === product.id ? { ...item, qty: qty } : item
-    ));
+      if (qty > product.stock) {
+        setTimeout(() => setSnackbar({ 
+          open: true, 
+          message: `Stok ${product.name} tidak mencukupi! Hanya ada ${product.stock}.`, 
+          severity: 'warning' 
+        }), 0);
+        return prevCartItems.map(item =>
+          item.id === product.id ? { ...item, qty: product.stock } : item
+        );
+      }
+
+      return prevCartItems.map(item =>
+        item.id === product.id ? { ...item, qty: qty } : item
+      );
+    });
   };
 
   const handleHoldCart = () => {
@@ -332,6 +342,8 @@ const POSPage = () => {
       setSelectedCustomer(newCustomer);
       setCustomerSearch(newCustomer.name);
       setCustomerSearchResults([]);
+      // Kembalikan fokus ke kolom pencarian setelah simpan pelanggan
+      setTimeout(() => searchInputRef.current?.focus(), 0);
 
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message;
@@ -508,6 +520,39 @@ const POSPage = () => {
     }
   }, [shiftStatus.isActive, shiftStatus.loading]);
 
+  // Refocus search input when cart becomes empty
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      searchInputRef.current?.focus();
+    }
+  }, [cartItems.length]);
+
+  // Global refocus: pastikan input pencarian selalu fokus (scanner standby)
+  useEffect(() => {
+    const refocus = (ev) => {
+      // Abaikan jika klik terjadi di area yang bertanda data-pos-no-refocus
+      if (ev && ev.target && (ev.target.closest('[data-pos-no-refocus]'))) return;
+      // Delay kecil agar tidak mengganggu event klik yang sedang berjalan
+      setTimeout(() => searchInputRef.current?.focus(), 120);
+    };
+
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') refocus();
+    };
+
+    document.addEventListener('mousedown', refocus, true);
+    document.addEventListener('touchstart', refocus, true);
+    window.addEventListener('focus', () => refocus());
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      document.removeEventListener('mousedown', refocus, true);
+      document.removeEventListener('touchstart', refocus, true);
+      window.removeEventListener('focus', refocus);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
+
 
   if (shiftStatus.loading) {
     return (
@@ -560,7 +605,7 @@ const POSPage = () => {
             onAddToCart={addToCart}
           />
 
-          <POSProductSearch 
+                    <POSProductSearch 
             ref={searchInputRef}
             search={search}
             onSearchChange={setSearch}
@@ -568,17 +613,19 @@ const POSPage = () => {
               if (!search) return;
               const product = products.find(p => 
                 p.id.toString() === search || 
-                p.name.toLowerCase().includes(search.toLowerCase())
+                p.name.toLowerCase().includes(search.toLowerCase()) ||
+                (p.barcode && p.barcode.toString() === search)
               );
               if (product) {
                 addToCart(product);
                 setSearch('');
+                searchInputRef.current?.focus(); // KEMBALIKAN FOKUS
               } else {
-                setSnackbar({ 
+                setTimeout(() => setSnackbar({ 
                   open: true, 
                   message: 'Produk tidak ditemukan.', 
                   severity: 'warning' 
-                });
+                }), 0);
               }
             }}
             onScannerOpen={() => setScannerOpen(true)}
@@ -596,25 +643,32 @@ const POSPage = () => {
               setSelectedCustomer(customer);
               setCustomerSearch(customer.name);
               setCustomerSearchResults([]);
+              // Kembalikan fokus ke kolom pencarian setelah pilih pelanggan
+              setTimeout(() => searchInputRef.current?.focus(), 0);
             }}
             onCustomerRemove={() => {
               setSelectedCustomer(null);
               setPointsToRedeem(0);
               setCustomerSearch('');
+              // Kembalikan fokus ke kolom pencarian setelah hapus/close pelanggan
+              setTimeout(() => searchInputRef.current?.focus(), 0);
             }}
             onAddCustomer={() => setShowAddCustomerModal(true)}
           />
 
-          <POSProductTable 
-            products={products.filter(p => 
-              search === '' ? false : 
-              p.name.toLowerCase().includes(search.toLowerCase()) || 
-              p.id.toString().includes(search)
-            )}
-            loading={false}
-            error={null}
-            onAddToCart={addToCart}
-          />
+          {search.trim() !== '' && (
+            <POSProductTable 
+              products={products.filter(p => 
+                p.name.toLowerCase().includes(search.toLowerCase()) || 
+                p.id.toString().includes(search) ||
+                (p.barcode && p.barcode.toString().includes(search))
+              )}
+              loading={false}
+              error={null}
+              onAddToCart={addToCart}
+              onClose={() => setSearch('')}
+            />
+          )}
 
           {cartItems.length > 0 && (
             <POSCart 
@@ -624,9 +678,10 @@ const POSPage = () => {
               pointsToRedeem={pointsToRedeem}
               onQtyChange={handleQtyChange}
               onRemoveFromCart={removeFromCart}
-              onAddToCart={addToCart}
+              onAddToCart={(item) => addToCart(item, { suppressFocus: true, keepSearch: true })}
               onRemoveItemCompletely={(product) => {
-                setCartItems(cartItems.filter((item) => item.id !== product.id));
+                setCartItems(prev => prev.filter((item) => item.id !== product.id));
+                setTimeout(() => searchInputRef.current?.focus(), 0);
               }}
               onPointsRedeemChange={(e) => {
                 if (!selectedCustomer) return;
@@ -691,7 +746,10 @@ const POSPage = () => {
 
       <AddCustomerModal
         show={showAddCustomerModal}
-        onClose={() => setShowAddCustomerModal(false)}
+        onClose={() => { 
+          setShowAddCustomerModal(false);
+          setTimeout(() => searchInputRef.current?.focus(), 0);
+        }}
         onSave={handleAddNewCustomer}
         onError={(message) => setSnackbar({ open: true, message, severity: 'error' })}
       />

@@ -249,6 +249,39 @@ const PrintableReportContent = React.forwardRef(({
               </div>
             </section>
           )}
+
+          {/* Render Point History */}
+          {reportData.point_history && (
+            <section>
+              <h2 className="text-2xl font-semibold border-b-2 border-gray-200 pb-2 mb-4 text-gray-800">{reportData.point_history.title}</h2>
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
+                  <thead className="bg-gray-50 dark:bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-medium text-gray-700 uppercase tracking-wider">Tanggal</th>
+                      <th className="px-4 py-3 text-left font-medium text-gray-700 uppercase tracking-wider">Pelanggan</th>
+                      <th className="px-4 py-3 text-left font-medium text-gray-700 uppercase tracking-wider">Jenis</th>
+                      <th className="px-4 py-3 text-left font-medium text-gray-700 uppercase tracking-wider">Deskripsi</th>
+                      <th className="px-4 py-3 text-right font-medium text-gray-700 uppercase tracking-wider">Perubahan Poin</th>
+                      <th className="px-4 py-3 text-right font-medium text-gray-700 uppercase tracking-wider">Sisa Poin</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {reportData.point_history.data.map(item => (
+                      <tr key={item.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">{format(new Date(item.created_at), 'dd-MM-yyyy HH:mm')}</td>
+                        <td className="px-4 py-3 whitespace-nowrap">{item.customer_name}</td>
+                        <td className="px-4 py-3 whitespace-nowrap">{item.type}</td>
+                        <td className="px-4 py-3">{item.description}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-right font-semibold">{item.points_change}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-right">{item.balance_after}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
         </div>
       )}
     </div>

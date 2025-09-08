@@ -49,6 +49,7 @@ const menuGroups = [
       { icon: FiUserCheck, name: 'Laporan per Kasir', path: '/laporan-per-kasir', roles: ['admin'] },
       { icon: FiAward, name: 'Produk Terlaris', path: '/laporan-produk-terlaris', roles: ['admin'] },
       { icon: FiList, name: 'Riwayat Transaksi', path: '/history', roles: ['admin', 'manager', 'kasir'] },
+      { icon: FiAward, name: 'Riwayat Poin', path: '/riwayat-poin', roles: ['admin', 'manager'] },
       { icon: FiPrinter, name: 'Cetak Laporan', path: '/print-reports', roles: ['admin', 'manager'] },
     ]
   },
@@ -61,6 +62,7 @@ const menuGroups = [
       { icon: FiTruck, name: 'Supplier', path: '/suppliers', roles: ['admin', 'manager'] },
       { icon: FiUsers, name: 'Manajemen Pengguna', path: '/manajemen-pengguna', roles: ['admin'] },
       { icon: FiTag, name: 'Manajemen Diskon', path: '/discounts', roles: ['admin', 'manager'] },
+      { icon: FiAward, name: 'Manajemen Poin', path: '/manajemen-poin', roles: ['admin', 'manager'] },
       { icon: FiRepeat, name: 'Manajemen Shift', path: '/shift', roles: ['admin', 'manager', 'kasir'] },
       { icon: FiTrendingDown, name: 'Beban Operasional', path: '/beban-operasional', roles: ['admin', 'manager', 'kasir'] },
     ]

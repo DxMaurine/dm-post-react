@@ -160,7 +160,7 @@ const PaymentModal = ({ show, onClose, cartItems, totalBelanja, onSubmit, onErro
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm" data-pos-no-refocus data-pos-disable-refocus>
       <div className="bg-white dark:bg-[var(--sidebar-bg-dark)] rounded-xl shadow-lg p-4 w-full max-w-4xl mx-5 max-h-[90vh] overflow-y-auto overflow-x-hidden relative">
         <button
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xl font-bold transition-colors"
