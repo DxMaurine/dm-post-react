@@ -71,9 +71,9 @@ const POSCart = forwardRef(({
         )}
       </div>
 
-      <div className="bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-[var(--border-default)]">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-[var(--border-default)]">
         {/* Cart Header - Sticky */}
-        <div className={`bg-gradient-to-r from-blue-600 to-indigo-700 dark:bg-[var(--primary-color)] text-white px-4 py-3 sticky top-0 z-10 ${isScrolled ? 'shadow-md' : ''}`}>
+        <div className={`bg-gradient-to-r from-blue-600 to-indigo-700 dark:bg-[var(--primary-color)] text-white  text-center text-sm font-medium px-4 py-3 sticky top-0 z-10 ${isScrolled ? 'shadow-md' : ''}`}>
           <div className="grid grid-cols-12 gap-2 font-semibold text-sm">
             <div className="col-span-5">Nama Produk</div>
             <div className="col-span-2 text-right">Harga</div>
@@ -96,12 +96,12 @@ const POSCart = forwardRef(({
               {cartItems.map((item, idx) => (
                 <div 
                   key={item.id} 
-                  className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)] transition-colors duration-200"
+                  className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-[var(--bg-default)] transition-colors duration-200"
                   ref={idx === cartItems.length - 1 ? lastItemRef : null}
                 >
                   <div className="grid grid-cols-12 gap-2 items-center">
                     <div className="col-span-5">
-                      <div className="font-medium text-gray-800 dark:text-[var(--text-default)]">{item.name}</div>
+                      <div className="font-medium text-gray-800 dark:text-[var(--text-muted)]">{item.name}</div>
                       {item.stock < 10 && (
                         <div className="text-xs text-amber-600 dark:text-amber-400 mt-1">
                           Stok hampir habis: {item.stock}
@@ -158,7 +158,7 @@ const POSCart = forwardRef(({
                         </button>
                         <button 
                           onClick={() => onRemoveItemCompletely(item)}
-                          className="p-1 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                          className="p-1 text-gray-500 dark:text-[var(--text-muted)] hover:bg-gray-100 dark:hover:bg-red-500/30 rounded-lg transition-colors"
                           title="Hapus item"
                         >
                           <FiTrash2 size={16} />

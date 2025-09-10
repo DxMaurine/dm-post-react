@@ -92,13 +92,13 @@ const AccordionGroup = ({ group, isCollapsed, location, userRole }) => {
         onClick={handleToggle} 
         className={`w-full flex justify-between items-center text-xs font-semibold uppercase tracking-wider py-3 px-4 rounded-lg transition-all ${isGroupActive 
             ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/50 dark:text-blue-400' 
-            : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-500/50'}`}
+            : 'text-gray-500 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-[var(--primary-color)]'}`}
       >
         <div className="flex items-center">
           {group.icon && <group.icon className={`h-5 w-5 flex-shrink-0 transition-colors duration-200 ${
             isOpen 
-              ? (isGroupActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300')
-              : 'text-yellow-600 dark:text-yellow-400'
+              ? (isGroupActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-[var(--text-default)]')
+              : 'text-yellow-600 dark:text-gray-700'
           } ${!isCollapsed ? 'mr-2' : ''}`} />}
           {!isCollapsed && <span>{group.title}</span>}
         </div>
@@ -114,9 +114,9 @@ const AccordionGroup = ({ group, isCollapsed, location, userRole }) => {
                 to={link.path}
                 className={`flex items-center py-2.5 px-4 my-1 rounded-lg transition-all ${location.pathname === link.path 
                   ? 'bg-blue-600 text-white shadow-sm' 
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-500/50'} ${isCollapsed ? 'justify-center' : ''}`}
+                  : 'text-gray-600 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-gray-500/50'} ${isCollapsed ? 'justify-center' : ''}`}
               >
-                <link.icon className={`h-5 w-5 flex-shrink-0 ${location.pathname === link.path ? 'text-white' : 'text-gray-500 dark:text-gray-400'} ${isCollapsed ? 'mx-auto' : ''}`} />
+                <link.icon className={`h-5 w-5 flex-shrink-0 ${location.pathname === link.path ? 'text-white' : 'text-gray-500 dark:text-[var(--text-default)]'} ${isCollapsed ? 'mx-auto' : ''}`} />
                 {!isCollapsed && (
                   <span className="ml-3 font-medium text-sm truncate">{link.name}</span>
                 )}
@@ -164,7 +164,7 @@ const Sidebar = ({ onOpenCatalog }) => {
   const userRole = user?.role || 'kasir';
 
   return (
-    <div className={`relative z-10 bg-white dark:bg-[var(--sidebar-bg-dark)] border-r border-[var(--border-default)] dark:border-[var(--border-default)] transition-all duration-300 flex flex-col h-full ${isCollapsed ? 'w-20' : 'w-64'}`}>
+    <div className={`relative z-10 bg-white dark:bg-[var(--bg-secondary)] border-r border-[var(--border-default)] dark:border-[var(--border-default)] transition-all duration-300 flex flex-col h-full ${isCollapsed ? 'w-20' : 'w-64'}`}>
       <div className={`flex items-center justify-between p-4 border-b border-[var(--border-default)] dark:border-[var(--border-default)] ${isCollapsed ? 'h-[69px]' : ''}`}>
         {!isCollapsed && (
           <div className="flex items-center space-x-3">
@@ -194,7 +194,7 @@ const Sidebar = ({ onOpenCatalog }) => {
         </button>
       </div>
       
-      <div className="p-3 border-b border-gray-100 dark:border-gray-700/50">
+      <div className="p-3 border-b border-gray-100 ">
         <ul>
           {mainMenuItems.filter(item => item.roles.includes(userRole)).map(item => (
             <li key={item.name}>
@@ -202,9 +202,9 @@ const Sidebar = ({ onOpenCatalog }) => {
                 to={item.path}
                 className={`flex items-center p-3 rounded-lg transition-all ${location.pathname === item.path 
                   ? 'bg-blue-600 text-white shadow-sm' 
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-500/50'} ${isCollapsed ? 'justify-center' : ''}`}
+                  : 'text-gray-600 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-gray-500/50'} ${isCollapsed ? 'justify-center' : ''}`}
               >
-                <item.icon className={`h-5 w-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : 'text-gray-500 dark:text-gray-400'} ${isCollapsed ? 'mx-auto' : ''}`} />
+                <item.icon className={`h-5 w-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : 'text-gray-500 dark:text-[var(--text-default)]'} ${isCollapsed ? 'mx-auto' : ''}`} />
                 {!isCollapsed && (
                   <span className="ml-3 font-medium text-sm">{item.name}</span>
                 )}
@@ -214,9 +214,9 @@ const Sidebar = ({ onOpenCatalog }) => {
           <li>
             <button
               onClick={onOpenCatalog}
-              className={`w-full flex items-center p-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-500/50 transition-all ${isCollapsed ? 'justify-center' : ''}`}
+              className={`w-full flex items-center p-3 rounded-lg text-gray-600 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-gray-500/50 transition-all ${isCollapsed ? 'justify-center' : ''}`}
             >
-              <FiBookOpen className={`h-5 w-5 flex-shrink-0 text-gray-500 dark:text-gray-400 ${isCollapsed ? 'mx-auto' : ''}`} />
+              <FiBookOpen className={`h-5 w-5 flex-shrink-0 text-gray-500 dark:text-[var(--text-default)] ${isCollapsed ? 'mx-auto' : ''}`} />
               {!isCollapsed && (
                 <span className="ml-3 font-medium text-sm">Katalog</span>
               )}

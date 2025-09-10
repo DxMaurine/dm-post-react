@@ -22,7 +22,7 @@ const Layout = () => {
   };
 
   return (
-    <div className="relative flex h-screen bg-gray-100 dark:bg-[var(--sidebar-bg-dark)] drop-shadow-blue-900">
+    <div className="relative flex h-screen bg-gray-100 dark:bg-[var(--bg-secondary)] drop-shadow-blue-900 blue-ocean-gradient">
       <ThemeProvider>
         <Sidebar onOpenCatalog={() => setIsCatalogOpen(true)} />
         <main className="flex-1 overflow-y-auto">

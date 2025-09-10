@@ -256,7 +256,7 @@ const PrintReportsPage = () => {
   return (
     <>
       {/* The main UI for selecting reports and dates */}
-      <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-sm dark:shadow-gray-700/50">
+      <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm dark:shadow-gray-700/50">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div className="mb-6 md:mb-0">
@@ -284,7 +284,7 @@ const PrintReportsPage = () => {
                     key={opt.id}
                     className={`flex items-center p-3  rounded-lg transition-colors cursor-pointer border ${selectedReports.includes(opt.id)
                       ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700'
-                      : 'bg-white dark:bg-[var(--bg-default)]  hover:bg-gray-100 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600'}`}
+                      : 'bg-white dark:bg-[var(--bg-secondary)]  hover:bg-gray-100 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600'}`}
                   >
                     <input
                       type="checkbox"
@@ -319,7 +319,7 @@ const PrintReportsPage = () => {
                       name="startDate"
                       value={dates.startDate}
                       onChange={handleDateChange}
-                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-default)] text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                     />
                   </div>
                 </div>
@@ -334,7 +334,7 @@ const PrintReportsPage = () => {
                       name="endDate"
                       value={dates.endDate}
                       onChange={handleDateChange}
-                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-default)] text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                     />
                   </div>
                 </div>

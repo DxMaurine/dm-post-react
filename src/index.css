@@ -68,6 +68,27 @@
   --primary-bg-dark: #61AFEF;
 }
 
+/* 
+  Varian 4: Blue Ocean (Blue Gradient)
+  Gradien biru yang sejuk dan menyegarkan.
+*/
+.dark.theme-blue-ocean {
+  --bg-default: rgb(211, 155, 2);
+  --bg-secondary: #00b1b1;
+  --text-default: #3b3b3b;
+  --text-muted: #ffffff;
+  --border-default: #ffffff;
+  --primary-color: #1567ff;
+  --primary-color-hover: #12488f;
+  --selection-bg: #005c97;
+
+  /* Component-specific variables */
+  --sidebar-bg-dark: #363795;
+  --layout-bg-dark: #005c97;
+  --card-bg-dark: #00c5c5;
+  --primary-bg-dark: #00c6ff;
+}
+
 @keyframes emerge-and-zoom {
   0% {
     opacity: 0;

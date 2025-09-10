@@ -66,7 +66,7 @@ const RiwayatPoinPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-sm dark:shadow-gray-700/50">
+    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm dark:shadow-gray-700/50">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)]">Riwayat Poin Pelanggan</h1>
@@ -81,14 +81,14 @@ const RiwayatPoinPage = () => {
             <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Tanggal Mulai</label>
             <div className="relative">
               <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="date" name="startDate" value={filters.startDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-default)] dark:text-white dark:border-gray-600" />
+              <input type="date" name="startDate" value={filters.startDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600" />
             </div>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Tanggal Akhir</label>
             <div className="relative">
               <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="date" name="endDate" value={filters.endDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-default)] dark:text-white dark:border-gray-600" />
+              <input type="date" name="endDate" value={filters.endDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600" />
             </div>
           </div>
 
@@ -97,7 +97,7 @@ const RiwayatPoinPage = () => {
             <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Jenis Transaksi</label>
             <div className="relative">
               <FiFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <select name="type" value={filters.type} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-default)] dark:text-white dark:border-gray-600">
+              <select name="type" value={filters.type} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600">
                 <option value="">Semua Jenis</option>
                 <option value="earn">Dapat Poin</option>
                 <option value="redeem_catalog">Tukar Hadiah</option>
@@ -114,7 +114,7 @@ const RiwayatPoinPage = () => {
             <form onSubmit={handleSearchSubmit} className="flex gap-2">
               <div className="relative flex-grow">
                  <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type="text" placeholder="Cari pelanggan..." value={searchTerm} onChange={handleSearchChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-default)] dark:text-white dark:border-gray-600" />
+                <input type="text" placeholder="Cari pelanggan..." value={searchTerm} onChange={handleSearchChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600" />
               </div>
             </form>
           </div>
@@ -134,7 +134,7 @@ const RiwayatPoinPage = () => {
               <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Sisa Poin</th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-[var(--bg-default)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">
+          <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">
             {loading ? (
               <tr><td colSpan="6" className="text-center py-10"><div className="w-8 h-8 border-4 border-[var(--primary-color)] border-t-transparent rounded-full animate-spin mx-auto"></div></td></tr>
             ) : history.length > 0 ? (

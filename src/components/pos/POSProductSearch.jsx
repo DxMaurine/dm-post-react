@@ -15,7 +15,7 @@ const POSProductSearch = forwardRef(({ search, onSearchChange, onSearchSubmit, o
           onChange={(e) => onSearchChange(e.target.value)} 
           onKeyDown={(e) => e.key === 'Enter' && onSearchSubmit()}
         />
-        <span className="absolute left-3 top-2.5 text-gray-400 dark:text-gray-400">
+        <span className="absolute left-3 top-2.5 text-gray-400 dark:text-[var(--text-muted)]">
           <FiSearch size={20} />
         </span>
       </div>

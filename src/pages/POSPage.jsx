@@ -567,7 +567,7 @@ const POSPage = () => {
 
   if (!shiftStatus.isActive) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen text-center p-10 bg-gray-50 dark:bg-[var(--bg-default)] rounded-lg shadow-md">
+      <div className="flex flex-col items-center justify-center h-screen text-center p-10 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-red-600 dark:text-white mb-4">Shift Belum Dimulai</h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
           Anda harus memulai shift terlebih dahulu sebelum dapat melakukan transaksi.
@@ -587,7 +587,7 @@ const POSPage = () => {
   const finalTotal = totalBelanja - pointsDiscount;
 
   return (
-    <div className="flex flex-col h-full bg-gray-50 dark:bg-[var(--sidebar-bg-dark)] rounded-xl mt-1 mb-1 overflow-hidden shadow-lg">
+    <div className="flex flex-col h-full bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl mt-1 mb-1 overflow-hidden shadow-lg">
       <LineProgressBar
         loading={loading}
       />

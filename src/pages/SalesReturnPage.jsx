@@ -102,15 +102,19 @@ const SalesReturnPage = () => {
 
   return (
     <>
-      <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-md">
+      <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-md">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)]">Sales Return</h2>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)]">Return Penjualan</h2>
+            <p className="text-gray-500 dark:text-[var(--text-muted)]">Dashboard Retur penjualan</p>
+          </div>
+        
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)] text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors shadow-sm"
+            className="bg-gradient-to-r from-yellow-600 to-red-700 hover:bg-[var(--primary-color-hover)] text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors shadow-sm"
           >
             <FaPlus />
-            Create Return
+            Buat Retur Baru
           </button>
         </div>
 
@@ -123,7 +127,7 @@ const SalesReturnPage = () => {
               <input
                 type="text"
                 id="search"
-                className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition dark:bg-[var(--bg-default)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
+                className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
                 placeholder="Search by Return ID, Transaction ID, or Cashier..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -137,7 +141,7 @@ const SalesReturnPage = () => {
               <input
                 type="date"
                 id="startDate"
-                className="w-full border border-gray-300 rounded-lg pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition dark:bg-[var(--bg-default)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
+                className="w-full border border-gray-300 rounded-lg pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
@@ -150,7 +154,7 @@ const SalesReturnPage = () => {
               <input
                 type="date"
                 id="endDate"
-                className="w-full border border-gray-300 rounded-lg pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition dark:bg-[var(--bg-default)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
+                className="w-full border border-gray-300 rounded-lg pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 min={startDate}
@@ -168,24 +172,24 @@ const SalesReturnPage = () => {
         </div>
 
         {/* Summary Card */}
-        <div className="bg-blue-50 dark:bg-[var(--bg-secondary)] border border-blue-100 dark:border-[var(--border-default)] rounded-xl p-4 mb-6">
+        <div className="bg-gradient-to-r from-blue-600/50 to-indigo-700 text-white rounded-xl p-4 mb-6 shadow-lg">
           <div className="flex flex-wrap justify-between items-center">
             <div className="flex items-center gap-3 mb-2 md:mb-0">
-              <div className="bg-blue-100 dark:bg-blue-500/10 p-3 rounded-full">
-                <FaExchangeAlt className="text-blue-600 dark:text-blue-400 text-xl" />
+              <div className="bg-white/20 p-3 rounded-full">
+                <FaExchangeAlt className="text-white text-xl" />
               </div>
               <div>
-                <p className="text-sm text-gray-600 dark:text-[var(--text-muted)]">Total Returns</p>
-                <p className="text-xl font-semibold text-gray-800 dark:text-[var(--text-default)]">{filteredReturns.length}</p>
+                <p className="text-sm text-indigo-100">Total Returns</p>
+                <p className="text-xl font-semibold text-white">{filteredReturns.length}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 mb-2 md:mb-0">
-              <div className="bg-blue-100 dark:bg-blue-500/10 p-3 rounded-full">
-                <FaFileInvoiceDollar className="text-blue-600 dark:text-blue-400 text-xl" />
+              <div className="bg-white/20 p-3 rounded-full">
+                <FaFileInvoiceDollar className="text-white text-xl" />
               </div>
               <div>
-                <p className="text-sm text-gray-600 dark:text-[var(--text-muted)]">Total Return Value</p>
-                <p className="text-xl font-semibold text-gray-800 dark:text-[var(--text-default)]">
+                <p className="text-sm text-indigo-100">Total Return Value</p>
+                <p className="text-xl font-semibold text-white">
                   Rp {totalReturnedValue.toLocaleString('id-ID')}
                 </p>
               </div>
@@ -210,7 +214,7 @@ const SalesReturnPage = () => {
         {!loading && !error && (
           <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-[var(--border-default)]">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-              <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
+              <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Return ID</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Transaction ID</th>
@@ -249,7 +253,7 @@ const SalesReturnPage = () => {
                   </tr>
                 )}
               </tbody>
-              <tfoot className="bg-gray-50 dark:bg-[var(--bg-default)] border-t border-gray-200 dark:border-[var(--border-default)]">
+              <tfoot className="bg-gray-50 dark:bg-[var(--bg-secondary)] border-t border-gray-200 dark:border-[var(--border-default)]">
                 <tr>
                   <td colSpan="3" className="px-4 py-3 text-base font-semibold text-gray-700 dark:text-gray-200 text-right">
                     Total:

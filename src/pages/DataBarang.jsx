@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useOutletContext, Link } from 'react-router-dom';
 import { FaPrint, FaSearch, FaPlus, FaChevronDown, FaChevronRight, FaFileExcel } from 'react-icons/fa';
+import { FiPackage } from 'react-icons/fi';
 import * as XLSX from 'xlsx';
 import ProductModal from '../components/ProductModal';
 import { productAPI } from '../api';
+import Swal from 'sweetalert2';
 import React from 'react';
 
 const getImageUrl = (imagePath) => {
@@ -156,14 +158,33 @@ const DataBarang = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
+    const result = await Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Anda tidak akan dapat mengembalikan barang ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Batal'
+    });
+
+    if (result.isConfirmed) {
       try {
         await productAPI.delete(id);
-        setSnackbar({ open: true, message: 'Barang berhasil dihapus!', severity: 'success' });
+        Swal.fire(
+          'Terhapus!',
+          'Barang berhasil dihapus.',
+          'success'
+        );
         fetchProducts();
       } catch (err) {
         const errorMessage = err.response?.data?.message || err.message;
-        setSnackbar({ open: true, message: errorMessage, severity: 'error' });
+        Swal.fire(
+          'Gagal!',
+          errorMessage,
+          'error'
+        );
       }
     }
   };
@@ -290,15 +311,29 @@ const DataBarang = () => {
   }
   
   return (
-    <div className="w-full mx-auto max-h-screen overflow-y-auto">
-      <div className="bg-white dark:bg-[var(--bg-default)] rounded-lg shadow-sm mb-6">
-        <div className="p-6">
-          {/* Header Section */}
+    <div className="w-full max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-800 rounded-xl p-6 mb-6 text-white shadow-lg">
+        <div className="flex items-center">
+          <div className="bg-white/20 p-3 rounded-xl mr-4">
+            <FiPackage size={24} />
+          </div>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold">Master Data Barang</h2>
+            <p className="text-blue-100 dark:text-blue-200 mt-1">
+              Kelola data barang Anda di sini
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg mb-6 border border-gray-200 dark:border-[var(--border-default)]">
+        <div className="p-6 max-h-screen overflow-y-auto">
+          {/* Controls Section */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <div className="mb-4 md:mb-0">
-              <h1 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)]">Master Data Barang</h1>
-              <div className="flex items-center mt-2">
-                <span className="text-sm text-gray-600 dark:text-[var(--text-muted)] mr-4">All Product Type</span>
+              <div className="flex items-center">
+                <span className="text-sm font-semibold text-gray-600 dark:text-[var(--text-muted)] mr-4">Product Type</span>
                 <div className="flex space-x-2">
                   <button 
                     onClick={() => setActiveTab('all')}
@@ -321,7 +356,7 @@ const DataBarang = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 mt-8 sm:mt-8">
+            <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0">
               <div className="relative flex-grow">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FaSearch className="h-4 w-4 text-gray-400" />
@@ -369,10 +404,13 @@ const DataBarang = () => {
           <div className="space-y-4">
             {paginatedProducts.length > 0 ? (
               paginatedProducts.map((product) => (
-                <div key={product.id} className="border rounded-lg overflow-hidden dark:border-[var(--border-default)]">
+                <div 
+                  key={product.id} 
+                  className={`relative border dark:border-[var(--border-default)] rounded-lg transition-all duration-300 ease-in-out hover:z-10 hover:ring-2 hover:ring-[var(--primary-color)] focus-within:z-10 focus-within:ring-2 focus-within:ring-[var(--primary-color)] ${expandedProduct === product.id ? 'rounded-b-none' : ''}`}
+                >
                   {/* Product Header */}
                   <div 
-                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)]"
+                    className="flex items-center justify-between p-4 cursor-pointer"
                     onClick={() => toggleExpandProduct(product.id)}
                   >
                     <div className="flex items-center space-x-4">
@@ -402,7 +440,7 @@ const DataBarang = () => {
                           {product.stock} in stock
                         </span>
                         {expandedProduct === product.id ? (
-                          <FaChevronDown className="ml-4 text-gray-500" />
+                          <FaChevronDown className="ml-4 text-green-500" />
                         ) : (
                           <FaChevronRight className="ml-4 text-gray-500" />
                         )}
@@ -412,7 +450,7 @@ const DataBarang = () => {
 
                   {/* Expanded Details */}
                   {expandedProduct === product.id && (
-                    <div className="border-t p-4 bg-gray-50 dark:bg-[var(--bg-secondary)]">
+                    <div className="p-4 bg-gray-50 dark:bg-[var(--bg-default)] border-t border-gray-200 dark:border-[var(--border-default)] rounded-b-lg">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                           <h4 className="text-sm font-medium text-gray-500 dark:text-[var(--text-muted)] mb-2">Product Details</h4>
@@ -433,20 +471,20 @@ const DataBarang = () => {
                           <div className="flex space-x-2">
                             <button
                               onClick={() => handleEdit(product)}
-                              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 hover:bg-blue-100 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 px-3 py-1 rounded text-sm flex items-center"
+                              className="text-blue-600 hover:text-blue-800 dark:text-blue-700 dark:hover:text-blue-300 bg-blue-50 hover:bg-blue-100 dark:bg-blue-500/10 dark:hover:bg-blue-500 px-3 py-1 rounded text-sm flex items-center"
                             >
                               Edit
                             </button>
                             <button
                               onClick={() => handleDelete(product.id)}
-                              className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 px-3 py-1 rounded text-sm flex items-center"
+                              className="text-red-600 hover:text-red-800 dark:text-red-700 dark:hover:text-red-300 bg-red-50 hover:bg-red-100 dark:bg-red-500/20 dark:hover:bg-red-500 px-3 py-1 rounded text-sm flex items-center"
                             >
                               Delete
                             </button>
                             <Link
                               to={`/print-barcode/${product.id}`}
                               target="_blank"
-                              className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 bg-green-50 hover:bg-green-100 dark:bg-green-500/10 dark:hover:bg-green-500/20 px-3 py-1 rounded text-sm flex items-center"
+                              className="text-green-600 hover:text-green-800 dark:text-green-700 dark:hover:text-green-300 bg-green-50 hover:bg-green-100 dark:bg-green-500 dark:hover:bg-green-500 px-3 py-1 rounded text-sm flex items-center"
                             >
                               <FaPrint className="mr-1" /> Barcode
                             </Link>
@@ -510,8 +548,8 @@ const DataBarang = () => {
             </PaginationButton>
           </div>
         </div>
+        </div>
       </div>
-    </div>
 
       <ProductModal
         show={showModal}

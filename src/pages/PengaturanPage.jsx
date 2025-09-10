@@ -221,7 +221,7 @@ const PengaturanPage = () => {
   
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
       {feedback.message && (
         <div className= {`fixed top-4 right-4 p-4 rounded-xl shadow-lg z-50 flex items-center ${
           feedback.type === 'success' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200'
@@ -247,7 +247,7 @@ const PengaturanPage = () => {
         </div>
       )}
 
-      <div className="bg-white dark:bg-[var(--bg-default)] rounded-2xl shadow-lg overflow-hidden mx-auto border border-gray-200 dark:border-[var(--border-default)] flex flex-col md:flex-row ">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-2xl shadow-lg overflow-hidden mx-auto border border-gray-200 dark:border-[var(--border-default)] flex flex-col md:flex-row ">
         <aside className="w-full md:w-1/4 lg:w-1/5 p-4 border-b md:border-b-0 md:border-r border-gray-200 dark:border-[var(--border-default)]">
           <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
         </aside>

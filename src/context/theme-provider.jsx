@@ -21,7 +21,7 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     const htmlElement = document.documentElement;
-    const themeClasses = ['theme-midnight', 'theme-forest']; // Add all your theme variant classes here
+    const themeClasses = ['theme-midnight', 'theme-forest', 'theme-blue-ocean']; // Add all your theme variant classes here
 
     // Apply dark mode class
     if (isDarkMode) {

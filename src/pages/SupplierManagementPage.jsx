@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { FiPlus, FiList, FiSearch, FiEdit, FiTrash2, FiUserPlus, FiX } from 'react-icons/fi';
 import { supplierAPI } from '../api'; // Pastikan path sesuai
-
+import Swal from 'sweetalert2';
 
 const SupplierManagementPage = () => {
   const { setSnackbar } = useOutletContext();
@@ -90,22 +90,33 @@ const SupplierManagementPage = () => {
   };
 
   const handleDelete = async (supplierId) => {
-    if (window.confirm('Apakah Anda yakin ingin menghapus supplier ini?')) {
+    const result = await Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Anda tidak akan dapat mengembalikan data supplier ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Batal'
+    });
+
+    if (result.isConfirmed) {
       try {
         await supplierAPI.delete(supplierId);
-        setSnackbar({ 
-          open: true, 
-          message: 'Supplier berhasil dihapus!', 
-          severity: 'success' 
-        });
+        Swal.fire(
+          'Terhapus!',
+          'Supplier berhasil dihapus.',
+          'success'
+        );
         fetchSuppliers();
       } catch (error) {
         const errorMessage = error.response?.data?.message || error.message;
-        setSnackbar({ 
-          open: true, 
-          message: errorMessage, 
-          severity: 'error' 
-        });
+        Swal.fire(
+          'Gagal!',
+          errorMessage,
+          'error'
+        );
       }
     }
   };
@@ -118,7 +129,7 @@ const SupplierManagementPage = () => {
   );
 
   return (
-    <div className="w-full p-6 bg-gray-50 dark:bg-[var(--bg-default)] rounded-xl shadow-sm">
+    <div className="w-full p-6 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm">
       <div className="max-w-7xl mx-auto h-full flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
@@ -155,7 +166,7 @@ const SupplierManagementPage = () => {
                 placeholder="Cari supplier..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm w-64 bg-white dark:bg-[var(--bg-default)] border border-gray-300 dark:border-[var(--border-default)] dark:text-[var(--text-default)]"
+                className="pl-10 pr-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm w-64 bg-white dark:bg-[var(--bg-secondary)] border border-gray-300 dark:border-[var(--border-default)] dark:text-[var(--text-default)]"
               />
               <FiSearch className="h-4 w-4 text-gray-400 dark:text-gray-500 absolute left-3 top-2.5" />
             </div>
@@ -164,7 +175,7 @@ const SupplierManagementPage = () => {
           {/* Table Container */}
           <div className="flex-1 overflow-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-              <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
+              <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
                 <tr>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Supplier</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kontak</th>
@@ -247,7 +258,7 @@ const SupplierManagementPage = () => {
       {/* Modal Tambah/Ubah Supplier */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-[var(--bg-default)] rounded-xl w-full max-w-2xl shadow-xl overflow-hidden">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl w-full max-w-2xl shadow-xl overflow-hidden">
             <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-[var(--border-default)] bg-gray-50 dark:bg-[var(--bg-secondary)]">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-[var(--text-default)]">
 

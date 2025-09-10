@@ -3,6 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import { FaPlus, FaTrash, FaMoneyBillWave, FaChartPie, FaFilter } from 'react-icons/fa';
 import { formatDate } from '../utils';
 import { expenseAPI } from '../api';
+import Swal from 'sweetalert2';
 
 const formatRupiah = (amount) => {
   const number = Number(amount);
@@ -144,15 +145,35 @@ const BebanOperasionalPage = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Apakah Anda yakin ingin menghapus data beban ini?')) return;
-    try {
-      await expenseAPI.delete(id);
-      setSnackbar({ open: true, message: 'Beban berhasil dihapus.', severity: 'success' });
-      fetchExpenses();
-      fetchTotalExpensesToday();
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message;
-      setSnackbar({ open: true, message: errorMessage, severity: 'error' });
+    const result = await Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Anda tidak akan dapat mengembalikan data beban ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Batal'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await expenseAPI.delete(id);
+        Swal.fire(
+          'Terhapus!',
+          'Beban berhasil dihapus.',
+          'success'
+        );
+        fetchExpenses();
+        fetchTotalExpensesToday();
+      } catch (error) {
+        const errorMessage = error.response?.data?.message || error.message;
+        Swal.fire(
+          'Gagal!',
+          errorMessage,
+          'error'
+        );
+      }
     }
   };
 
@@ -162,7 +183,7 @@ const BebanOperasionalPage = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-6 dark:bg-[var(--bg-default)] min-h-screen rounded-xl">
+    <div className="w-full max-w-7xl mx-auto p-6 dark:bg-[var(--bg-secondary)] min-h-screen rounded-xl">
       <div className="bg-white dark:bg-[var(--bg-secondary)] p-8 rounded-xl shadow-lg mb-8 border border-gray-200 dark:border-[var(--border-default)]">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)] mb-6 flex items-center">
           <FaMoneyBillWave className="mr-3 text-green-500 dark:text-green-400" /> Catat Beban Operasional
@@ -176,7 +197,7 @@ const BebanOperasionalPage = () => {
               id="description"
               value={form.description}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
               required
               placeholder="Contoh: Beli air galon"
             />
@@ -189,7 +210,7 @@ const BebanOperasionalPage = () => {
                 id="category"
                 value={form.category}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
               >
                 {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
               </select>
@@ -202,7 +223,7 @@ const BebanOperasionalPage = () => {
                 id="amount"
                 value={form.amount}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                 required
                 placeholder="Contoh: 50000"
               />
@@ -253,7 +274,7 @@ const BebanOperasionalPage = () => {
             </div>
 
             {showStats && (
-              <div className="mb-8 p-4 bg-gray-50 dark:bg-[var(--bg-default)] rounded-lg">
+              <div className="mb-8 p-4 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-lg">
                 <h3 className="text-lg font-semibold mb-4 dark:text-[var(--text-default)]">Statistik Beban Operasional</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -283,7 +304,7 @@ const BebanOperasionalPage = () => {
               </div>
             )}
 
-            <div className="mb-6 p-4 bg-gray-50 dark:bg-[var(--bg-default)] rounded-lg">
+            <div className="mb-6 p-4 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-lg">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div className="flex items-center">
                   <FaFilter className="mr-2 text-gray-500 dark:text-gray-400" />
@@ -297,14 +318,14 @@ const BebanOperasionalPage = () => {
                       id="dateFilter"
                       value={dateFilter}
                       onChange={(e) => setDateFilter(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     />
                   </div>
                   <div className="flex gap-2">
                     <select
                       value={categoryFilter}
                       onChange={(e) => setCategoryFilter(e.target.value)}
-                      className="flex-grow px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                      className="flex-grow px-3 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     >
                       <option value="">Semua Kategori</option>
                       {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
@@ -324,7 +345,7 @@ const BebanOperasionalPage = () => {
 
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
-                <thead className="bg-gray-100 dark:bg-[var(--bg-default)]">
+                <thead className="bg-gray-100 dark:bg-[var(--bg-secondary)]">
                   <tr>
                     <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-[var(--text-muted)]">Tanggal</th>
                     <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-[var(--text-muted)]">Keterangan</th>
@@ -374,7 +395,7 @@ const BebanOperasionalPage = () => {
                   )}
                 </tbody>
                 <tfoot>
-                  <tr className="bg-gray-200 dark:bg-[var(--bg-default)] font-bold">
+                  <tr className="bg-gray-200 dark:bg-[var(--bg-secondary)] font-bold">
                     <td colSpan="3" className="px-4 py-3 text-right text-gray-700 dark:text-[var(--text-muted)]">Total Yang Ditampilkan</td>
                     <td className="px-4 py-3 text-right text-gray-800 dark:text-[var(--text-default)]">
                       {formatRupiah(totalBeban)}

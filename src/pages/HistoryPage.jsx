@@ -145,7 +145,7 @@ const HistoryPage = () => {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto p-6 bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-sm dark:shadow-gray-700/50">
+      <div className="max-w-7xl mx-auto p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm dark:shadow-gray-700/50">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
@@ -157,7 +157,7 @@ const HistoryPage = () => {
             <button
               onClick={() => setFilter('daily')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === 'daily'
-                ? 'bg-white dark:bg-[var(--bg-default)] text-[var(--primary-color)] shadow'
+                ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow'
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
             >
               Daily
@@ -165,7 +165,7 @@ const HistoryPage = () => {
             <button
               onClick={() => setFilter('monthly')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === 'monthly'
-                ? 'bg-white dark:bg-[var(--bg-default)] text-[var(--primary-color)] shadow'
+                ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow'
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
             >
               Monthly
@@ -173,7 +173,7 @@ const HistoryPage = () => {
             <button
               onClick={() => setFilter('yearly')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === 'yearly'
-                ? 'bg-white dark:bg-[var(--bg-default)] text-[var(--primary-color)] shadow'
+                ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow'
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
             >
               Yearly
@@ -185,7 +185,7 @@ const HistoryPage = () => {
                 <select
                   value={selectedCashierId}
                   onChange={(e) => setSelectedCashierId(e.target.value)}
-                  className="appearance-none px-4 py-2 rounded-lg text-sm font-medium bg-white dark:bg-[var(--bg-default)] text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                  className="appearance-none px-4 py-2 rounded-lg text-sm font-medium bg-white dark:bg-[var(--bg-secondary)] text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">All Cashiers</option>
                   {users.map(user => (
@@ -326,7 +326,7 @@ const HistoryPage = () => {
 
           <div className="overflow-auto rounded-lg border border-gray-200 dark:border-[var(--border-default)]">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-              <thead className="bg-gray-50 dark:bg-[var(--bg-default)] sticky top-0">
+              <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)] sticky top-0">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Time</th>
@@ -435,7 +435,7 @@ const HistoryPage = () => {
                   }
                 })}
               </tbody>
-              <tfoot className="bg-gray-50 dark:bg-[var(--bg-default)] border-t-2 border-gray-200 dark:border-[var(--border-default)] sticky bottom-0">
+              <tfoot className="bg-gray-50 dark:bg-[var(--bg-secondary)] border-t-2 border-gray-200 dark:border-[var(--border-default)] sticky bottom-0">
                 <tr>
                   <td colSpan="3" className="px-4 py-3 text-sm font-medium text-right text-gray-700 dark:text-gray-200">
                     Total Penjualan Bersih:

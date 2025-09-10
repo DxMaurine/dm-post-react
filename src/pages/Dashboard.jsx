@@ -220,7 +220,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[var(--bg-default)] rounded-xl shadow-md">
+    <div className="min-h-screen bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl shadow-md">
       {/* Header */}
       <header className="bg-white dark:bg-[var(--bg-secondary)] shadow-sm rounded-xl">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -229,7 +229,7 @@ const Dashboard = () => {
             {/* License Status Badge */}
             <LicenseStatusBadge onActivationClick={() => setShowActivationModal(true)} />
             
-            <div className="text-sm bg-blue-50 dark:bg-[var(--bg-default)] dark:text-slate-100 text-blue-600 px-3 py-1 rounded-full font-medium flex items-center gap-2">
+            <div className="text-sm bg-blue-50 dark:bg-[var(--bg-secondary)] dark:text-slate-100 text-blue-600 px-3 py-1 rounded-full font-medium flex items-center gap-2">
               <span>
                 {new Date().toLocaleDateString('id-ID', { 
                   weekday: 'long', 

@@ -11,13 +11,13 @@ const POSQuickProducts = ({ products, onAddToCart }) => {
 
   return (
     <div className="mb-4">
-      <div className="flex items-center justify-between mb-2 pr-2 md:pr-4">
+      <div className="flex items-center justify-between mb-2 pr-1 md:pr-4">
         <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300">Produk Cepat</h3>
-        <div className="mr-1 md:mr-1 no-hover:text-gray-500 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-400">
+        <div className="mr-3 md:mr-1 no-hover:text-gray-500 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-400">
           <LicenseStatusBadge />
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 p-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 p-4 pl-1">
             {products.map((product) => {
               let bgColor, hoverColor, textColor, borderColor, darkBgColor, darkHoverColor, darkTextColor, darkBorderColor;
               

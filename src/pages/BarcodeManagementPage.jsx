@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { FiPlus, FiTrash2, FiPrinter, FiSearch, FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import { productAPI } from '../api'; // Import the productAPI module
+import { FiPlus, FiTrash2, FiPrinter, FiSearch, FiServer, FiPackage, FiDownload } from 'react-icons/fi';
+import { productAPI } from '../api';
 
 const BarcodeManagementPage = () => {
   const { setSnackbar } = useOutletContext();
@@ -15,7 +15,7 @@ const BarcodeManagementPage = () => {
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await productAPI.getAll(); // Use the API method
+      const response = await productAPI.getAll();
       setProducts(response.data);
     } catch (error) {
       setSnackbar({ 
@@ -35,6 +35,8 @@ const BarcodeManagementPage = () => {
   useEffect(() => {
     if (searchTerm.trim() !== '') {
       setShowProducts(true);
+    } else {
+      setShowProducts(false);
     }
   }, [searchTerm]);
 
@@ -83,19 +85,36 @@ const BarcodeManagementPage = () => {
 
   const totalLabels = printQueue.reduce((acc, item) => acc + (item.printQty || 0), 0);
 
-
-
   return (
-    <div className="w-full h-full flex flex-col p-4 md:p-6 gap-4 md:gap-6 bg-gray-50 dark:bg-[var(--layout-bg-dark)] rounded-lg shadow-sm overflow-hidden">
-      <div className="flex-shrink-0">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)]">Manajemen Cetak Barcode</h1>
-        <p className="text-gray-600 dark:text-[var(--text-muted)]">Pilih produk dan tentukan jumlah label untuk dicetak massal.</p>
+    <div className="w-full max-w-5xl mx-auto">
+      {/* Header Section */}
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-800 rounded-xl p-6 text-white shadow-lg">
+        <div className="flex items-center">
+          <div className="bg-white/20 p-3 rounded-xl mr-4">
+            <FiServer size={24} />
+          </div>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold">Manajemen Cetak Barcode</h1>
+            <p className="text-blue-100 dark:text-blue-200 mt-1">
+              Pilih produk dan tentukan jumlah label untuk dicetak massal
+            </p>
+          </div>
+        </div>
       </div>
       
-      <div className="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 overflow-hidden">
-        {/* Product List */}
-        <div className="lg:col-span-2 bg-white dark:bg-[var(--bg-secondary)] rounded-lg shadow-sm border border-gray-200 dark:border-[var(--border-default)] flex flex-col transition-all duration-300">
-          <div className="p-3 md:p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg mb-6 "></div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-grow ">
+        {/* Product List Section */}
+        <div className="lg:col-span-2 bg-white dark:bg-[var(--card-bg-dark)] rounded-xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] flex flex-col">
+          <div className="p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
+            <div className="flex items-center mb-3">
+              <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg mr-3">
+                <FiSearch className="text-blue-600 dark:text-blue-400" size={18} />
+              </div>
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">
+                Daftar Produk
+              </h2>
+            </div>
             <div className="relative">
               <FiSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 dark:text-[var(--text-muted)]" />
               <input
@@ -103,104 +122,103 @@ const BarcodeManagementPage = () => {
                 placeholder="Cari produk berdasarkan nama atau barcode..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-8 py-2 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent bg-white dark:bg-[var(--bg-default)] text-gray-800 dark:text-[var(--text-default)] transition-all"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-[var(--border-default)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent bg-white dark:bg-[var(--bg-secondary)] text-gray-800 dark:text-[var(--text-default)] transition-all"
               />
-              <button 
-                onClick={() => setShowProducts(!showProducts)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-[var(--text-muted)] hover:text-gray-700 dark:hover:text-[var(--text-default)] transition-colors"
-              >
-                {showProducts ? <FiChevronUp size={18} /> : <FiChevronDown size={18} />}
-              </button>
             </div>
           </div>
           
-          <div 
-            className={`flex-grow overflow-hidden transition-all duration-300 ${showProducts ? 'max-h-[calc(100vh-250px)]' : 'max-h-0'}`}
-          >
+          <div className={`flex-grow overflow-hidden transition-all duration-300 ${showProducts ? 'max-h-[calc(100vh-250px)]' : 'max-h-0'}`}>
             {loading ? (
-              <div className="p-4 text-center text-gray-500 dark:text-[var(--text-muted)] flex flex-col items-center justify-center h-full">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[var(--primary-color)] mb-2"></div>
-                Memuat produk...
+              <div className="p-8 text-center text-gray-500 dark:text-[var(--text-muted)] flex flex-col items-center justify-center">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[var(--primary-color)] mb-3"></div>
+                <p>Memuat produk...</p>
               </div>
             ) : (
               <div className="overflow-y-auto h-full">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-                  <thead className="bg-gray-50 dark:bg-[var(--bg-default)] sticky top-0">
-                    <tr>
-                      <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Produk</th>
-                      <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Barcode</th>
-                      <th className="px-4 md:px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Stok</th>
-                      <th className="px-4 md:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-                    {filteredProducts.length > 0 ? (
-                      filteredProducts.map(p => (
-                        <tr key={p.id} className="hover:bg-gray-50 dark:hover:bg-[var(--bg-default)] transition-colors">
-                          <td className="px-4 md:px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-gray-900 dark:text-[var(--text-default)]">{p.name}</div>
-                            <div className="text-xs text-gray-500 dark:text-[var(--text-muted)]">{p.category}</div>
-                          </td>
-                          <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500 dark:text-[var(--text-muted)]">
-                            {p.barcode || <span className="text-gray-400 dark:text-gray-500">-</span>}
-                          </td>
-                          <td className="px-4 md:px-6 py-4 whitespace-nowrap text-center">
-                            <span className={`px-2 py-1 text-xs rounded-full ${
-                              p.stock > 10 
-                                ? 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200' 
-                                : 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-200'
-                            }`}>
-                              {p.stock}
-                            </span>
-                          </td>
-                          <td className="px-4 md:px-6 py-4 whitespace-nowrap text-right">
-                            <button 
-                              onClick={() => addToQueue(p)} 
-                              className="text-white bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)] font-medium text-xs md:text-sm px-2 md:px-3 py-1 md:py-1.5 rounded-md flex items-center gap-1 transition-colors"
-                            >
-                              <FiPlus size={12} /> Tambah
-                            </button>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="4" className="px-4 md:px-6 py-4 text-center text-gray-500 dark:text-[var(--text-muted)]">
-                          {searchTerm ? 'Produk tidak ditemukan' : 'Gunakan kolom pencarian untuk menemukan produk'}
-                        </td>
-                      </tr>
+                {filteredProducts.length > 0 ? (
+                  <div className="p-4 space-y-3">
+                    {filteredProducts.map(product => (
+                      <div 
+                        key={product.id} 
+                        className="flex items-center justify-between p-4 bg-white dark:bg-[var(--bg-secondary)] rounded-lg border border-gray-200 dark:border-[var(--border-default)] hover:border-[var(--primary-color)] dark:hover:border-[var(--primary-color)] transition-all duration-200 group"
+                      >
+                        <div className="flex items-center space-x-4 flex-grow">
+                          <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
+                            <FiPackage className="text-blue-600 dark:text-blue-400" size={18} />
+                          </div>
+                          <div className="flex-grow min-w-0">
+                            <h3 className="font-semibold text-gray-800 dark:text-[var(--text-default)] truncate group-hover:text-[var(--primary-color)]">
+                              {product.name}
+                            </h3>
+                            <div className="flex items-center space-x-4 mt-1">
+                              <span className="text-sm text-gray-500 dark:text-[var(--text-muted)]">
+                                {product.category}
+                              </span>
+                              <span className="text-xs font-mono text-gray-400 dark:text-gray-500">
+                                {product.barcode || 'No barcode'}
+                              </span>
+                              <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                                product.stock > 10 
+                                  ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' 
+                                  : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'
+                              }`}>
+                                Stok: {product.stock}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <button 
+                          onClick={() => addToQueue(product)} 
+                          className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-600 dark:to-indigo-700 hover:from-blue-600 hover:to-indigo-700 text-white font-medium px-4 py-2 rounded-xl transition-all duration-300 transform hover:scale-105"
+                        >
+                          <FiPlus size={16} />
+                          <span>Tambah</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-8 text-center text-gray-500 dark:text-[var(--text-muted)]">
+                    <FiSearch className="mx-auto text-gray-300 dark:text-gray-600 mb-3" size={32} />
+                    <p>{searchTerm ? 'Produk tidak ditemukan' : 'Gunakan kolom pencarian untuk menemukan produk'}</p>
+                    {searchTerm && (
+                      <p className="text-sm mt-1">Coba dengan kata kunci yang berbeda</p>
                     )}
-                  </tbody>
-                </table>
+                  </div>
+                )}
               </div>
             )}
           </div>
         </div>
 
-        {/* Print Queue */}
-        <div className="lg:col-span-1 bg-white dark:bg-[var(--bg-secondary)] rounded-lg shadow-sm border border-gray-200 dark:border-[var(--border-default)] flex flex-col">
-          <div className="p-3 md:p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)] flex items-center gap-2">
-              <FiPrinter className="text-[var(--primary-color)]" />
-              Daftar Cetak
+        {/* Print Queue Section */}
+        <div className="bg-white dark:bg-[var(--card-bg-dark)] rounded-xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] flex flex-col">
+          <div className="p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
+            <div className="flex items-center mb-3">
+              <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg mr-3">
+                <FiPrinter className="text-purple-600 dark:text-purple-400" size={18} />
+              </div>
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">
+                Daftar Cetak
+              </h2>
               {printQueue.length > 0 && (
-                <span className="ml-auto bg-blue-100 dark:bg-blue-500/10 text-blue-800 dark:text-blue-200 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                <span className="ml-auto bg-blue-100 dark:bg-blue-500/10 text-blue-800 dark:text-blue-300 text-xs font-medium px-2.5 py-1 rounded-full">
                   {printQueue.length} item
                 </span>
               )}
-            </h2>
+            </div>
           </div>
           
-          <div className="flex-grow overflow-y-auto p-3 md:p-4 space-y-2">
+          <div className="flex-grow overflow-y-auto p-4 space-y-3">
             {printQueue.length === 0 ? (
               <div className="text-center text-gray-500 dark:text-[var(--text-muted)] py-8 flex flex-col items-center">
-                <FiPrinter className="text-gray-300 dark:text-[var(--bg-default)] mb-2" size={24} />
+                <FiPrinter className="text-gray-300 dark:text-gray-600 mb-3" size={32} />
                 <p>Daftar cetak kosong</p>
-                <p className="text-xs mt-1">Tambahkan produk dari daftar</p>
+                <p className="text-sm mt-1">Tambahkan produk dari daftar</p>
               </div>
             ) : (
               printQueue.map(item => (
-                <div key={item.id} className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-[var(--bg-default)] rounded-md border border-gray-200 dark:border-[var(--border-default)] hover:border-blue-300 dark:hover:border-[var(--primary-color)] transition-colors">
+                <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl border border-gray-200 dark:border-[var(--border-default)] hover:border-blue-300 dark:hover:border-[var(--primary-color)] transition-colors">
                   <div className="flex-grow min-w-0">
                     <p className="font-semibold text-sm text-gray-800 dark:text-[var(--text-default)] truncate">{item.name}</p>
                     <p className="text-xs text-gray-500 dark:text-[var(--text-muted)] font-mono truncate">{item.barcode || 'No barcode'}</p>
@@ -209,35 +227,37 @@ const BarcodeManagementPage = () => {
                     type="number" 
                     value={item.printQty} 
                     onChange={e => updateQuantity(item.id, e.target.value)} 
-                    className="w-14 text-center border border-gray-300 dark:border-[var(--border-default)] rounded-md py-1 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent bg-white dark:bg-[var(--bg-secondary)] text-gray-800 dark:text-[var(--text-default)] transition-all" 
+                    className="w-16 text-center border border-gray-300 dark:border-[var(--border-default)] rounded-lg py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent bg-white dark:bg-[var(--bg-default)] text-gray-800 dark:text-[var(--text-default)] transition-all" 
                     min="1" 
                   />
                   <button 
                     onClick={() => removeFromQueue(item.id)} 
-                    className="text-white bg-red-500 hover:bg-red-600 p-1 rounded-md transition-colors"
+                    className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                    title="Hapus dari daftar"
                   >
-                    <FiTrash2 size={12} />
+                    <FiTrash2 size={16} />
                   </button>
                 </div>
               ))
             )}
           </div>
           
-          <div className="p-3 md:p-4 border-t border-gray-200 dark:border-[var(--border-default)] bg-gray-50 dark:bg-[var(--bg-default)] rounded-b-lg">
-            <div className="flex justify-between items-center mb-3">
+          <div className="p-4 border-t border-gray-200 dark:border-[var(--border-default)] bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-b-xl">
+            <div className="flex justify-between items-center mb-4">
               <span className="font-semibold text-gray-700 dark:text-[var(--text-default)]">Total Label:</span>
-              <span className="font-bold text-lg text-[var(--primary-color)]">{totalLabels}</span>
+              <span className="font-bold text-xl text-[var(--primary-color)]">{totalLabels}</span>
             </div>
             <button 
               onClick={handleGeneratePrintPage} 
               disabled={printQueue.length === 0}
-              className={`w-full py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all ${
+              className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 ${
                 printQueue.length > 0 
-                  ? 'bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)] text-white font-semibold shadow-md' 
+                  ? 'bg-gradient-to-r from-purple-600 to-indigo-700 dark:from-purple-700 dark:to-indigo-800 hover:from-purple-700 hover:to-indigo-800 text-white font-semibold shadow-md' 
                   : 'bg-gray-200 dark:bg-[var(--bg-secondary)] text-gray-500 dark:text-[var(--text-muted)] cursor-not-allowed'
               }`}
             >
-              <FiPrinter size={16} /> Buat Halaman Cetak
+              <FiDownload size={18} />
+              <span>Buat Halaman Cetak</span>
             </button>
           </div>
         </div>

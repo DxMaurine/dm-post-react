@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { discountAPI } from '../api'; // Import the API service
+import Swal from 'sweetalert2';
 import React from 'react';
 
 const formatRupiah = (amount) => {
@@ -102,20 +103,39 @@ const DiscountManagementPage = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Apakah Anda yakin ingin menghapus diskon ini?')) return;
+    const result = await Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Anda tidak akan dapat mengembalikan diskon ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Batal'
+    });
 
-    setLoading(true);
-    setError(null);
-    try {
-      await discountAPI.delete(id);
-      setSnackbar({ open: true, message: 'Diskon berhasil dihapus!', severity: 'success' });
-      fetchDiscounts();
-    } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Gagal menghapus diskon';
-      setError(errorMessage);
-      setSnackbar({ open: true, message: errorMessage, severity: 'error' });
-    } finally {
-      setLoading(false);
+    if (result.isConfirmed) {
+      setLoading(true);
+      setError(null);
+      try {
+        await discountAPI.delete(id);
+        Swal.fire(
+          'Terhapus!',
+          'Diskon berhasil dihapus.',
+          'success'
+        );
+        fetchDiscounts();
+      } catch (err) {
+        const errorMessage = err.response?.data?.message || err.message || 'Gagal menghapus diskon';
+        setError(errorMessage);
+        Swal.fire(
+          'Gagal!',
+          errorMessage,
+          'error'
+        );
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -141,8 +161,8 @@ const DiscountManagementPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-start min-h-screen p-6">
-      <div className="w-full max-w-5xl p-6 bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-lg overflow-hidden">
+    <div className="max-w-7xl mx-auto h-full flex flex-col">
+      <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg overflow-hidden">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h2 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)]">Manajemen Diskon & Promo</h2>
@@ -177,7 +197,7 @@ const DiscountManagementPage = () => {
               name="code"
               value={editingDiscount ? editingDiscount.code : newDiscount.code}
               onChange={editingDiscount ? handleEditChange : handleChange}
-              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
               required
             />
           </div>
@@ -187,7 +207,7 @@ const DiscountManagementPage = () => {
               name="type"
               value={editingDiscount ? editingDiscount.type : newDiscount.type}
               onChange={editingDiscount ? handleEditChange : handleChange}
-              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
               required
             >
               <option value="percentage">Persentase (%)</option>
@@ -203,7 +223,7 @@ const DiscountManagementPage = () => {
               name="value"
               value={editingDiscount ? editingDiscount.value : newDiscount.value}
               onChange={editingDiscount ? handleEditChange : handleChange}
-              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
               step={editingDiscount?.type === 'percentage' || newDiscount.type === 'percentage' ? "0.01" : "1"}
               required
             />
@@ -214,7 +234,7 @@ const DiscountManagementPage = () => {
               name="customer_type"
               value={editingDiscount ? editingDiscount.customer_type : newDiscount.customer_type}
               onChange={editingDiscount ? handleEditChange : handleChange}
-              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
             >
               <option value="">Semua Pelanggan</option>
               <option value="Umum">Umum</option>
@@ -229,7 +249,7 @@ const DiscountManagementPage = () => {
               name="start_date"
               value={editingDiscount ? editingDiscount.start_date : newDiscount.start_date}
               onChange={editingDiscount ? handleEditChange : handleChange}
-              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
             />
           </div>
           <div>
@@ -239,7 +259,7 @@ const DiscountManagementPage = () => {
               name="end_date"
               value={editingDiscount ? editingDiscount.end_date : newDiscount.end_date}
               onChange={editingDiscount ? handleEditChange : handleChange}
-              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+              className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] outline-none transition-all duration-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
             />
           </div>
           <div className="flex items-center">
@@ -282,7 +302,7 @@ const DiscountManagementPage = () => {
       {/* Discounts Table */}
       <div className="overflow-x-auto rounded-xl overflow-hidden shadow-sm border border-gray-100 dark:border-[var(--border-default)]">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-          <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
+          <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider rounded-tl-xl">Kode</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Tipe</th>
@@ -305,7 +325,7 @@ const DiscountManagementPage = () => {
               </tr>
             ) : discounts.length > 0 ? (
               discounts.map((discount, index) => (
-                <tr key={discount.id} className={index % 2 === 0 ? 'bg-white dark:bg-[var(--bg-secondary)]' : 'bg-gray-50 dark:bg-[var(--bg-default)]'}>
+                <tr key={discount.id} className={index % 2 === 0 ? 'bg-white dark:bg-[var(--bg-secondary)]' : 'bg-gray-50 dark:bg-[var(--bg-secondary)]'}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-[var(--text-default)]">
                     <span className="font-mono bg-blue-100/50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-md">{discount.code}</span>
                   </td>

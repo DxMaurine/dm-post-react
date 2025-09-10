@@ -26,6 +26,9 @@ const LicenseStatusBadge = ({ onActivationClick = null }) => {
   const [loading, setLoading] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   
+  // App version from package.json
+  const appVersion = "1.5.22";
+  
   useEffect(() => {
     fetchLicenseStatus();
     
@@ -78,7 +81,7 @@ const LicenseStatusBadge = ({ onActivationClick = null }) => {
         text: 'Loading...', 
         color: 'default',
         severity: 'info',
-        tooltip: 'Memuat status lisensi...'
+        tooltip: `Memuat status lisensi... | Versi: ${appVersion}`
       };
     }
 
@@ -88,7 +91,7 @@ const LicenseStatusBadge = ({ onActivationClick = null }) => {
         text: 'Error', 
         color: 'error',
         severity: 'error',
-        tooltip: 'Gagal memuat status lisensi'
+        tooltip: `Gagal memuat status lisensi | Versi: ${appVersion}`
       };
     }
     
@@ -99,7 +102,8 @@ const LicenseStatusBadge = ({ onActivationClick = null }) => {
           text: 'Teraktivasi',
           color: 'success',
           severity: 'success',
-          tooltip: `SN: ****${status.serialNumber?.slice(-4) || 'Unknown'} | Transaksi: Unlimited`
+          tooltip: `SN: ****${status.serialNumber?.slice(-4) || 'Unknown'} | Transaksi: Unlimited | Versi: ${appVersion}`
+          
         };
       
       case 'trial':{
@@ -123,7 +127,7 @@ const LicenseStatusBadge = ({ onActivationClick = null }) => {
           text: `Trial: ${remaining}`,
           color: trialColor,
           severity: trialSeverity,
-          tooltip: `${remaining} transaksi tersisa dari 99 trial. Klik untuk aktivasi.`
+          tooltip: `${remaining} transaksi tersisa dari 99 trial. Klik untuk aktivasi. | Versi: ${appVersion}`
         };
       };
       case 'temporary':
@@ -132,7 +136,7 @@ const LicenseStatusBadge = ({ onActivationClick = null }) => {
           text: 'Lisensi Sementara',
           color: 'info',
           severity: 'info',
-          tooltip: 'Aktivasi sementara - akan diverifikasi saat online'
+          tooltip: `Aktivasi sementara - akan diverifikasi saat online | Versi: ${appVersion}`
         };
       
       default:
@@ -141,7 +145,7 @@ const LicenseStatusBadge = ({ onActivationClick = null }) => {
           text: 'Status Tidak Dikenal',
           color: 'default',
           severity: 'warning',
-          tooltip: 'Status lisensi tidak dapat ditentukan'
+          tooltip: `Status lisensi tidak dapat ditentukan | Versi: ${appVersion}`
         };
     }
   };
@@ -254,6 +258,7 @@ const LicenseStatusBadge = ({ onActivationClick = null }) => {
         <Box sx={{ p: 2, maxWidth: 250 }}>
           <Typography variant="caption" sx={{ color: 'var(--text-muted)' }}>
             <strong style={{ color: 'var(--text-default)' }}>Status:</strong> {status?.status || 'Unknown'}<br/>
+            <strong style={{ color: 'var(--text-default)' }}>Versi Aplikasi:</strong> {appVersion}<br/>
             <strong style={{ color: 'var(--text-default)' }}>Total Transaksi:</strong> {status?.status === 'activated' ? 'Unlimited' : (status?.totalTransactions || 0)}<br/>
             {status?.activationDate && (
               <>

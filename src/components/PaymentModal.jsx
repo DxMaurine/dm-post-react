@@ -184,7 +184,7 @@ const PaymentModal = ({ show, onClose, cartItems, totalBelanja, onSubmit, onErro
                     <th className="px-3 py-2 text-right text-gray-700 dark:text-gray-200 font-medium">Subtotal</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="bg-white dark:bg-[var(--bg-default)] divide-y divide-gray-200 dark:divide-gray-700">
                   {cartItems.map(item => (
                     <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                       <td className="px-3 py-1.5 truncate max-w-[120px] text-gray-800 dark:text-gray-200">{item.name}</td>
@@ -222,7 +222,7 @@ const PaymentModal = ({ show, onClose, cartItems, totalBelanja, onSubmit, onErro
                 <div>
                   <label className="block mb-1 text-xs font-medium text-gray-600 dark:text-gray-300">Tipe Pelanggan</label>
                   <select
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition-all bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition-all bg-white dark:bg-[var(--bg-default)] text-gray-800 dark:text-gray-200"
                     value={customerType}
                     onChange={handleCustomerTypeChange}
                   >
@@ -248,7 +248,7 @@ const PaymentModal = ({ show, onClose, cartItems, totalBelanja, onSubmit, onErro
                   <div className="flex gap-2">
                     <input
                       type="text"
-                      className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition-all bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition-all bg-white dark:bg-[var(--bg-default)] text-gray-800 dark:text-gray-200"
                       placeholder="Masukkan kode diskon"
                       value={discountCode}
                       onChange={handleDiscountCodeChange}
@@ -331,7 +331,7 @@ const PaymentModal = ({ show, onClose, cartItems, totalBelanja, onSubmit, onErro
                         ref={inputPayRef}
                         type="text"
                         inputMode="decimal"
-                        className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition-all text-right font-semibold text-base bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                        className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition-all text-right font-semibold text-base bg-white dark:bg-[var(--bg-default)] text-gray-800 dark:text-gray-200"
                         placeholder="Masukkan nominal pembayaran"
                         value={paymentAmount.replace(/\D/g,"") ? parseInt(paymentAmount.replace(/\D/g,"")).toLocaleString('id-ID') : ""}
                         onChange={handlePaymentChange}
@@ -398,7 +398,7 @@ const PaymentModal = ({ show, onClose, cartItems, totalBelanja, onSubmit, onErro
             {/* Modal Daftar Diskon */}
             {showDiscountList && (
               <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/30">
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 w-full max-w-xl mx-4 relative">
+                <div className="bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-lg p-4 w-full max-w-xl mx-4 relative">
                   <button
                     className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-lg font-bold transition-colors"
                     onClick={handleCloseDiscountList}
@@ -410,9 +410,9 @@ const PaymentModal = ({ show, onClose, cartItems, totalBelanja, onSubmit, onErro
                     {discountList.length === 0 ? (
                       <p className="text-gray-500 dark:text-gray-400 text-sm">Tidak ada diskon tersedia.</p>
                     ) : (
-                      <table className="w-full text-xs border border-gray-200 dark:border-gray-700">
+                      <table className="w-full text-xs border border-gray-200 dark:border-gray-700 dark:bg-[var(--bg-secondary)]">
                         <thead>
-                          <tr className="bg-blue-50 dark:bg-blue-900">
+                          <tr className="bg-blue-50 dark:bg-[var(--bg-default)]">
                             <th className="px-2 py-1 text-left text-gray-700 dark:text-gray-200">Kode</th>
                             <th className="px-2 py-1 text-left text-gray-700 dark:text-gray-200">Tipe</th>
                             <th className="px-2 py-1 text-right text-gray-700 dark:text-gray-200">Nilai</th>

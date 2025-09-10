@@ -82,7 +82,7 @@ const LaporanLabaRugi = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-default)] mx-auto rounded-xl shadow-sm dark:shadow-gray-800">
+    <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-secondary)] mx-auto rounded-xl shadow-sm dark:shadow-gray-800">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
@@ -93,7 +93,7 @@ const LaporanLabaRugi = () => {
           <button 
             onClick={() => setMode('daily')} 
             className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${mode === 'daily' 
-              ? 'bg-white dark:bg-[var(--bg-default)] text-[var(--primary-color)] shadow' 
+              ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow' 
               : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
           >
             Harian
@@ -101,7 +101,7 @@ const LaporanLabaRugi = () => {
           <button 
             onClick={() => setMode('monthly')} 
             className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${mode === 'monthly' 
-              ? 'bg-white dark:bg-[var(--bg-default)] text-[var(--primary-color)] shadow' 
+              ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow' 
               : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
           >
             Bulanan
@@ -109,7 +109,7 @@ const LaporanLabaRugi = () => {
           <button 
             onClick={() => setMode('yearly')} 
             className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${mode === 'yearly' 
-              ? 'bg-white dark:bg-[var(--bg-default)] text-[var(--primary-color)] shadow' 
+              ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow' 
               : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
           >
             Tahunan
@@ -226,7 +226,7 @@ const LaporanLabaRugi = () => {
         {data.length > 0 ? (
           <div className="overflow-auto rounded-lg border border-gray-200 dark:border-gray-700">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-[var(--bg-default)] sticky top-0">
+              <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)] sticky top-0">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Periode</th>
                   <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Penjualan</th>
@@ -252,7 +252,7 @@ const LaporanLabaRugi = () => {
                   </tr>
                 ))}
               </tbody>
-              <tfoot className="bg-gray-50 dark:bg-[var(--bg-default)] sticky bottom-0">
+              <tfoot className="bg-gray-50 dark:bg-[var(--bg-secondary)] sticky bottom-0">
                 <tr>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Total</th>
                   <th className="px-4 py-3 text-right text-sm font-bold text-gray-900 dark:text-white">

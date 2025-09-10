@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { customerAPI } from '../api'; // Pastikan path sesuai
+import Swal from 'sweetalert2';
 import React from 'react';
 
 const CustomerManagementPage = () => {
@@ -99,22 +100,33 @@ const CustomerManagementPage = () => {
   };
 
   const handleDelete = async (customerId) => {
-    if (window.confirm('Apakah Anda yakin ingin menghapus pelanggan ini?')) {
+    const result = await Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Anda tidak akan dapat mengembalikan data pelanggan ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Batal'
+    });
+
+    if (result.isConfirmed) {
       try {
         await customerAPI.delete(customerId);
-        setSnackbar({ 
-          open: true, 
-          message: 'Pelanggan berhasil dihapus!', 
-          severity: 'success' 
-        });
+        Swal.fire(
+          'Terhapus!',
+          'Pelanggan berhasil dihapus.',
+          'success'
+        );
         fetchCustomers();
       } catch (error) {
         const errorMessage = error.response?.data?.message || error.message;
-        setSnackbar({ 
-          open: true, 
-          message: errorMessage, 
-          severity: 'error' 
-        });
+        Swal.fire(
+          'Gagal!',
+          errorMessage,
+          'error'
+        );
       }
     }
   };
@@ -145,13 +157,13 @@ const CustomerManagementPage = () => {
   };
 
   return (
-    <div className="w-full  p-6 bg-gray-50 dark:bg-[var(--bg-default)] rounded-xl">
+    <div className="w-full  p-6 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl">
       <div className="max-w-7xl mx-auto h-full flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)]">Customer Management</h1>
-            <p className="text-gray-500 dark:text-[var(--text-muted)]">Manage and organize your customer data</p>
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)]">Manajemen Pelanggan</h1>
+            <p className="text-gray-500 dark:text-[var(--text-muted)]">Kelola dan atur data pelanggan Anda</p>
           </div>
           <button 
             onClick={() => handleOpenModal()} 
@@ -178,7 +190,7 @@ const CustomerManagementPage = () => {
               <input
                 type="text"
                 placeholder="Cari customers..."
-                className="pl-10 pr-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm w-64 bg-white dark:bg-[var(--bg-default)] border border-gray-300 dark:border-[var(--border-default)] dark:text-[var(--text-default)]"
+                className="pl-10 pr-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm w-64 bg-white dark:bg-[var(--bg-secondary)] border border-gray-300 dark:border-[var(--border-default)] dark:text-[var(--text-default)]"
               />
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 dark:text-gray-500 absolute left-3 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -189,7 +201,7 @@ const CustomerManagementPage = () => {
           {/* Table Container */}
           <div className="flex-1 overflow-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-              <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
+              <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
                 <tr>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Customer</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Contact</th>
@@ -281,7 +293,7 @@ const CustomerManagementPage = () => {
           {/* Pagination */}
           <div className="px-6 py-3 border-t border-gray-200 dark:border-[var(--border-default)] bg-gray-50 dark:bg-[var(--bg-secondary)] flex items-center justify-between">
             <div className="flex-1 flex justify-between items-center">
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-[var(--border-default)] text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-[var(--bg-default)] hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-[var(--border-default)] text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-[var(--bg-secondary)] hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                 Previous
               </button>
               <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-center">
@@ -299,7 +311,7 @@ const CustomerManagementPage = () => {
                   </nav>
                 </div>
               </div>
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-[var(--border-default)] text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-[var(--bg-default)] hover:bg-gray-50 dark:hover:bg-gray-700">
+              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-[var(--border-default)] text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-[var(--bg-secondary)] hover:bg-gray-50 dark:hover:bg-gray-700">
                 Next
               </button>
             </div>
@@ -333,7 +345,7 @@ const CustomerManagementPage = () => {
                     name="name" 
                     value={formData.name} 
                     onChange={handleChange} 
-                    className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] outline-none transition-colors duration-200 bg-white dark:bg-[var(--bg-default)] text-gray-900 dark:text-[var(--text-default)]" 
+                    className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] outline-none transition-colors duration-200 bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)]" 
                     required 
                   />
                 </div>
@@ -344,7 +356,7 @@ const CustomerManagementPage = () => {
                     name="email" 
                     value={formData.email} 
                     onChange={handleChange} 
-                    className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] outline-none transition-colors duration-200 bg-white dark:bg-[var(--bg-default)] text-gray-900 dark:text-[var(--text-default)]" 
+                    className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] outline-none transition-colors duration-200 bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)]" 
                   />
                 </div>
                 <div>
@@ -354,7 +366,7 @@ const CustomerManagementPage = () => {
                     name="phone" 
                     value={formData.phone} 
                     onChange={handleChange} 
-                    className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] outline-none transition-colors duration-200 bg-white dark:bg-[var(--bg-default)] text-gray-900 dark:text-[var(--text-default)]" 
+                    className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] outline-none transition-colors duration-200 bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)]" 
                   />
                 </div>
                 <div>
@@ -363,21 +375,21 @@ const CustomerManagementPage = () => {
                     <button
                       type="button"
                       onClick={() => setFormData({...formData, customer_type: 'Umum'})}
-                      className={`py-2 px-3 rounded-lg border transition-colors text-sm ${formData.customer_type === 'Umum' ? 'bg-emerald-100 dark:bg-emerald-900/30 border-emerald-500 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300 font-medium' : 'bg-white dark:bg-[var(--bg-default)] border-gray-300 dark:border-[var(--border-default)] text-gray-700 dark:text-[var(--text-muted)] hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)]'}`}
+                      className={`py-2 px-3 rounded-lg border transition-colors text-sm ${formData.customer_type === 'Umum' ? 'bg-emerald-100 dark:bg-emerald-900/30 border-emerald-500 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300 font-medium' : 'bg-white dark:bg-[var(--bg-secondary)] border-gray-300 dark:border-[var(--border-default)] text-gray-700 dark:text-[var(--text-muted)] hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)]'}`}
                     >
                       Umum
                     </button>
                     <button
                       type="button"
                       onClick={() => setFormData({...formData, customer_type: 'Member'})}
-                      className={`py-2 px-3 rounded-lg border transition-colors text-sm ${formData.customer_type === 'Member' ? 'bg-indigo-100 dark:bg-indigo-900/30 border-indigo-500 dark:border-indigo-700 text-indigo-800 dark:text-indigo-300 font-medium' : 'bg-white dark:bg-[var(--bg-default)] border-gray-300 dark:border-[var(--border-default)] text-gray-700 dark:text-[var(--text-muted)] hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)]'}`}
+                      className={`py-2 px-3 rounded-lg border transition-colors text-sm ${formData.customer_type === 'Member' ? 'bg-indigo-100 dark:bg-indigo-900/30 border-indigo-500 dark:border-indigo-700 text-indigo-800 dark:text-indigo-300 font-medium' : 'bg-white dark:bg-[var(--bg-secondary)] border-gray-300 dark:border-[var(--border-default)] text-gray-700 dark:text-[var(--text-muted)] hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)]'}`}
                     >
                       Member
                     </button>
                     <button
                       type="button"
                       onClick={() => setFormData({...formData, customer_type: 'VIP'})}
-                      className={`py-2 px-3 rounded-lg border transition-colors text-sm ${formData.customer_type === 'VIP' ? 'bg-amber-100 dark:bg-amber-900/30 border-amber-500 dark:border-amber-700 text-amber-800 dark:text-amber-300 font-medium' : 'bg-white dark:bg-[var(--bg-default)] border-gray-300 dark:border-[var(--border-default)] text-gray-700 dark:text-[var(--text-muted)] hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)]'}`}
+                      className={`py-2 px-3 rounded-lg border transition-colors text-sm ${formData.customer_type === 'VIP' ? 'bg-amber-100 dark:bg-amber-900/30 border-amber-500 dark:border-amber-700 text-amber-800 dark:text-amber-300 font-medium' : 'bg-white dark:bg-[var(--bg-secondary)] border-gray-300 dark:border-[var(--border-default)] text-gray-700 dark:text-[var(--text-muted)] hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)]'}`}
                     >
                       VIP
                     </button>
@@ -389,7 +401,7 @@ const CustomerManagementPage = () => {
                     name="address" 
                     value={formData.address} 
                     onChange={handleChange} 
-                    className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] outline-none transition-colors duration-200 bg-white dark:bg-[var(--bg-default)] text-gray-900 dark:text-[var(--text-default)]" 
+                    className="w-full border border-gray-300 dark:border-[var(--border-default)] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[var(--primary-color)] outline-none transition-colors duration-200 bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)]" 
                     rows="3"
                   ></textarea>
                 </div>

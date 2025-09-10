@@ -349,7 +349,7 @@ const ReturPembelianPage = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[var(--layout-bg-dark)] rounded-xl p-4 md:p-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         
         <PurchaseReturnList returns={returns} onUpdateStatus={handleUpdateStatus} onDelete={handleDelete} />
@@ -376,7 +376,7 @@ const ReturPembelianPage = () => {
                     name="returnNumber"
                     value={formData.returnNumber}
                     onChange={handleInputChange}
-                    className="w-full p-2.5 pl-10 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                    className="w-full p-2.5 pl-10 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     required
                   />
                   <span className="absolute left-3 top-3 text-gray-400 dark:text-[var(--text-muted)]">#</span>
@@ -391,7 +391,7 @@ const ReturPembelianPage = () => {
                     name="returnDate"
                     value={formData.returnDate}
                     onChange={handleInputChange}
-                    className="w-full p-2.5 pl-10 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                    className="w-full p-2.5 pl-10 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     required
                   />
                   <FiCalendar className="absolute left-3 top-3.5 text-gray-400 dark:text-[var(--text-muted)]" />
@@ -406,7 +406,7 @@ const ReturPembelianPage = () => {
                   value={formData.invoiceNumber}
                   onChange={handleInputChange}
                   placeholder="Masukkan nomor faktur"
-                  className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                  className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                   required
                 />
               </div>
@@ -420,7 +420,7 @@ const ReturPembelianPage = () => {
                   value={formData.invoiceDate}
                   onChange={handleInputChange}
                   required
-                  className="w-full p-2.5 pl-10 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                  className="w-full p-2.5 pl-10 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                   />
                   <FiCalendar className="absolute left-3 top-3.5 text-gray-400 dark:text-[var(--text-muted)]" />
                 </div>
@@ -434,7 +434,7 @@ const ReturPembelianPage = () => {
                   value={formData.supplierName}
                   onChange={handleInputChange}
                   placeholder="Cari atau masukkan nama supplier"
-                  className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                  className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                   required
                 />
               </div>
@@ -446,7 +446,7 @@ const ReturPembelianPage = () => {
                   name="supplierCode"
                   value={formData.supplierCode}
                   onChange={handleInputChange}
-                  className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                  className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                 />
               </div>
             </div>
@@ -461,7 +461,7 @@ const ReturPembelianPage = () => {
 
             <div className="overflow-x-auto overflow-y-visible">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-                <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
+                <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
                   <tr>
                     <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Kode Barang</th>
                     <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Nama Barang</th>
@@ -483,7 +483,7 @@ const ReturPembelianPage = () => {
                           value={item.productCode}
                           onChange={(e) => handleProductCodeChange(index, e.target.value)}
                           onBlur={() => handleProductBlur(index)}
-                          className="w-full p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                          className="w-full p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                         />
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap relative">
@@ -493,7 +493,7 @@ const ReturPembelianPage = () => {
                           value={item.productName}
                           onChange={(e) => handleProductNameChange(index, e.target.value)}
                           onBlur={() => handleProductBlur(index)}
-                          className="w-full p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                          className="w-full p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                           placeholder={productsLoading ? 'Memuat produk...' : 'Ketik nama produk'}
                         />
                         {/* Saran dipindah ke overlay */}
@@ -506,7 +506,7 @@ const ReturPembelianPage = () => {
                           value={item.quantity}
                           onChange={(e) => handleItemChange(index, e)}
                           min="1"
-                          className="w-20 p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                          className="w-20 p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                         />
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
@@ -514,7 +514,7 @@ const ReturPembelianPage = () => {
                           name="unit"
                           value={item.unit}
                           onChange={(e) => handleItemChange(index, e)}
-                          className="w-20 p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)] appearance-none "
+                          className="w-20 p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)] appearance-none "
                         >
                           <option value="pcs">pcs</option>
                           <option value="kg">kg</option>
@@ -531,7 +531,7 @@ const ReturPembelianPage = () => {
                             name="price"
                             value={item.price === '' ? '' : formatRupiah(item.price)}
                             onChange={(e) => handlePriceChange(index, e.target.value)}
-                            className="w-28 p-2 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                            className="w-28 p-2 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                           />
                         </div>
                       </td>
@@ -544,7 +544,7 @@ const ReturPembelianPage = () => {
                           name="reason"
                           value={item.reason}
                           onChange={(e) => handleItemChange(index, e)}
-                          className="w-full p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                          className="w-full p-2 border border-gray-300 dark:border-[var(--border-default)] rounded focus:ring-1 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                         />
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-right">
@@ -584,7 +584,7 @@ const ReturPembelianPage = () => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-default)] mb-1">Subtotal</label>
                   <div className="relative">
-                    <div className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg bg-gray-50 dark:bg-[var(--bg-default)] text-gray-900 dark:text-[var(--text-default)]">
+                    <div className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg bg-gray-50 dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)]">
                       <span className="absolute left-2 top-2.5 text-gray-500 dark:text-[var(--text-muted)]">Rp</span>
                       <span className="font-medium">{formatRupiah(formData.subtotal)}</span>
                     </div>
@@ -600,7 +600,7 @@ const ReturPembelianPage = () => {
                       name="discount"
                       value={formData.discount}
                       onChange={handleInputChange}
-                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     />
                   </div>
                 </div>
@@ -616,7 +616,7 @@ const ReturPembelianPage = () => {
                       name="tax"
                       value={formData.tax}
                       onChange={handleInputChange}
-                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     />
                   </div>
                 </div>
@@ -628,7 +628,7 @@ const ReturPembelianPage = () => {
                       name="returnMethod"
                       value={formData.returnMethod}
                       onChange={handleInputChange}
-                      className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] appearance-none dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                      className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] appearance-none dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     >
                       <option value="refund">Pengembalian Dana</option>
                       <option value="replace">Penggantian Barang</option>
@@ -662,7 +662,7 @@ const ReturPembelianPage = () => {
                         value={formData.refundRef}
                         onChange={handleInputChange}
                         placeholder="Nomor referensi"
-                        className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                        className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                       />
                     </div>
                   </div>
@@ -690,7 +690,7 @@ const ReturPembelianPage = () => {
                       value={formData.approvedBy}
                       onChange={handleInputChange}
                       placeholder="Nama penanggung jawab"
-                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     />
                   </div>
                 </div>
@@ -705,7 +705,7 @@ const ReturPembelianPage = () => {
                       value={formData.supplierRep}
                       onChange={handleInputChange}
                       placeholder="Nama perwakilan supplier"
-                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     />
                   </div>
                 </div>
@@ -718,7 +718,7 @@ const ReturPembelianPage = () => {
                     name="status"
                     value={formData.status}
                     onChange={handleInputChange}
-                    className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                    className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                   >
                     <option value="processed">Diproses</option>
                     <option value="completed">Selesai</option>
@@ -736,7 +736,7 @@ const ReturPembelianPage = () => {
                       value={formData.shippingInfo}
                       onChange={handleInputChange}
                       placeholder="No. resi, kurir, dll."
-                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                      className="w-full p-2.5 pl-8 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                     />
                   </div>
                 </div>
@@ -750,7 +750,7 @@ const ReturPembelianPage = () => {
                 value={formData.notes}
                 onChange={handleInputChange}
                 rows="3"
-                className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-default)] dark:text-[var(--text-default)]"
+                className="w-full p-2.5 border border-gray-300 dark:border-[var(--border-default)] rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)]"
                 placeholder="Syarat khusus, ketentuan retur, atau informasi tambahan lainnya..."
               ></textarea>
             </div>
@@ -821,12 +821,12 @@ const ReturPembelianPage = () => {
             <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-lg shadow-xl p-5 w-full max-w-md">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)] mb-3">Tambah Produk Baru</h3>
               <div className="grid grid-cols-1 gap-3">
-                <input name="name" value={newProduct.name} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Nama produk" />
-                <input name="barcode" value={newProduct.barcode} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Barcode/SKU (opsional)" />
-                <input name="harga_beli" value={newProduct.harga_beli} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Harga Beli" type="number" />
-                <input name="price" value={newProduct.price} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Harga Jual (opsional)" type="number" />
-                <input name="stock" value={newProduct.stock} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Stok awal" type="number" />
-                <select name="unit" value={newProduct.unit} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]">
+                <input name="name" value={newProduct.name} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-secondary)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Nama produk" />
+                <input name="barcode" value={newProduct.barcode} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-secondary)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Barcode/SKU (opsional)" />
+                <input name="harga_beli" value={newProduct.harga_beli} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-secondary)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Harga Beli" type="number" />
+                <input name="price" value={newProduct.price} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-secondary)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Harga Jual (opsional)" type="number" />
+                <input name="stock" value={newProduct.stock} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-secondary)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]" placeholder="Stok awal" type="number" />
+                <select name="unit" value={newProduct.unit} onChange={handleNewProductChange} className="p-2 border rounded dark:bg-[var(--bg-secondary)] dark:border-[var(--border-default)] dark:text-[var(--text-default)]">
                   <option value="pcs">pcs</option>
                   <option value="kg">kg</option>
                   <option value="m">m</option>

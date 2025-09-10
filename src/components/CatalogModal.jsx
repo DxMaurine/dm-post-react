@@ -49,7 +49,7 @@ useEffect(() => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm p-4">
-      <div className="bg-white dark:bg-[var(--sidebar-bg-dark)] rounded-xl shadow-xl w-full max-w-4xl h-[90vh] flex flex-col overflow-hidden">
+      <div className="bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-xl w-full max-w-4xl h-[90vh] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b border-gray-200">
           <div className="flex items-center">

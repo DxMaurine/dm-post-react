@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { userAPI } from '../api'; // Pastikan path sesuai struktur project
 import { getCurrentUser } from '../utils'; // Import fungsi untuk mendapatkan user saat ini
+import Swal from 'sweetalert2';
 import React from 'react';
 
 const ManajemenPengguna = () => {
@@ -121,22 +122,33 @@ const ManajemenPengguna = () => {
       return;
     }
     
-    if (window.confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
+    const result = await Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Anda tidak akan dapat mengembalikan data pengguna ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Batal'
+    });
+
+    if (result.isConfirmed) {
       try {
         await userAPI.delete(userId);
-        setSnackbar({ 
-          open: true, 
-          message: 'Pengguna berhasil dihapus!', 
-          severity: 'success' 
-        });
+        Swal.fire(
+          'Terhapus!',
+          'Pengguna berhasil dihapus.',
+          'success'
+        );
         fetchUsers();
       } catch (error) {
         const errorMessage = error.response?.data?.message || error.message;
-        setSnackbar({ 
-          open: true, 
-          message: errorMessage, 
-          severity: 'error' 
-        });
+        Swal.fire(
+          'Gagal!',
+          errorMessage,
+          'error'
+        );
       }
     }
   };
@@ -157,8 +169,8 @@ const ManajemenPengguna = () => {
   };
 
   return (
-    <div className="flex justify-center items-start min-h-screen p-6">
-      <div className="w-full max-w-6xl bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-lg p-6">
+    <div className="max-w-7xl mx-auto h-full flex flex-col">
+      <div className="w-full max-w-7xl bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6">
         <div className="flex justify-between items-center mb-8">
           <div>
             <h2 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)]">Manajemen Pengguna</h2>
@@ -218,7 +230,7 @@ const ManajemenPengguna = () => {
               </tr>
             ) : (
               users.map((user, index) => (
-                <tr key={user.id} className={index % 2 === 0 ? 'bg-white dark:bg-[var(--bg-secondary)]'   : 'bg-gray-50 dark:bg-[var(--bg-default)]'}>
+                <tr key={user.id} className={index % 2 === 0 ? 'bg-white dark:bg-[var(--bg-secondary)]'   : 'bg-gray-50 dark:bg-[var(--bg-secondary)]'}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-[var(--text-default)]">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-300 font-bold">
@@ -273,7 +285,7 @@ const ManajemenPengguna = () => {
       {/* Modal Tambah/Ubah Pengguna */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-[var(--bg-default)] rounded-2xl shadow-2xl p-6 w-full max-w-md transform transition-all duration-300 scale-95 hover:scale-100">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-2xl shadow-2xl p-6 w-full max-w-md transform transition-all duration-300 scale-95 hover:scale-100">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-gray-800 dark:text-[var(--text-default)]">{currentUser ? 'Ubah Pengguna' : 'Tambah Pengguna Baru'}</h3>
               <button 

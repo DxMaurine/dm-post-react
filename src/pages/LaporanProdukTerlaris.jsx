@@ -49,7 +49,7 @@ const LaporanProdukTerlaris = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-6 bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-lg">
+    <div className="w-full max-w-7xl mx-auto p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h2 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)]">Laporan Produk Terlaris</h2>

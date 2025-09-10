@@ -79,7 +79,12 @@ const CreateReturnModal = ({ isOpen, onClose, setSnackbar, onReturnCreated }) =>
       <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
         {/* Modal Header */}
         <div className="flex justify-between items-center p-4 border-b dark:border-[var(--border-default)]">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-[var(--text-default)]">Create New Sales Return</h2>
+          <div>
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-[var(--text-default)]">BUAT RETUR BARU</h2>
+          <ul className="text-sm font-bold text-gray-500 dark:text-[var(--text-muted)]">ID Transaksi adalah digit terakhir dari no.trx di struk transaksi</ul>
+          <li className="text-sm text-gray-500 dark:text-[var(--text-muted)]">Contoh: Jika no.trx adalah <strong>TRX-20250907025516-1</strong>, maka ID Transaksi adalah <strong>1</strong></li>
+          <li className="text-sm text-gray-500 dark:text-[var(--text-muted)]">Contoh: Jika no.trx adalah <strong>TRX-20250907025516-123</strong>, maka ID Transaksi adalah <strong>123</strong></li>
+          </div>
           <button onClick={onClose} className="text-gray-500 dark:text-[var(--text-muted)] hover:text-gray-800 dark:hover:text-[var(--text-default)]">
             <FaTimes size={20} />
           </button>

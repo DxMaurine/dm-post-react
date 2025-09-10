@@ -215,7 +215,7 @@ const PointManagementPage = () => {
         </div>
       </div>
 
-      <form onSubmit={handleRedeemSearch} className="mb-6 bg-white dark:bg-[var(--bg-default)] rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700">
+      <form onSubmit={handleRedeemSearch} className="mb-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-grow">
             <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -264,7 +264,7 @@ const PointManagementPage = () => {
                 {rewards.map(reward => {
                   const canRedeem = selectedRedeemCustomer.loyalty_points >= reward.points_cost;
                   return (
-                    <div key={reward.id} className={`bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-lg p-5 flex flex-col border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-102 ${!canRedeem ? 'opacity-70' : ''}`}>
+                    <div key={reward.id} className={`bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-5 flex flex-col border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-102 ${!canRedeem ? 'opacity-70' : ''}`}>
                       <div className="flex-grow">
                         <div className="flex justify-between items-start mb-3">
                           <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-2 rounded-lg">
@@ -319,7 +319,7 @@ const PointManagementPage = () => {
       <form onSubmit={handleTransfer} className="max-w-4xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {/* From Customer */}
-          <div className="bg-white dark:bg-[var(--bg-default)] p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
             <label className="block text-sm font-bold text-gray-700 dark:text-white mb-3">Dari Pelanggan</label>
             <div className="flex items-center gap-2 mb-4">
               <div className="relative flex-grow">
@@ -354,7 +354,7 @@ const PointManagementPage = () => {
           </div>
 
           {/* To Customer */}
-          <div className="bg-white dark:bg-[var(--bg-default)] p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
             <label className="block text-sm font-bold text-gray-700 dark:text-white mb-3">Ke Pelanggan</label>
             <div className="flex items-center gap-2 mb-4">
               <div className="relative flex-grow">
@@ -390,7 +390,7 @@ const PointManagementPage = () => {
         </div>
 
         {/* Amount & Action */}
-        <div className="bg-white dark:bg-[var(--bg-default)] p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
           <label className="block text-sm font-bold text-gray-700 dark:text-white mb-3">Jumlah Poin</label>
           <div className="relative">
             <input 
@@ -432,7 +432,7 @@ const PointManagementPage = () => {
   }
 
   return (
-    <div className="p-4 md:p-6 bg-gray-50 dark:bg-[var(--bg-default)] min-h-screen rounded-xl shadow-md">
+    <div className="p-4 md:p-6 bg-gray-50 dark:bg-[var(--bg-secondary)] min-h-50vh rounded-xl shadow-md">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Manajemen Poin</h1>
         <p className="text-gray-600 dark:text-gray-400 mb-6">Manajemen penukaran dan transfer poin pelanggan</p>

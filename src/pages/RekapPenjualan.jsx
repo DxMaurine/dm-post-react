@@ -75,7 +75,7 @@ const RekapPenjualan = () => {
         <div className="flex items-center justify-center h-64">
           <div className="animate-pulse flex flex-col items-center">
             <div className="h-4 w-32 bg-gray-200 dark:bg-[var(--bg-secondary)] rounded mb-2"></div>
-            <div className="h-40 w-full bg-gray-100 dark:bg-[var(--bg-default)] rounded"></div>
+            <div className="h-40 w-full bg-gray-100 dark:bg-[var(--bg-secondary)] rounded"></div>
           </div>
         </div>
       );
@@ -149,7 +149,7 @@ const RekapPenjualan = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-sm dark:shadow-gray-700/50 p-6">
+    <div className="w-full max-w-7xl mx-auto bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg  p-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
@@ -163,7 +163,7 @@ const RekapPenjualan = () => {
             onClick={() => setMode('daily')} 
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
               mode === 'daily' 
-                ? 'bg-white dark:bg-[var(--bg-default)] text-[var(--primary-color)] shadow' 
+                ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow' 
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
@@ -173,7 +173,7 @@ const RekapPenjualan = () => {
             onClick={() => setMode('monthly')} 
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
               mode === 'monthly' 
-                ? 'bg-white dark:bg-[var(--bg-default)] text-[var(--primary-color)] shadow' 
+                ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow' 
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
@@ -183,7 +183,7 @@ const RekapPenjualan = () => {
             onClick={() => setMode('yearly')} 
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
               mode === 'yearly' 
-                ? 'bg-white dark:bg-[var(--bg-default)] text-[var(--primary-color)] shadow' 
+                ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow' 
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
