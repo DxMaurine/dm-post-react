@@ -213,10 +213,10 @@ const ManajemenPengguna = () => {
         <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
           <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider rounded-tl-xl">Username</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tanggal Dibuat</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider rounded-tr-xl">Aksi</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider rounded-tl-xl">Username</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Role</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Tanggal Dibuat</th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider rounded-tr-xl">Aksi</th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">

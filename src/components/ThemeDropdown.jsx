@@ -49,18 +49,21 @@ const ThemeDropdown = ({ isCollapsed }) => {
       <div className="p-3 border-t border-[var(--border-default)]">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-500/50 transition-all duration-300 neumorphic-btn"
+          className={`w-full flex items-center p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-500/50 transition-all duration-300 neumorphic-btn ${isCollapsed ? 'justify-center' : 'justify-between'}`}
         >
           <div className="flex items-center">
-            {isDarkMode ? <FiMoon className="h-5 w-5 text-gray-500 dark:text-gray-400" /> : <FiSun className="h-5 w-5 text-gray-500 dark:text-gray-400" />}
+            {isDarkMode ? 
+              <FiMoon className="h-5 w-5 text-slate-500 dark:text-yellow-300 fill-slate-400 dark:fill-yellow-700" /> : 
+              <FiSun className="h-5 w-5 text-yellow-500 dark:text-yellow-400 fill-yellow-400 dark:fill-yellow-500" />
+            }
             {!isCollapsed && <span className="ml-3 font-medium text-sm text-gray-600 dark:text-gray-300">{currentThemeName()}</span>}
           </div>
-          {!isCollapsed && <FiChevronDown className={`h-5 w-5 text-gray-500 dark:text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
+          {!isCollapsed && <FiChevronDown className={`h-5 w-5 text-gray-900 dark:text-white transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
         </button>
       </div>
 
       {isOpen && !isCollapsed && (
-        <div className="absolute bottom-full mb-2 w-[calc(100%-1.5rem)] left-3 bg-white dark:bg-[var(--layout-bg-dark)] rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-10 neumorphic-dropdown transform transition-all duration-300 scale-100 opacity-100">
+        <div className="absolute bottom-full mb-2 w-[calc(100%-1.5rem)] left-3 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-10 neumorphic-dropdown transform transition-all duration-300 scale-100 opacity-100">
           <ul>
             {themes.map((theme) => (
               <li key={theme.name}>
@@ -106,9 +109,9 @@ const ThemeDropdown = ({ isCollapsed }) => {
         }
         
         .dark .neumorphic-btn {
-          --bg-color:rgb(32, 32, 32);
-          --shadow-dark:rgb(34, 38, 44);
-          --shadow-light:rgb(56, 58, 63);
+          --bg-color: #252526;
+          --shadow-dark:rgb(20, 21, 22);
+          --shadow-light:rgb(63, 64, 65);
         }
         
         .dark.theme-midnight .neumorphic-btn {
@@ -125,7 +128,7 @@ const ThemeDropdown = ({ isCollapsed }) => {
         
         .dark.theme-blue-ocean .neumorphic-btn {
           --bg-color: #00c5c5;
-          --shadow-dark:rgb(1, 73, 145);
+          --shadow-dark:rgb(0, 62, 121);
           --shadow-light:rgb(3, 164, 185);
         }
         

@@ -81,7 +81,7 @@ const POSCustomerSearch = ({
       <div className="flex-1 relative">
         <input
           type="text"
-          className="w-full bg-white dark:bg-[var(--bg-default)] rounded-lg p-2 px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-gray-900 dark:text-[var(--text-default)] border border-gray-200 dark:border-[var(--border-default)]"
+          className="w-full bg-white dark:bg-[var(--bg-default)] rounded-lg p-2 px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-gray-900 dark:text-[var(--text-muted)] border border-gray-200 dark:border-[var(--border-default)]"
           placeholder="Cari pelanggan (nama atau ID member)..."
           value={customerSearch}
           onChange={(e) => onSearchChange(e.target.value)}

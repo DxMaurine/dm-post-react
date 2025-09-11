@@ -49,7 +49,7 @@ useEffect(() => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm p-4">
-      <div className="bg-white dark:bg-[var(--bg-default)] rounded-xl shadow-xl w-full max-w-4xl h-[90vh] flex flex-col overflow-hidden">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-xl w-full max-w-4xl h-[90vh] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b border-gray-200">
           <div className="flex items-center">
@@ -60,7 +60,7 @@ useEffect(() => {
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="text-white dark:bg-[var(--bg-secondary)] rounded-full hover:text-gray-300 p-2 rounded-full hover:bg-red-500 transition-colors"
           >
             <FiX className="h-6 w-6" />
           </button>
@@ -69,13 +69,13 @@ useEffect(() => {
         {/* Search Bar */}
         <div className="p-4 border-b border-gray-200">
           <div className="relative">
-            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-white" />
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-[var(--text-muted)]" />
             <input
               type="text"
               placeholder="Cari produk berdasarkan nama, kode, atau barcode..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg dark:text-white text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg dark:text-[var(--text-muted)] text-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               autoFocus
             />
           </div>

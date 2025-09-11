@@ -91,15 +91,11 @@ const AccordionGroup = ({ group, isCollapsed, location, userRole }) => {
       <button 
         onClick={handleToggle} 
         className={`w-full flex justify-between items-center text-xs font-semibold uppercase tracking-wider py-3 px-4 rounded-lg transition-all ${isGroupActive 
-            ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/50 dark:text-blue-400' 
-            : 'text-gray-500 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-[var(--primary-color)]'}`}
+            ? 'text-[var(--primary-color)] bg-[var(--primary-color)]/10' 
+            : 'text-[var(--text-muted)] dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-[var(--primary-color)]/20'}`}
       >
         <div className="flex items-center">
-          {group.icon && <group.icon className={`h-5 w-5 flex-shrink-0 transition-colors duration-200 ${
-            isOpen 
-              ? (isGroupActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-[var(--text-default)]')
-              : 'text-yellow-600 dark:text-gray-700'
-          } ${!isCollapsed ? 'mr-2' : ''}`} />}
+          <group.icon className={`h-5 w-5 flex-shrink-0 transition-colors duration-200 ${!isCollapsed ? 'mr-2' : ''}`} />
           {!isCollapsed && <span>{group.title}</span>}
         </div>
         {!isCollapsed && (
@@ -165,14 +161,14 @@ const Sidebar = ({ onOpenCatalog }) => {
 
   return (
     <div className={`relative z-10 bg-white dark:bg-[var(--bg-secondary)] border-r border-[var(--border-default)] dark:border-[var(--border-default)] transition-all duration-300 flex flex-col h-full ${isCollapsed ? 'w-20' : 'w-64'}`}>
-      <div className={`flex items-center justify-between p-4 border-b border-[var(--border-default)] dark:border-[var(--border-default)] ${isCollapsed ? 'h-[69px]' : ''}`}>
-        {!isCollapsed && (
+      <div className={`flex items-center p-4 border-b border-[var(--border-default)] dark:border-[var(--border-default)] ${isCollapsed ? 'justify-center h-[69px]' : 'justify-between'}`}>
+        {!isCollapsed ? (
           <div className="flex items-center space-x-3">
             <div className="flex-shrink-0">
               <img 
                 src={getImageUrl(settings?.storeLogo || '/dm.jpg')}
                 alt="DM POS Logo"
-                className="h-8 w-8 rounded-full object-cover"
+                className="h-8 w-8 rounded-full border-2 border-gray-200 dark:border-gray-700 object-cover"
                 onError={(e) => { e.target.onerror = null; e.target.src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%23e5e7eb'/%3E%3Ctext x='50%' y='50%' font-size='40' fill='%236b7280' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'%3EDM%3C/text%3E%3C/svg%3E" }}
               />
             </div>
@@ -185,14 +181,23 @@ const Sidebar = ({ onOpenCatalog }) => {
               </p>
             </div>
           </div>
+        ) : (
+          <div className="flex-shrink-0">
+            <img 
+              src={getImageUrl(settings?.storeLogo || '/dm.jpg')}
+              alt="DM POS Logo"
+              className="h-8 w-8 rounded-full border-2 border-gray-200 dark:border-gray-700 object-cover"
+              onError={(e) => { e.target.onerror = null; e.target.src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%23e5e7eb'/%3E%3Ctext x='50%' y='50%' font-size='40' fill='%236b7280' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle'%3EDM%3C/text%3E%3C/svg%3E" }}
+            />
+          </div>
         )}
-        <button 
-          onClick={() => setIsCollapsed(!isCollapsed)} 
-          className="p-2 rounded-lg hover:bg-[var(--bg-secondary)] dark:hover:bg-[var(--bg-secondary)] text-[var(--text-muted)] dark:text-[var(--text-muted)] hover:text-[var(--text-default)] dark:hover:text-[var(--text-default)] transition-colors"
-        >
-          {isCollapsed ? <FiChevronRight size={18} /> : <FiChevronLeft size={18} />}
-        </button>
       </div>
+      <button 
+        onClick={() => setIsCollapsed(!isCollapsed)} 
+        className={`absolute ${isCollapsed ? 'top-[50px]' : 'top-[66px]'} -right-3 z-20 p-1.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 shadow-md`}
+      >
+        <FiChevronLeft size={16} className={`transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} />
+      </button>
       
       <div className="p-3 border-b border-gray-100 ">
         <ul>

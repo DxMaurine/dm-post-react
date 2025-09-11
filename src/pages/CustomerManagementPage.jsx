@@ -203,13 +203,13 @@ const CustomerManagementPage = () => {
             <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
               <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Customer</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Contact</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Address</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Loyalty Points</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Member ID</th>
-                  <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Customer</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Contact</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Address</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Type</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Loyalty Points</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Member ID</th>
+                  <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">
@@ -303,7 +303,7 @@ const CustomerManagementPage = () => {
                       <a
                         key={page}
                         href="#"
-                        className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${page === 1 ? 'z-10 bg-blue-50 dark:bg-blue-900/30 border-blue-500 text-blue-600 dark:text-blue-300' : 'bg-white dark:bg-[var(--bg-secondary)] border-gray-300 dark:border-[var(--border-default)] text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
+                        className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${page === 1 ? 'z-10 bg-blue-50 dark:bg-blue-900/30 border-blue-500 text-blue-600 dark:text-blue-300' : 'bg-white dark:bg-[var(--bg-secondary)] border-gray-300 dark:border-[var(--border-default)] text-gray-500 dark:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
                       >
                         {page}
                       </a>
@@ -311,7 +311,7 @@ const CustomerManagementPage = () => {
                   </nav>
                 </div>
               </div>
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-[var(--border-default)] text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-[var(--bg-secondary)] hover:bg-gray-50 dark:hover:bg-gray-700">
+              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-[var(--border-default)] text-sm font-medium rounded-md text-gray-700 dark:text-gray-600 bg-white dark:bg-[var(--bg-secondary)] hover:bg-gray-50 dark:hover:bg-gray-300">
                 Next
               </button>
             </div>

@@ -48,56 +48,52 @@ const RiwayatPoinPage = () => {
     setFilters(prev => ({ ...prev, customerName: searchTerm }));
   };
 
+  const typeInfoMapping = {
+    earn: { text: 'Dapat Poin', className: 'text-[var(--success-color)]', icon: <FiTrendingUp /> },
+    redeem_catalog: { text: 'Tukar Hadiah', className: 'text-[var(--danger-color)]', icon: <FiTrendingDown /> },
+    redeem_discount: { text: 'Tukar Diskon', className: 'text-[var(--danger-color)]', icon: <FiTrendingDown /> },
+    transfer_in: { text: 'Transfer Masuk', className: 'text-[var(--primary-color)]', icon: <FiRepeat /> },
+    transfer_out: { text: 'Transfer Keluar', className: 'text-[var(--warning-color)]', icon: <FiRepeat /> },
+    default: { text: 'Lainnya', className: 'text-[var(--text-muted)]', icon: null },
+  };
+
   const getTransactionTypeInfo = (type) => {
-    switch (type) {
-      case 'earn':
-        return { text: 'Dapat Poin', color: 'text-green-500', icon: <FiTrendingUp /> };
-      case 'redeem_catalog':
-        return { text: 'Tukar Hadiah', color: 'text-red-500', icon: <FiTrendingDown /> };
-      case 'redeem_discount':
-        return { text: 'Tukar Diskon', color: 'text-red-500', icon: <FiTrendingDown /> };
-      case 'transfer_in':
-        return { text: 'Transfer Masuk', color: 'text-blue-500', icon: <FiRepeat /> };
-      case 'transfer_out':
-        return { text: 'Transfer Keluar', color: 'text-orange-500', icon: <FiRepeat /> };
-      default:
-        return { text: type, color: 'text-gray-500', icon: null };
-    }
+    return typeInfoMapping[type] || { ...typeInfoMapping.default, text: type };
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm dark:shadow-gray-700/50">
+    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-[var(--bg-primary)] rounded-xl shadow-lg">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)]">Riwayat Poin Pelanggan</h1>
-        <p className="text-gray-600 dark:text-[var(--text-muted)]">Lacak semua pergerakan poin, termasuk perolehan, penukaran, dan transfer.</p>
+        <h1 className="text-3xl font-bold text-[var(--text-default)]">Riwayat Poin Pelanggan</h1>
+        <p className="text-[var(--text-muted)]">Lacak semua pergerakan poin, termasuk perolehan, penukaran, dan transfer.</p>
       </div>
 
       {/* Filters */}
-      <div className="p-4 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl border dark:border-[var(--border-default)] mb-6">
+      <div className="p-4 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-default)] mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Date Filters */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Tanggal Mulai</label>
+            <label className="block text-sm font-medium text-[var(--text-muted)] mb-1">Tanggal Mulai</label>
             <div className="relative">
-              <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="date" name="startDate" value={filters.startDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600" />
+              <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]/70" />
+              <input type="date" name="startDate" value={filters.startDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-[var(--bg-primary)] text-[var(--text-default)] border-[var(--border-default)]" />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Tanggal Akhir</label>
+            <label className="block text-sm font-medium text-[var(--text-muted)] mb-1">Tanggal Akhir</label>
             <div className="relative">
-              <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="date" name="endDate" value={filters.endDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600" />
+              <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]/70" />
+              <input type="date" name="endDate" value={filters.endDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-[var(--bg-primary)] text-[var(--text-default)] border-[var(--border-default)]" />
             </div>
           </div>
 
           {/* Type Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Jenis Transaksi</label>
+            <label className="block text-sm font-medium text-[var(--text-muted)] mb-1">Jenis Transaksi</label>
             <div className="relative">
-              <FiFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <select name="type" value={filters.type} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600">
+              <FiFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]/70" />
+              <select name="type" value={filters.type} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-[var(--bg-primary)] text-[var(--text-default)] border-[var(--border-default)]">
                 <option value="">Semua Jenis</option>
                 <option value="earn">Dapat Poin</option>
                 <option value="redeem_catalog">Tukar Hadiah</option>
@@ -110,11 +106,11 @@ const RiwayatPoinPage = () => {
 
           {/* Customer Search */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Nama Pelanggan</label>
+            <label className="block text-sm font-medium text-[var(--text-muted)] mb-1">Nama Pelanggan</label>
             <form onSubmit={handleSearchSubmit} className="flex gap-2">
               <div className="relative flex-grow">
-                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type="text" placeholder="Cari pelanggan..." value={searchTerm} onChange={handleSearchChange} className="w-full pl-10 p-2 border rounded-lg bg-white dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600" />
+                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]/70" />
+                <input type="text" placeholder="Cari pelanggan..." value={searchTerm} onChange={handleSearchChange} className="w-full pl-10 p-2 border rounded-lg bg-[var(--bg-primary)] text-[var(--text-default)] border-[var(--border-default)]" />
               </div>
             </form>
           </div>
@@ -122,45 +118,45 @@ const RiwayatPoinPage = () => {
       </div>
 
       {/* History Table */}
-      <div className="overflow-auto rounded-lg border border-gray-200 dark:border-[var(--border-default)]">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-          <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
+      <div className="overflow-auto rounded-lg border border-[var(--border-default)]">
+        <table className="min-w-full divide-y divide-[var(--border-default)]">
+          <thead className="bg-[var(--bg-secondary)]">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tanggal & Waktu</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pelanggan</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Jenis</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Deskripsi</th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Perubahan Poin</th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Sisa Poin</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Tanggal & Waktu</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Pelanggan</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Jenis</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Deskripsi</th>
+              <th className="px-4 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Perubahan Poin</th>
+              <th className="px-4 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Sisa Poin</th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">
+          <tbody className="bg-[var(--bg-primary)] divide-y divide-[var(--border-default)]">
             {loading ? (
               <tr><td colSpan="6" className="text-center py-10"><div className="w-8 h-8 border-4 border-[var(--primary-color)] border-t-transparent rounded-full animate-spin mx-auto"></div></td></tr>
             ) : history.length > 0 ? (
               history.map(item => {
                 const typeInfo = getTransactionTypeInfo(item.type);
                 return (
-                  <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)]">
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                  <tr key={item.id} className="hover:bg-[var(--bg-secondary)]">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-muted)]">
                       {format(new Date(item.created_at), 'dd MMM yyyy, HH:mm')}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-white">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-[var(--text-default)]">
                       {item.customer_name}
                     </td>
-                    <td className={`px-4 py-3 whitespace-nowrap text-sm font-semibold ${typeInfo.color}`}>
+                    <td className={`px-4 py-3 whitespace-nowrap text-sm font-semibold ${typeInfo.className}`}>
                       <div className="flex items-center gap-2">
                         {typeInfo.icon}
                         <span>{typeInfo.text}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-muted)]">
                       {item.description}
                     </td>
-                    <td className={`px-4 py-3 whitespace-nowrap text-sm text-right font-bold ${item.points_change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    <td className={`px-4 py-3 whitespace-nowrap text-sm text-right font-bold ${item.points_change > 0 ? 'text-[var(--success-color)]' : 'text-[var(--danger-color)]'}`}>
                       {item.points_change > 0 ? `+${item.points_change}` : item.points_change}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-right text-gray-800 dark:text-white">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-right text-[var(--text-default)]">
                       {item.balance_after.toLocaleString('id-ID')}
                     </td>
                   </tr>
@@ -168,7 +164,7 @@ const RiwayatPoinPage = () => {
               })
             ) : (
               <tr>
-                <td colSpan="6" className="text-center py-10 text-gray-500 dark:text-gray-400">
+                <td colSpan="6" className="text-center py-10 text-[var(--text-muted)]">
                   <FiInbox className="mx-auto text-4xl mb-2" />
                   Tidak ada riwayat poin yang ditemukan.
                 </td>

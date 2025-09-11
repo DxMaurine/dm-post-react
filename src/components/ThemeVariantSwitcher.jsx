@@ -49,10 +49,7 @@ const ThemeVariantSwitcher = ({ isCollapsed }) => {
                       -3px -3px 6px var(--shadow-light, #ffffff);
         }
         
-        .neumorphic-btn:active {
-          box-shadow: inset 3px 3px 6px var(--shadow-dark, #c9ccd1), 
-                      inset -3px -3px 6px var(--shadow-light, #ffffff);
-        }
+       
         
         .dark .neumorphic-btn {
           --bg-color: #2d3748;

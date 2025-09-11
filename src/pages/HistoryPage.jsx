@@ -23,19 +23,6 @@ const HistoryPage = () => {
   const [showPrintDialog, setShowPrintDialog] = useState(false);
   const [transactionDataForPrint, setTransactionDataForPrint] = useState(null);
 
-  const [isDarkMode, setIsDarkMode] = useState(
-    () => typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
-  );
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const observer = new MutationObserver(() => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    return () => observer.disconnect();
-  }, []);
-
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('user'));
     if (userData) {
@@ -143,40 +130,54 @@ const HistoryPage = () => {
   const netSales = totalSales - totalReturns;
   const transactionCount = transactions.length;
 
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="p-3 bg-[var(--bg-primary)]/90 dark:bg-[var(--bg-secondary)]/90 backdrop-blur-sm shadow-lg rounded-lg border border-[var(--border-default)]">
+          <p className="label text-sm text-[var(--text-muted)]">{formatDate(label)}</p>
+          <p className="intro text-lg font-bold text-[var(--primary-color)]">
+            {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(payload[0].value)}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
-      <div className="max-w-7xl mx-auto p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm dark:shadow-gray-700/50">
+      <div className="max-w-7xl mx-auto p-6 bg-[var(--bg-primary)] rounded-xl shadow-lg">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)] mb-2">Histori Transaksi</h1>
-            <p className="text-gray-600 dark:text-[var(--text-muted)]">Lihat semua catatan transaksi dan retur penjualan.</p>
+            <h1 className="text-3xl font-bold text-[var(--text-default)] mb-2">Histori Transaksi</h1>
+            <p className="text-[var(--text-muted)]">Lihat semua catatan transaksi dan retur penjualan.</p>
           </div>
-          <div className="flex flex-wrap gap-2 mt-4 md:mt-0 bg-gray-100 dark:bg-[var(--bg-secondary)] rounded-lg p-1">
+          <div className="flex flex-wrap gap-2 mt-4 md:mt-0 bg-[var(--bg-tertiary)] rounded-lg p-1">
             {/* Filter by Date */}
             <button
               onClick={() => setFilter('daily')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === 'daily'
-                ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow'
+                : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'}`}
             >
-              Daily
+              Harian
             </button>
             <button
               onClick={() => setFilter('monthly')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === 'monthly'
-                ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow'
+                : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'}`}
             >
-              Monthly
+              Bulanan
             </button>
             <button
               onClick={() => setFilter('yearly')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === 'yearly'
-                ? 'bg-white dark:bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow'
+                : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'}`}
             >
-              Yearly
+              Tahunan
             </button>
 
             {/* Filter by Cashier (only for Admin/Manager) */}
@@ -185,9 +186,9 @@ const HistoryPage = () => {
                 <select
                   value={selectedCashierId}
                   onChange={(e) => setSelectedCashierId(e.target.value)}
-                  className="appearance-none px-4 py-2 rounded-lg text-sm font-medium bg-white dark:bg-[var(--bg-secondary)] text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                  className="appearance-none w-full md:w-auto px-4 py-2 rounded-lg text-sm font-medium bg-[var(--bg-primary)] text-[var(--text-default)] border border-[var(--border-default)] focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]"
                 >
-                  <option value="">All Cashiers</option>
+                  <option value="">Semua Kasir</option>
                   {users.map(user => (
                     <option key={user.id} value={user.id}>{user.username} ({user.role})</option>
                   ))}
@@ -198,35 +199,35 @@ const HistoryPage = () => {
         </div>
 
         {/* Stats Card */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-           <div className="bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200">Total Transaksi</h3>
-            <p className="text-2xl font-bold mt-1 text-blue-700 dark:text-blue-300">{transactionCount}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+           <div className="bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-xl p-6 shadow-sm">
+            <h3 className="text-sm font-medium text-[var(--text-muted)]">Total Transaksi</h3>
+            <p className="text-2xl font-bold mt-1 text-[var(--text-default)]">{transactionCount}</p>
           </div>
-          <div className="bg-green-50 dark:bg-green-500/10 border border-green-100 dark:border-green-500/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-green-800 dark:text-green-200">Penjualan Kotor</h3>
-            <p className="text-2xl font-bold mt-1 text-green-700 dark:text-green-300">
+          <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-6 shadow-sm">
+            <h3 className="text-sm font-medium text-green-500/80">Penjualan Kotor</h3>
+            <p className="text-2xl font-bold mt-1 text-green-500">
               Rp {totalSales.toLocaleString('id-ID', { maximumFractionDigits: 0 })}
             </p>
           </div>
-          <div className="bg-orange-50 dark:bg-orange-500/10 border border-orange-100 dark:border-orange-500/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-orange-800 dark:text-orange-200">Total Retur</h3>
-            <p className="text-2xl font-bold mt-1 text-orange-700 dark:text-orange-300">
+          <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 shadow-sm">
+            <h3 className="text-sm font-medium text-red-500/80">Total Retur</h3>
+            <p className="text-2xl font-bold mt-1 text-red-500">
               Rp {totalReturns.toLocaleString('id-ID', { maximumFractionDigits: 0 })}
             </p>
           </div>
-          <div className="bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-purple-800 dark:text-purple-200">Penjualan Bersih</h3>
-            <p className="text-2xl font-bold mt-1 text-purple-700 dark:text-purple-300">
+          <div className="bg-[var(--primary-color)]/10 border border-[var(--primary-color)]/20 rounded-xl p-6 shadow-sm">
+            <h3 className="text-sm font-medium text-[var(--primary-color)]/80">Penjualan Bersih</h3>
+            <p className="text-2xl font-bold mt-1 text-[var(--primary-color)]">
               Rp {netSales.toLocaleString('id-ID', { maximumFractionDigits: 0 })}
             </p>
           </div>
         </div>
 
         {/* Chart Section */}
-        <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm border border-gray-100 dark:border-[var(--border-default)] p-6 mb-8">
+        <div className="bg-[var(--bg-primary)] rounded-xl shadow-sm border border-[var(--border-default)] p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-[var(--text-default)]">Sales Performance</h2>
+            <h2 className="text-xl font-semibold text-[var(--text-default)]">Performa Penjualan</h2>
           </div>
 
           <div className="h-80">
@@ -236,17 +237,8 @@ const HistoryPage = () => {
               </div>
             ) : chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={chartData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: filter === 'daily' ? 60 : 40 }}
-                >
-                  <defs>
-                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="var(--primary-color)" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="var(--primary-color)" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? 'hsl(215 27.9% 26.9%)' : '#e5e7eb'} vertical={false} />
+                <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: filter === 'daily' ? 60 : 40 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-default)" vertical={false} />
                   <XAxis
                     dataKey="label"
                     tickFormatter={(label) => {
@@ -259,123 +251,79 @@ const HistoryPage = () => {
                       const date = new Date(label);
                       return isNaN(date) ? label : date.getFullYear().toString();
                     }}
-                    tick={{
-                      angle: filter === 'daily' ? -45 : 0,
-                      textAnchor: filter === 'daily' ? 'end' : 'middle',
-                      fontSize: 11,
-                      fill: isDarkMode ? 'hsl(215 20.2% 65.1%)' : '#6b7280'
-                    }}
+                    tick={{ angle: filter === 'daily' ? -45 : 0, textAnchor: filter === 'daily' ? 'end' : 'middle', fontSize: 11, fill: 'var(--text-muted)' }}
                     height={filter === 'daily' ? 70 : filter === 'monthly' ? 50 : 40}
-                    axisLine={{ stroke: isDarkMode ? 'hsl(215 27.9% 26.9%)' : '#e5e7eb' }}
-                    tickLine={{ stroke: isDarkMode ? 'hsl(215 27.9% 26.9%)' : '#e5e7eb' }}
-                    interval={filter === 'yearly' ? Math.max(1, Math.floor(chartData.length / 10)) :
-                      chartData.length > 10 ? Math.ceil(chartData.length / 10) : 0}
+                    axisLine={{ stroke: 'var(--border-default)' }}
+                    tickLine={{ stroke: 'var(--border-default)' }}
+                    interval={filter === 'yearly' ? Math.max(1, Math.floor(chartData.length / 10)) : chartData.length > 10 ? Math.ceil(chartData.length / 10) : 0}
                   />
                   <YAxis
                     tickFormatter={(value) => `Rp ${new Intl.NumberFormat('id-ID', { notation: 'compact' }).format(value)}`}
-                    stroke={isDarkMode ? 'hsl(215 27.9% 26.9%)' : '#e5e7eb'}
-                    tick={{ fontSize: 11, fill: isDarkMode ? 'hsl(215 20.2% 65.1%)' : '#6b7280' }}
+                    stroke="var(--border-default)"
+                    tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
                     axisLine={false}
                     tickLine={false}
                   />
-                  <Tooltip
-                    contentStyle={{
-                      background: isDarkMode ? 'hsl(215 28% 17%)' : 'rgba(255, 255, 255, 0.96)',
-                      borderColor: isDarkMode ? 'hsl(215 27.9% 26.9%)' : '#e5e7eb',
-                      borderRadius: '0.5rem',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                      color: isDarkMode ? '#e2e8f0' : '#1f2937',
-                    }}
-                    formatter={(value) => [`Rp ${Number(value).toLocaleString('id-ID')}`, 'Total Sales']}
-                    labelFormatter={(label) => {
-                      if (filter === 'daily') return formatDate(label);
-                      if (filter === 'monthly') {
-                        const date = new Date(label);
-                        return date.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
-                      }
-                      return label;
-                    }}
-                  />
-                  <Legend
-                    wrapperStyle={{ paddingTop: '20px' }}
-                  />
-                  <Bar
-                    dataKey="total"
-                    fill="var(--primary-color)"
-                    name="Total Sales"
-                    radius={[4, 4, 0, 0]}
-                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ paddingTop: '20px', color: 'var(--text-muted)' }}/>
+                  <Bar dataKey="total" fill="var(--primary-color)" name="Total Sales" radius={[4, 4, 0, 0]}/>
                 </BarChart>
               </ResponsiveContainer>
             ) : (
               <div className="flex items-center justify-center h-full">
-                <span className="text-gray-500 dark:text-[var(--text-muted)]">Tidak ada data untuk ditampilkan pada grafik.</span>
+                <span className="text-[var(--text-muted)]">Tidak ada data untuk ditampilkan pada grafik.</span>
               </div>
             )}
           </div>
         </div>
 
         {/* Transaction Table */}
-        <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm border border-gray-100 dark:border-[var(--border-default)] p-6">
+        <div className="bg-[var(--bg-primary)] rounded-xl shadow-sm border border-[var(--border-default)] p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-[var(--text-default)]">Transaction Details</h2>
-            <div className="text-sm text-gray-500 dark:text-[var(--text-muted)]">
-              {history.length} records found
-            </div>
+            <h2 className="text-xl font-semibold text-[var(--text-default)]">Detail Transaksi</h2>
+            <div className="text-sm text-[var(--text-muted)]">{history.length} data ditemukan</div>
           </div>
 
-          <div className="overflow-auto rounded-lg border border-gray-200 dark:border-[var(--border-default)]">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-              <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)] sticky top-0">
+          <div className="overflow-auto rounded-lg border border-[var(--border-default)]">
+            <table className="min-w-full divide-y divide-[var(--border-default)]">
+              <thead className="bg-[var(--bg-tertiary)] sticky top-0">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Time</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type/Customer</th>
-                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Amount</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cashier</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Details</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Tanggal</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Waktu</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Tipe/Pelanggan</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Jumlah</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Kasir</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Detail</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">
+              <tbody className="bg-[var(--bg-primary)] divide-y divide-[var(--border-default)]">
                 {history.length === 0 && !loading && (
                   <tr>
-                    <td colSpan="7" className="px-4 py-6 text-center text-gray-500 dark:text-[var(--text-muted)]">
-                      Tidak ada riwayat transaksi
-                    </td>
+                    <td colSpan="7" className="px-4 py-6 text-center text-[var(--text-muted)]">Tidak ada riwayat transaksi</td>
                   </tr>
                 )}
                 {history.map((item) => {
                   if (item.record_type === 'shift_close') {
                     return (
-                      <tr key={`shift-${item.id}`} className="bg-gray-100 dark:bg-gray-800/50">
-                        <td colSpan="7" className="px-4 py-2 text-center text-sm font-semibold text-gray-600 dark:text-gray-400 tracking-wider">
+                      <tr key={`shift-${item.id}`} className="bg-[var(--bg-tertiary)]">
+                        <td colSpan="7" className="px-4 py-2 text-center text-sm font-semibold text-[var(--text-muted)] tracking-wider">
                           --- Shift ditutup oleh {item.cashier_name} pada {new Date(item.datetime).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })} ---
                         </td>
                       </tr>
                     );
                   } else if (item.record_type === 'sales_return') {
                     return (
-                      <tr key={`return-${item.id}`} className="bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors">
-                        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-red-800 dark:text-red-200">
-                          {formatDate(item.return_date)}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-600 dark:text-red-300">
-                          {item.return_time}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-800 dark:text-red-200">
-                          <span className="font-semibold">[RETUR]</span> Trx #{item.transaction_id}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-right font-medium text-red-800 dark:text-red-200">
-                          -Rp {(parseFloat(item.total_amount) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-600 dark:text-red-300">
-                          {item.cashier_name || 'N/A'}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-blue-600 dark:text-blue-400 align-top">
+                      <tr key={`return-${item.id}`} className="bg-red-500/10 hover:bg-red-500/20 transition-colors">
+                        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-red-500">{formatDate(item.return_date)}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-500/80">{item.return_time}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-500"><span className="font-semibold">[RETUR]</span> Trx #{item.transaction_id}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-right font-medium text-red-500">-Rp {(parseFloat(item.total_amount) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-500/80">{item.cashier_name || 'N/A'}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--primary-color)] align-top">
                           <details className="cursor-pointer">
-                            <summary className="hover:underline">View items</summary>
-                            <ul className="mt-2 pl-4 space-y-1 text-gray-700 dark:text-gray-400">
+                            <summary className="hover:underline">Lihat item</summary>
+                            <ul className="mt-2 pl-4 space-y-1 text-[var(--text-muted)]">
                               {item.items?.map((itemDetail, i) => (
                                 <li key={i} className="flex justify-between">
                                   <span>{itemDetail.name} × {itemDetail.qty}</span>
@@ -385,34 +333,22 @@ const HistoryPage = () => {
                             </ul>
                           </details>
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm">
-                          {/* No action button for returns for now */}
-                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm"></td>
                       </tr>
                     );
                   } else {
                     // It's a transaction
                     return (
-                      <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-[var(--bg-default)] transition-colors">
-                        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-[var(--text-default)]">
-                          {formatDate(item.tanggal)}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                          {item.jam}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-[var(--text-default)]">
-                          {(typeof item.customer === 'string' ? item.customer : item.customer?.name) || item.customer_type || 'Guest'}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-right font-medium text-gray-900 dark:text-[var(--text-default)]">
-                          Rp {(parseFloat(item.total) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                          {item.cashier_name || 'N/A'}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-blue-600 dark:text-blue-400 align-top">
+                      <tr key={item.id} className="hover:bg-[var(--bg-tertiary)] transition-colors">
+                        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-[var(--text-default)]">{formatDate(item.tanggal)}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-muted)]">{item.jam}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-default)]">{(typeof item.customer === 'string' ? item.customer : item.customer?.name) || item.customer_type || 'Guest'}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-right font-medium text-[var(--text-default)]">Rp {(parseFloat(item.total) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-muted)]">{item.cashier_name || 'N/A'}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--primary-color)] align-top">
                           <details className="cursor-pointer">
-                            <summary className="hover:underline">View items</summary>
-                            <ul className="mt-2 pl-4 space-y-1 text-gray-700 dark:text-gray-400">
+                            <summary className="hover:underline">Lihat item</summary>
+                            <ul className="mt-2 pl-4 space-y-1 text-[var(--text-muted)]">
                               {item.items?.map((itemDetail, i) => (
                                 <li key={i} className="flex justify-between">
                                   <span>{itemDetail.name} × {itemDetail.qty}</span>
@@ -425,7 +361,7 @@ const HistoryPage = () => {
                         <td className="px-4 py-3 whitespace-nowrap text-sm">
                           <button 
                             onClick={() => handlePrintReceipt(item)}
-                            className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-bold py-1 px-3 rounded-lg text-xs"
+                            className="bg-[var(--bg-tertiary)] hover:bg-[var(--border-default)] text-[var(--text-default)] font-bold py-1 px-3 rounded-lg text-xs transition-colors"
                           >
                             Cetak Struk
                           </button>
@@ -435,12 +371,12 @@ const HistoryPage = () => {
                   }
                 })}
               </tbody>
-              <tfoot className="bg-gray-50 dark:bg-[var(--bg-secondary)] border-t-2 border-gray-200 dark:border-[var(--border-default)] sticky bottom-0">
+              <tfoot className="bg-[var(--bg-tertiary)] border-t-2 border-[var(--border-default)] sticky bottom-0">
                 <tr>
-                  <td colSpan="3" className="px-4 py-3 text-sm font-medium text-right text-gray-700 dark:text-gray-200">
+                  <td colSpan="3" className="px-4 py-3 text-sm font-medium text-right text-[var(--text-default)]">
                     Total Penjualan Bersih:
                   </td>
-                  <td className="px-4 py-3 text-right text-sm font-bold text-gray-900 dark:text-[var(--text-default)]">
+                  <td className="px-4 py-3 text-right text-sm font-bold text-[var(--text-default)]">
                     Rp {netSales.toLocaleString('id-ID', { maximumFractionDigits: 0 })}
                   </td>
                   <td colSpan="3"></td>
