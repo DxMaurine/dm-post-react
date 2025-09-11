@@ -120,7 +120,7 @@ const RiwayatPoinPage = () => {
       {/* History Table */}
       <div className="overflow-auto rounded-lg border border-[var(--border-default)]">
         <table className="min-w-full divide-y divide-[var(--border-default)]">
-          <thead className="bg-[var(--bg-secondary)]">
+          <thead className="bg-[var(--bg-default)]">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Tanggal & Waktu</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Pelanggan</th>

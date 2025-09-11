@@ -215,16 +215,16 @@ const PointManagementPage = () => {
         </div>
       </div>
 
-      <form onSubmit={handleRedeemSearch} className="mb-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl p-4 shadow-md border border-gray-200 dark:border-gray-700">
+      <form onSubmit={handleRedeemSearch} className="mb-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl p-4 shadow-md border-2 border-gray-200 dark:border-[var(--border-default)]"> 
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-grow">
-            <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white" />
             <input 
               type="text"
               value={redeemSearchTerm}
               onChange={(e) => setRedeemSearchTerm(e.target.value)}
               placeholder="Cari nama pelanggan..."
-              className="w-full pl-10 p-3 border rounded-xl bg-gray-50 dark:bg-[var(--bg-secondary)]focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600"
+              className="w-full pl-10 p-3 border rounded-xl bg-gray-50 dark:bg-[var(--bg-secondary)]focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-[var(--border-default)]"
             />
           </div>
           <button type="submit" className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-xl hover:from-blue-600 hover:to-indigo-700 flex items-center gap-2 shadow-md transition-all duration-300 transform hover:scale-102">
@@ -264,18 +264,18 @@ const PointManagementPage = () => {
                 {rewards.map(reward => {
                   const canRedeem = selectedRedeemCustomer.loyalty_points >= reward.points_cost;
                   return (
-                    <div key={reward.id} className={`bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-5 flex flex-col border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-102 ${!canRedeem ? 'opacity-70' : ''}`}>
+                    <div key={reward.id} className={`bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-5 flex flex-col border-2 border-gray-200 dark:border-[var(--border-default)] transition-all duration-300 transform hover:scale-102 ${!canRedeem ? 'opacity-70' : ''}`}>
                       <div className="flex-grow">
                         <div className="flex justify-between items-start mb-3">
                           <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-2 rounded-lg">
                             <FiGift className="text-white h-5 w-5" />
                           </div>
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${canRedeem ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-gray-100 text-gray-800 dark:bg-[var(--bg-secondary)] dark:text-gray-300'}`}>
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${canRedeem ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-white' : 'bg-gray-100 text-gray-800 dark:bg-[var(--bg-secondary)] dark:text-gray-300'}`}>
                             {reward.points_cost.toLocaleString('id-ID')} Poin
                           </span>
                         </div>
                         <h4 className="font-bold text-lg text-gray-800 dark:text-white mb-2">{reward.name}</h4>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{reward.description}</p>
+                        <p className="text-sm text-gray-500 dark:text-[var(--text-default)] mb-4">{reward.description}</p>
                       </div>
                       <div className="mt-auto">
                         <button 
@@ -319,24 +319,24 @@ const PointManagementPage = () => {
       <form onSubmit={handleTransfer} className="max-w-4xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {/* From Customer */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)]">
             <label className="block text-sm font-bold text-gray-700 dark:text-white mb-3">Dari Pelanggan</label>
             <div className="flex items-center gap-2 mb-4">
               <div className="relative flex-grow">
-                <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-[var(--text-muted)]" />
                 <input 
                   type="text"
                   value={transferFromSearch}
                   onChange={(e) => setTransferFromSearch(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleTransferSearch('from', transferFromSearch); } }}
                   placeholder="Cari pengirim..."
-                  className="w-full pl-10 p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600"
+                  className="w-full pl-10 p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-[var(--border-default)]"
                 />
               </div>
               <button 
                 type="button" 
                 onClick={() => handleTransferSearch('from', transferFromSearch)} 
-                className="bg-gradient-to-r from-gray-500 to-gray-600 text-white p-3 rounded-xl hover:from-gray-600 hover:to-gray-700 shadow-md"
+                className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-xl hover:from-gray-600 hover:to-gray-700 shadow-md"
               >
                 <FiSearch className="h-5 w-5" />
               </button>
@@ -354,24 +354,24 @@ const PointManagementPage = () => {
           </div>
 
           {/* To Customer */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)]">
             <label className="block text-sm font-bold text-gray-700 dark:text-white mb-3">Ke Pelanggan</label>
             <div className="flex items-center gap-2 mb-4">
               <div className="relative flex-grow">
-                <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white" />
                 <input 
                   type="text"
                   value={transferToSearch}
                   onChange={(e) => setTransferToSearch(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleTransferSearch('to', transferToSearch); } }}
                   placeholder="Cari penerima..."
-                  className="w-full pl-10 p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600"
+                  className="w-full pl-10 p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-[var(--border-default)]"
                 />
               </div>
               <button 
                 type="button" 
                 onClick={() => handleTransferSearch('to', transferToSearch)} 
-                className="bg-gradient-to-r from-gray-500 to-gray-600 text-white p-3 rounded-xl hover:from-gray-600 hover:to-gray-700 shadow-md"
+                className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-xl hover:from-gray-600 hover:to-gray-700 shadow-md"
               >
                 <FiSearch className="h-5 w-5" />
               </button>
@@ -390,7 +390,7 @@ const PointManagementPage = () => {
         </div>
 
         {/* Amount & Action */}
-        <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)]">
           <label className="block text-sm font-bold text-gray-700 dark:text-white mb-3">Jumlah Poin</label>
           <div className="relative">
             <input 
@@ -398,7 +398,7 @@ const PointManagementPage = () => {
               value={transferAmount}
               onChange={(e) => setTransferAmount(e.target.value)}
               placeholder="0"
-              className="w-full p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-gray-600"
+              className="w-full p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-[var(--border-default)]"
             />
           </div>
           {transferError && <p className="text-red-500 text-sm mt-2 bg-red-50 dark:bg-red-900/20 p-2 rounded-lg">{transferError}</p>}
@@ -435,16 +435,16 @@ const PointManagementPage = () => {
     <div className="p-4 md:p-6 bg-gray-50 dark:bg-[var(--bg-secondary)] min-h-50vh rounded-xl shadow-md">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Manajemen Poin</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">Manajemen penukaran dan transfer poin pelanggan</p>
+        <p className="text-gray-600 dark:text-[var(--text-muted)] mb-6">Manajemen penukaran dan transfer poin pelanggan</p>
         
         {/* Tabs */}
-        <div className="mb-8 bg-white dark:bg-[var(--bg-secondary)] rounded-xl p-1 shadow-md border border-gray-200 dark:border-gray-700 inline-flex">
+        <div className="mb-8 bg-white dark:bg-[var(--bg-secondary)] rounded-xl p-1 shadow-md border-2 border-gray-200 dark:border-[var(--border-default)] inline-flex">
           <button
             onClick={() => setActiveTab('redeem')}
             className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
               activeTab === 'redeem' 
                 ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md' 
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white'
+                : 'text-gray-600 dark:text-[var(--text-muted)] hover:text-gray-800 dark:hover:text-white'
             }`}
           >
             <div className="flex items-center gap-2">
@@ -457,7 +457,7 @@ const PointManagementPage = () => {
             className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
               activeTab === 'transfer' 
                 ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-md' 
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white'
+                : 'text-gray-600 dark:text-[var(--text-muted)] hover:text-gray-800 dark:hover:text-white'
             }`}
           >
             <div className="flex items-center gap-2">

@@ -186,7 +186,7 @@ const HistoryPage = () => {
                 <select
                   value={selectedCashierId}
                   onChange={(e) => setSelectedCashierId(e.target.value)}
-                  className="appearance-none w-full md:w-auto px-4 py-2 rounded-lg text-sm font-medium bg-[var(--bg-primary)] text-[var(--text-default)] border border-[var(--border-default)] focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]"
+                  className="appearance-none w-full md:w-auto px-4 py-2 rounded-lg text-sm font-medium bg-[var(--bg-default)] text-[var(--text-default)] border border-[var(--border-default)] focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)]"
                 >
                   <option value="">Semua Kasir</option>
                   {users.map(user => (
@@ -205,8 +205,8 @@ const HistoryPage = () => {
             <p className="text-2xl font-bold mt-1 text-[var(--text-default)]">{transactionCount}</p>
           </div>
           <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-green-500/80">Penjualan Kotor</h3>
-            <p className="text-2xl font-bold mt-1 text-green-500">
+            <h3 className="text-sm font-medium text-green-700/80">Penjualan Kotor</h3>
+            <p className="text-2xl font-bold mt-1 text-green-700">
               Rp {totalSales.toLocaleString('id-ID', { maximumFractionDigits: 0 })}
             </p>
           </div>
@@ -264,7 +264,7 @@ const HistoryPage = () => {
                     axisLine={false}
                     tickLine={false}
                   />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--bg-default)' }} />
                   <Legend wrapperStyle={{ paddingTop: '20px', color: 'var(--text-muted)' }}/>
                   <Bar dataKey="total" fill="var(--primary-color)" name="Total Sales" radius={[4, 4, 0, 0]}/>
                 </BarChart>

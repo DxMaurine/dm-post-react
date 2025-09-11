@@ -187,11 +187,11 @@ const TentangAplikasiPage = () => {
             </div>
             <div className="ml-4">
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white">DM-POS System</h2>
-              <p className="text-gray-600 dark:text-gray-300">Versi {appVersion || 'Loading...'}</p>
+              <p className="text-gray-600 dark:text-gray-100">Versi {appVersion || 'Loading...'}</p>
             </div>
           </div>
           
-          <p className="text-gray-600 dark:text-gray-300 mb-6 text-lg leading-relaxed">
+          <p className="text-gray-600 dark:text-[var(--text-default)] mb-6 text-lg leading-relaxed">
             DM-POS adalah sistem kasir modern yang membantu Anda mengelola bisnis retail dengan lebih efisien. 
             Dirancang khusus untuk memberikan pengalaman terbaik dalam pengelolaan transaksi harian, 
             manajemen stok, dan pelaporan bisnis yang lengkap.
@@ -365,11 +365,11 @@ const TentangAplikasiPage = () => {
           {/* Bantuan & Dukungan */}
           <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)]">
             <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Bantuan & Dukungan</h3>
-            <div className="bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 p-5 rounded-xl shadow-sm">
+            <div className="bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 p-5 rounded-xl shadow-sm">
               <div className="flex items-start">
-                <FiHelpCircle className="h-6 w-6 text-indigo-600 dark:text-indigo-400 mt-1 mr-4" />
+                <FiHelpCircle className="h-6 w-6 text-indigo-600 dark:text-indigo-200 mt-1 mr-4" />
                 <div>
-                  <p className="text-gray-700 dark:text-gray-300">
+                  <p className="text-gray-700 dark:text-gray-200">
                     Untuk bantuan teknis dan pertanyaan, hubungi kami di:
                     <br />
                     <br />
@@ -385,7 +385,7 @@ const TentangAplikasiPage = () => {
 
           {/* Footer */}
           <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)] text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-300">
+            <p className="text-sm text-gray-600 dark:text-[var(--text-default)]">
               © 2025 DM-POS. All rights reserved.
               <br />
               <span className="font-medium">Developed by PT. Diamond Media Software</span>

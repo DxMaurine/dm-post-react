@@ -108,8 +108,8 @@ const BarcodeManagementPage = () => {
         <div className="lg:col-span-2 bg-white dark:bg-[var(--card-bg-dark)] rounded-xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] flex flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-3">
-              <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg mr-3">
-                <FiSearch className="text-blue-600 dark:text-blue-400" size={18} />
+              <div className="bg-blue-100 dark:bg-[var(--bg-default)] p-2 rounded-lg mr-3">
+                <FiSearch className="text-blue-600 dark:text-[var(--text-muted)]" size={18} />
               </div>
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">
                 Daftar Produk
@@ -144,7 +144,7 @@ const BarcodeManagementPage = () => {
                       >
                         <div className="flex items-center space-x-4 flex-grow">
                           <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
-                            <FiPackage className="text-blue-600 dark:text-blue-400" size={18} />
+                            <FiPackage className="text-blue-600 dark:text-[var(--text-muted)]" size={18} />
                           </div>
                           <div className="flex-grow min-w-0">
                             <h3 className="font-semibold text-gray-800 dark:text-[var(--text-default)] truncate group-hover:text-[var(--primary-color)]">
@@ -154,13 +154,13 @@ const BarcodeManagementPage = () => {
                               <span className="text-sm text-gray-500 dark:text-[var(--text-muted)]">
                                 {product.category}
                               </span>
-                              <span className="text-xs font-mono text-gray-400 dark:text-gray-500">
+                              <span className="text-xs font-mono text-gray-400 dark:text-[var(--text-default)]">
                                 {product.barcode || 'No barcode'}
                               </span>
                               <span className={`text-xs font-medium px-2 py-1 rounded-full ${
                                 product.stock > 10 
-                                  ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' 
-                                  : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'
+                                  ? 'bg-green-100 dark:bg-green-700 text-green-800 dark:text-white' 
+                                  : 'bg-yellow-100 dark:bg-yellow-700 text-yellow-800 dark:text-yellow-300'
                               }`}>
                                 Stok: {product.stock}
                               </span>
@@ -196,13 +196,13 @@ const BarcodeManagementPage = () => {
           <div className="p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-3">
               <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg mr-3">
-                <FiPrinter className="text-purple-600 dark:text-purple-400" size={18} />
+                <FiPrinter className="text-purple-600 dark:text-amber-400" size={18} />
               </div>
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">
                 Daftar Cetak
               </h2>
               {printQueue.length > 0 && (
-                <span className="ml-auto bg-blue-100 dark:bg-blue-500/10 text-blue-800 dark:text-blue-300 text-xs font-medium px-2.5 py-1 rounded-full">
+                <span className="ml-auto bg-blue-100 dark:bg-[var(--bg-default)] text-blue-800 dark:text-[var(--text-default)] text-xs font-medium px-2.5 py-1 rounded-full">
                   {printQueue.length} item
                 </span>
               )}

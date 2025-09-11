@@ -435,7 +435,7 @@ const DataBarang = () => {
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           product.stock <= 1 ? 'bg-red-200 text-red-800 dark:bg-red-900/50 dark:text-red-200' :
                           product.stock <= 5 ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200' :
-                          'bg-green-200 text-green-800 dark:bg-green-900/50 dark:text-green-200'
+                          'bg-green-200 text-green-800 dark:bg-green-600 dark:text-white'
                         }`}>
                           {product.stock} in stock
                         </span>

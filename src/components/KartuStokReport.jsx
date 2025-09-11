@@ -41,11 +41,11 @@ const KartuStokReport = ({ productId }) => {
   
   return (
     <div className="bg-white dark:bg-[var(--bg-secondary)] dark:border-slate-600 p-4">
-      <h2 className="text-xl font-bold mb-2 dark:text-white">Kartu Stok: {reportData.productName}</h2>
-      <p className="mb-4 dark:text-green-400">Stok Saat Ini: <span className="font-semibold">{reportData.currentStock}</span></p>
+      <h2 className="text-xl font-bold mb-2 dark:text-[var(--text-default)]">Kartu Stok: {reportData.productName}</h2>
+      <p className="mb-4 dark:text-[var(--text-default)]">Stok Saat Ini: <span className="font-semibold dark:text-[var(--text-muted)]">{reportData.currentStock}</span></p>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white dark:bg-[var(--bg-default)] ">
+        <table className="min-w-full bg-white dark:bg-[var(--bg-secondary)] ">
           <thead className="bg-gray-100 dark:bg-[var(--bg-default)] border border-gray-200 dark:border-[var(--border-default)] border-b-2">
             <tr>
               <th className="px-4 py-2 border-b text-left text-sm font-medium text-gray-600 dark:text-white">Tanggal</th>
@@ -58,7 +58,7 @@ const KartuStokReport = ({ productId }) => {
           <tbody>
             {reportData.history.length > 0 ? (
               reportData.history.map((item, index) => (
-                <tr key={index} className="hover:bg-gray-50 dark:hover:bg-[var(--bg-secondary)]">
+                <tr key={index} className="hover:bg-gray-50 dark:hover:bg-[var(--bg-default)]">
                   <td className="px-4 py-2 border-b dark:text-white">{new Date(item.date).toLocaleDateString('id-ID')}</td>
                   <td className="px-4 py-2 border-b dark:text-white">{item.description}</td>
                   <td className="px-4 py-2 border-b text-center text-green-600 dark:text-white">{item.stock_in || ''}</td>

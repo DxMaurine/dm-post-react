@@ -150,11 +150,11 @@ const DiscountManagementPage = () => {
   const getCustomerTypeColor = (type) => {
     switch (type) {
       case 'Umum':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200';
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
       case 'ASN':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-200';
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
       case 'Dropshipper':
-        return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200';
+        return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
     }
@@ -302,16 +302,16 @@ const DiscountManagementPage = () => {
       {/* Discounts Table */}
       <div className="overflow-x-auto rounded-xl overflow-hidden shadow-sm border border-gray-100 dark:border-[var(--border-default)]">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-          <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
+          <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider rounded-tl-xl">Kode</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Tipe</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Nilai</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Pelanggan</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Mulai</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Berakhir</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Status</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider rounded-tr-xl">Aksi</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider rounded-tl-xl">Kode</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Tipe</th>
+              <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Nilai</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Pelanggan</th>
+              <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Mulai</th>
+              <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Berakhir</th>
+              <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider rounded-tr-xl">Aksi</th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">
@@ -327,16 +327,16 @@ const DiscountManagementPage = () => {
               discounts.map((discount, index) => (
                 <tr key={discount.id} className={index % 2 === 0 ? 'bg-white dark:bg-[var(--bg-secondary)]' : 'bg-gray-50 dark:bg-[var(--bg-secondary)]'}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-[var(--text-default)]">
-                    <span className="font-mono bg-blue-100/50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-md">{discount.code}</span>
+                    <span className="font-mono bg-blue-100/50 dark:bg-blue-500 text-blue-700 dark:text-white px-2 py-1 rounded-md">{discount.code}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-[var(--text-muted)]">
                     {discount.type === 'percentage' ? 'Persentase' : 'Tetap'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-medium">
                     {discount.type === 'percentage' ? (
-                      <span className="text-green-600 dark:text-green-400">{discount.value}%</span>
+                      <span className="font-mono bg-blue-100/50 dark:bg-blue-500 text-blue-700 dark:text-white px-2 py-1 rounded-md">{discount.value}%</span>
                     ) : (
-                      <span className="text-blue-600 dark:text-blue-400">{formatRupiah(discount.value)}</span>
+                      <span className="font-mono bg-blue-100/50 dark:bg-blue-500 text-blue-700 dark:text-white px-2 py-1 rounded-md">{formatRupiah(discount.value)}</span>
                     )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -354,9 +354,9 @@ const DiscountManagementPage = () => {
                     <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       discount.active
                         ? isExpired(discount)
-                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200' // Kuning: Kadaluarsa
-                          : 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200' // Hijau: Aktif
-                        : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200' // Merah: Nonaktif manual
+                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-400' // Kuning: Kadaluarsa
+                          : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-400' // Hijau: Aktif
+                        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-400' // Merah: Nonaktif manual
                     }`}>
                       {discount.active
                         ? isExpired(discount)
@@ -370,7 +370,7 @@ const DiscountManagementPage = () => {
                     <div className="flex justify-center space-x-2">
                       <button
                         onClick={() => handleEdit(discount)}
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-2 rounded-lg hover:bg-blue-500/10 transition-colors duration-200"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-600 dark:hover:text-blue-300 p-2 rounded-lg hover:bg-blue-500/10 transition-colors duration-200"
                         title="Edit"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -379,7 +379,7 @@ const DiscountManagementPage = () => {
                       </button>
                       <button
                         onClick={() => handleDelete(discount.id)}
-                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-2 rounded-lg hover:bg-red-500/10 transition-colors duration-200"
+                        className="text-red-600 hover:text-red-800 dark:text-red-600 dark:hover:text-red-700 p-2 rounded-lg hover:bg-red-500/10 transition-colors duration-200"
                         title="Hapus"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

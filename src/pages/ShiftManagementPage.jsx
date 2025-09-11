@@ -264,7 +264,7 @@ const ShiftManagementPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white dark:bg-[var(--bg-default)] rounded-2xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] overflow-hidden">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-2xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] overflow-hidden">
         {shiftStatus.isActive ? (
           <form onSubmit={handleEndShift}>
             <div className="bg-gradient-to-r from-yellow-600 to-yellow-700 dark:from-yellow-800 dark:to-yellow-900 p-6 text-white">
@@ -294,7 +294,7 @@ const ShiftManagementPage = () => {
                   <p className="text-2xl font-bold font-mono text-blue-800 dark:text-[var(--text-default)] mt-1">{duration}</p>
                 </div>
                 
-                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+                <div className="bg-green-50 dark:bg-green-700 p-4 rounded-lg border border-green-200 dark:border-green-800">
                   <p className="text-sm text-green-700 dark:text-green-300">Kas Awal</p>
                   <p className="text-xl font-bold text-green-800 dark:text-green-200 mt-1">
                     {formatRupiah(parseFloat(shiftStatus.shift?.opening_cash || 0))}
@@ -409,7 +409,7 @@ const ShiftManagementPage = () => {
                 
                 <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-700 flex items-start gap-3">
                   <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                  <p className="text-sm text-yellow-700 dark:text-gray-100">
                     Pastikan jumlah kas awal sesuai dengan fisik uang di laci kas sebelum memulai shift
                   </p>
                 </div>

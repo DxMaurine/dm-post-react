@@ -118,8 +118,8 @@ const RekapPenjualan = () => {
                 dataKey="total"
                 stroke="var(--primary-color)"
                 strokeWidth={2}
-                dot={{ r: 3, strokeWidth: 1, fill: 'var(--bg-primary)', stroke: 'var(--primary-color)' }}
-                activeDot={{ r: 6, stroke: 'var(--primary-color-hover)', strokeWidth: 2, fill: 'var(--bg-primary)' }}
+                dot={{ r: 3, strokeWidth: 1, fill: 'var(--bg-default)', stroke: 'var(--primary-color)' }}
+                activeDot={{ r: 6, stroke: 'var(--primary-color)', strokeWidth: 2, fill: 'var(--bg-default)' }}
               />
             </LineChart>
           </ResponsiveContainer>

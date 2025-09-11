@@ -172,7 +172,7 @@ const SalesReturnPage = () => {
         </div>
 
         {/* Summary Card */}
-        <div className="bg-gradient-to-r from-blue-600/50 to-indigo-700 text-white rounded-xl p-4 mb-6 shadow-lg">
+        <div className="bg-gradient-to-r from-purple-700 to-indigo-700 text-white rounded-xl p-4 mb-6 shadow-lg">
           <div className="flex flex-wrap justify-between items-center">
             <div className="flex items-center gap-3 mb-2 md:mb-0">
               <div className="bg-white/20 p-3 rounded-full">
@@ -214,32 +214,32 @@ const SalesReturnPage = () => {
         {!loading && !error && (
           <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-[var(--border-default)]">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
-              <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
+              <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Return ID</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Transaction ID</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date & Time</th>
-                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Reason</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cashier</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Return ID</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Transaction ID</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Date & Time</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Amount</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Reason</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Cashier</th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">
                 {filteredReturns.length > 0 ? (
                   filteredReturns.map((ret) => (
                     <tr key={ret.id} className="hover:bg-gray-50 dark:hover:bg-[var(--bg-default)] transition-colors">
-                      <td className="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-[var(--text-default)]">{ret.id}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-[var(--text-default)]">{ret.transaction_code || ret.transaction_id}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                      <td className="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-[var(--text-muted)]">{ret.id}</td>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-[var(--text-muted)]">{ret.transaction_code || ret.transaction_id}</td>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-[var(--text-muted)]">
                         {formatDateTime(ret.return_date, ret.return_time)}
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-right font-semibold text-green-600 dark:text-green-400">
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-right font-semibold text-green-600 dark:text-[var(--text-muted)]">
                         Rp {parseFloat(ret.total_amount || 0).toLocaleString('id-ID')}
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap overflow-hidden max-w-xs truncate">{ret.notes || '-'}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                      <td className="px-4 py-3 text-sm text-gray-500 dark:text-[var(--text-muted)] whitespace-nowrap overflow-hidden max-w-xs truncate">{ret.notes || '-'}</td>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-[var(--text-muted)]">
                         <div className="flex items-center">
-                          <FaUser className="mr-2 text-gray-400 dark:text-gray-400" />
+                          <FaUser className="mr-2 text-gray-400 dark:text-[var(--text-muted)]" />
                           {ret.user_name || 'N/A'}
                         </div>
                       </td>
@@ -255,10 +255,10 @@ const SalesReturnPage = () => {
               </tbody>
               <tfoot className="bg-gray-50 dark:bg-[var(--bg-secondary)] border-t border-gray-200 dark:border-[var(--border-default)]">
                 <tr>
-                  <td colSpan="3" className="px-4 py-3 text-base font-semibold text-gray-700 dark:text-gray-200 text-right">
+                  <td colSpan="3" className="px-4 py-3 text-base font-semibold text-gray-700 dark:text-[var(--text-default)] text-right">
                     Total:
                   </td>
-                  <td className="px-4 py-3 text-base font-bold text-green-600 dark:text-green-400 text-right">
+                  <td className="px-4 py-3 text-base font-bold text-green-600 dark:text-[var(--text-default)] text-right">
                     Rp {totalReturnedValue.toLocaleString('id-ID')}
                   </td>
                   <td colSpan="2"></td>

@@ -50,7 +50,7 @@ const LaporanProdukTerlaris = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
           {topSellingProducts.slice(0, 5).map((product, index) => (
             <div key={`card-${product.id || index}`} 
-                 className={`p-4 rounded-xl border flex flex-col ${getRankClasses(index + 1).replace('text-', 'border-')}`}>
+                 className={`p-4 rounded-xl border-2 flex flex-col ${getRankClasses(index + 1).replace('text-', 'border-')}`}>
               <div className="text-sm font-medium dark:text-white opacity-80">Peringkat #{index + 1}</div>
               <div className="text-lg font-bold dark:text-white mt-1 truncate flex-grow" title={product.name}>
                 {product.name || '-'}
@@ -77,7 +77,7 @@ const LaporanProdukTerlaris = () => {
               [...Array(5)].map((_, i) => (
                 <tr key={`skeleton-${i}`}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="h-6 w-12 bg-[var(--bg-tertiary)] rounded-full animate-pulse"></div>
+                    <div className="h-6 w-12 bg-[var(--bg-default)] rounded-full animate-pulse"></div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center">

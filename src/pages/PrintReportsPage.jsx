@@ -284,7 +284,7 @@ const PrintReportsPage = () => {
                     key={opt.id}
                     className={`flex items-center p-3  rounded-lg transition-colors cursor-pointer border ${selectedReports.includes(opt.id)
                       ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700'
-                      : 'bg-white dark:bg-[var(--bg-secondary)]  hover:bg-gray-100 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600'}`}
+                      : 'bg-white dark:bg-[var(--bg-secondary)]  hover:bg-gray-100 dark:hover:bg-[var(--bg-default)] border-gray-200 dark:border-gray-600'}`}
                   >
                     <input
                       type="checkbox"
@@ -343,7 +343,7 @@ const PrintReportsPage = () => {
               <button
                 onClick={handleGenerateReport}
                 disabled={loading}
-                className="mt-6 w-full bg-blue-600 hover:bg-blue-700 dark:bg-[var(--primary-bg-dark)] dark:hover:bg-[var(--primary-color-hover)] text-white font-bold py-3 px-4 rounded-lg transition-colors shadow-md disabled:bg-gray-400 dark:disabled:bg-gray-600 flex items-center justify-center gap-2"
+                className="mt-6 w-full bg-blue-600 hover:bg-blue-700 dark:bg-[var(--primary-bg-dark)] dark:hover:bg-[var(--primary-color)] text-white font-bold py-3 px-4 rounded-lg transition-colors shadow-md disabled:bg-gray-400 dark:disabled:bg-gray-600 flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>

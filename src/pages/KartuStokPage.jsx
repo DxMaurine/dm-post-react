@@ -199,7 +199,7 @@ const KartuStokPage = () => {
                   <h3 className="font-bold text-[var(--text-default)]">{selectedProduct.name}</h3>
                   <div className="flex items-center space-x-4 mt-1">
                     <span className="text-sm text-[var(--text-muted)]">Kode: {selectedProduct.id}</span>
-                    <span className={`text-sm font-medium px-2 py-1 rounded-full ${getStockBgColor(selectedProduct.stock)} ${getStockColor(selectedProduct.stock)}`}>
+                    <span className={`text-sm font-medium px-2 py-1 rounded-full dark:text-[var(--text-muted)] ${getStockBgColor(selectedProduct.stock)} ${getStockColor(selectedProduct.stock)}`}>
                       Stok: {selectedProduct.stock}
                     </span>
                   </div>
