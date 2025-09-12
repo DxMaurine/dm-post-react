@@ -110,7 +110,9 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "pos-backend/public/favicon.ico",
+      "uninstallerIcon": "pos-backend/public/favicon.ico"
     }
   }
 }
