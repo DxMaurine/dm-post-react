@@ -35,7 +35,7 @@ const ThemeVariantSwitcher = ({ isCollapsed }) => {
         ))}
       </div>
       
-      <style jsx>{`
+      <style>{`
         .neumorphic-btn {
           background: var(--bg-color, #e6e9ef);
           box-shadow: 5px 5px 10px var(--shadow-dark, #c9ccd1), 

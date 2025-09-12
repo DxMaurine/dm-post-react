@@ -63,13 +63,13 @@ const ThemeDropdown = ({ isCollapsed }) => {
       </div>
 
       {isOpen && !isCollapsed && (
-        <div className="absolute bottom-full mb-2 w-[calc(100%-1.5rem)] left-3 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-10 neumorphic-dropdown transform transition-all duration-300 scale-100 opacity-100">
+        <div className="absolute bottom-full mb-2 w-[calc(100%-1.5rem)] left-3 bg-white dark:bg-[var(--layout-bg-dark)] rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-10 neumorphic-dropdown transform transition-all duration-300 scale-100 opacity-100">
           <ul>
             {themes.map((theme) => (
               <li key={theme.name}>
                 <button
                   onClick={() => handleThemeChange(theme)}
-                  className="w-full flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-500/50 transition-all duration-200 rounded-lg"
+                  className="w-full flex items-center px-4 py-3 text-sm text-gray-700 dark:text-yellow-400 hover:bg-gray-100 dark:hover:bg-gray-500/50 transition-all duration-200 rounded-lg"
                 >
                   <theme.icon className="h-4 w-4 mr-3" />
                   {theme.name}
@@ -80,7 +80,7 @@ const ThemeDropdown = ({ isCollapsed }) => {
         </div>
       )}
       
-      <style jsx>{`
+      <style>{`
         .neumorphic-btn {
           background: var(--bg-color, #e6e9ef);
           box-shadow: 5px 5px 10px var(--shadow-dark, #c9ccd1), 
@@ -127,7 +127,7 @@ const ThemeDropdown = ({ isCollapsed }) => {
         }
         
         .dark.theme-blue-ocean .neumorphic-btn {
-          --bg-color: #01e0e0;
+          --bg-color: #005c97;
           --shadow-dark:rgb(0, 130, 170);
           --shadow-light:rgb(3, 164, 185);
         }
