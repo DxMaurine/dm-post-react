@@ -5,6 +5,7 @@ import { formatDate } from '../utils';
 import { transactionAPI, userAPI } from '../api';
 import { SettingsContext } from '../context/SettingsContext';
 import PrintDialog from '../components/PrintDialog';
+import {FiFileText,FiArrowDown,FiArrowUp, FiDollarSign} from 'react-icons/fi';
 import React from 'react';
 
 const HistoryPage = () => {
@@ -144,6 +145,20 @@ const HistoryPage = () => {
     return null;
   };
 
+  const SummaryCard = ({ icon, title, value, colorClass }) => (
+    <div className={`bg-[var(--bg-secondary)] p-4 rounded-xl shadow-md border-l-4 ${colorClass}`}>
+      <div className="flex items-center">
+        <div className={`p-2 rounded-lg mr-4 bg-opacity-20 ${colorClass.replace('border', 'bg').replace('-500', '-500/10')}`}>
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-sm font-medium text-[var(--text-muted)]">{title}</h3>
+          <p className="text-xl font-bold mt-1 text-[var(--text-default)]">{value}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <div className="max-w-7xl mx-auto p-6 bg-[var(--bg-primary)] rounded-xl shadow-lg">
@@ -200,28 +215,30 @@ const HistoryPage = () => {
 
         {/* Stats Card */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-           <div className="bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-[var(--text-muted)]">Total Transaksi</h3>
-            <p className="text-2xl font-bold mt-1 text-[var(--text-default)]">{transactionCount}</p>
-          </div>
-          <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-green-700/80">Penjualan Kotor</h3>
-            <p className="text-2xl font-bold mt-1 text-green-700">
-              Rp {totalSales.toLocaleString('id-ID', { maximumFractionDigits: 0 })}
-            </p>
-          </div>
-          <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-red-500/80">Total Retur</h3>
-            <p className="text-2xl font-bold mt-1 text-red-500">
-              Rp {totalReturns.toLocaleString('id-ID', { maximumFractionDigits: 0 })}
-            </p>
-          </div>
-          <div className="bg-[var(--primary-color)]/10 border border-[var(--primary-color)]/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-[var(--primary-color)]/80">Penjualan Bersih</h3>
-            <p className="text-2xl font-bold mt-1 text-[var(--primary-color)]">
-              Rp {netSales.toLocaleString('id-ID', { maximumFractionDigits: 0 })}
-            </p>
-          </div>
+          <SummaryCard 
+            icon={<FiFileText className="text-slate-500 dark:text-[var(--text-muted)]" />} 
+            title="Total Transaksi" 
+            value={transactionCount} 
+            colorClass="border-slate-500" 
+          />
+          <SummaryCard 
+            icon={<FiArrowUp className="text-green-500 dark:text-[var(--text-default)]" />} 
+            title="Penjualan Kotor" 
+            value={`Rp ${totalSales.toLocaleString('id-ID', { maximumFractionDigits: 0 })}`} 
+            colorClass="border-green-500" 
+          />
+          <SummaryCard 
+            icon={<FiArrowDown className="text-red-500" />} 
+            title="Total Retur" 
+            value={`Rp ${totalReturns.toLocaleString('id-ID', { maximumFractionDigits: 0 })}`} 
+            colorClass="border-red-500" 
+          />
+          <SummaryCard 
+            icon={<FiDollarSign className="text-[var(--text-default)]" />} 
+            title="Penjualan Bersih" 
+            value={`Rp ${netSales.toLocaleString('id-ID', { maximumFractionDigits: 0 })}`} 
+            colorClass="border-[var(--primary-color)]" 
+          />
         </div>
 
         {/* Chart Section */}
@@ -306,8 +323,8 @@ const HistoryPage = () => {
                 {history.map((item) => {
                   if (item.record_type === 'shift_close') {
                     return (
-                      <tr key={`shift-${item.id}`} className="bg-[var(--bg-tertiary)]">
-                        <td colSpan="7" className="px-4 py-2 text-center text-sm font-semibold text-[var(--text-muted)] tracking-wider">
+                      <tr key={`shift-${item.id}`} className="bg-indigo-500/10">
+                        <td colSpan="7" className="px-4 py-2 text-center text-sm font-semibold text-amber-700 dark:text-[var(--text-default)] tracking-wider">
                           --- Shift ditutup oleh {item.cashier_name} pada {new Date(item.datetime).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })} ---
                         </td>
                       </tr>
@@ -361,7 +378,7 @@ const HistoryPage = () => {
                         <td className="px-4 py-3 whitespace-nowrap text-sm">
                           <button 
                             onClick={() => handlePrintReceipt(item)}
-                            className="bg-[var(--bg-tertiary)] hover:bg-[var(--border-default)] text-[var(--text-default)] font-bold py-1 px-3 rounded-lg text-xs transition-colors"
+                            className="bg-[var(--primary-color)]/10 text-[var(--primary-color)] hover:bg-[var(--primary-color)]/20 font-semibold py-1 px-3 rounded-lg text-xs transition-colors"
                           >
                             Cetak Struk
                           </button>

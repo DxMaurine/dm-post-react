@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { FaSearch, FaCalendarAlt, FaTimesCircle, FaFileInvoiceDollar, FaUser, FaExchangeAlt, FaPlus } from 'react-icons/fa';
+import { FiArchive } from 'react-icons/fi';
 import { format } from 'date-fns';
 import id from 'date-fns/locale/id';
 import CreateReturnModal from '../components/CreateReturnModal';
@@ -101,17 +102,29 @@ const SalesReturnPage = () => {
   };
 
   return (
-    <>
-      <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-md">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)]">Return Penjualan</h2>
-            <p className="text-gray-500 dark:text-[var(--text-muted)]">Dashboard Retur penjualan</p>
+    
+    <div className="w-full max-w-7xl mx-auto">
+      <div className="">
+        {/* Header Section */}
+        <div className="bg-gradient-to-r from-red-600 to-indigo-700 dark:from-red-700 dark:to-blue-800 rounded-xl p-6 mb-6 text-white shadow-lg">
+          <div className="flex items-center">
+            <div className="bg-white/20 p-3 rounded-xl mr-4">
+              <FiArchive size={24} />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">Retur Penjualan</h1>
+              <p className="text-blue-100 dark:text-blue-200 mt-1">
+                Kelola data retur penjualan dari pelanggan
+              </p>
+            </div>
           </div>
-        
+        </div>
+
+        {/* Action Button */}
+        <div className="mb-6 flex justify-end">
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="bg-gradient-to-r from-yellow-600 to-red-700 hover:bg-[var(--primary-color-hover)] text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors shadow-sm"
+            className="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors shadow-md"
           >
             <FaPlus />
             Buat Retur Baru
@@ -274,7 +287,7 @@ const SalesReturnPage = () => {
         setSnackbar={setSnackbar}
         onReturnCreated={handleReturnCreated}
       />
-    </>
+    </div>
   );
 };
 

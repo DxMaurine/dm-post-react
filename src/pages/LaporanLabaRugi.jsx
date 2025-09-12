@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { formatDate } from '../utils';
 import { reportAPI } from '../api';
 import React from 'react';
+import { FiArrowUp, FiArrowDown, FiDollarSign } from 'react-icons/fi';
 
 const LaporanLabaRugi = () => {
   const { setSnackbar } = useOutletContext();
@@ -68,6 +69,20 @@ const LaporanLabaRugi = () => {
     return null;
   };
 
+  const SummaryCard = ({ icon, title, value, colorClass }) => (
+    <div className={`bg-[var(--bg-secondary)] p-4 rounded-xl shadow-md border-l-4 ${colorClass}`}>
+      <div className="flex items-center">
+        <div className={`p-2 rounded-lg mr-4 bg-opacity-20 ${colorClass.replace('border', 'bg').replace('-500', '-500/10')}`}>
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-sm font-medium text-[var(--text-muted)]">{title}</h3>
+          <p className="text-xl font-bold mt-1 text-[var(--text-default)]">{value}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="w-full max-w-7xl p-6 bg-[var(--bg-primary)] mx-auto rounded-xl shadow-lg">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
@@ -90,18 +105,24 @@ const LaporanLabaRugi = () => {
 
       {data.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-[var(--primary-color)]/10 border border-[var(--primary-color)]/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-[var(--primary-color)]/80">Total Penjualan</h3>
-            <p className="text-2xl font-bold mt-1 text-[var(--primary-color)]">{formatCurrency(totalSales)}</p>
-          </div>
-          <div className="bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-[var(--text-muted)]">Total HPP</h3>
-            <p className="text-2xl font-bold mt-1 text-[var(--text-default)]">{formatCurrency(totalHPP)}</p>
-          </div>
-          <div className="bg-[var(--success-color)]/10 border border-[var(--text-muted)] rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-[var(--text-muted)]">Laba Kotor</h3>
-            <p className="text-2xl font-bold mt-1 text-[var(--text-default)]">{formatCurrency(totalProfit)}</p>
-          </div>
+          <SummaryCard 
+            icon={<FiArrowUp className="text-blue-500" />} 
+            title="Total Penjualan" 
+            value={formatCurrency(totalSales)} 
+            colorClass="border-blue-500" 
+          />
+          <SummaryCard 
+            icon={<FiArrowDown className="text-red-500" />} 
+            title="Total HPP" 
+            value={formatCurrency(totalHPP)} 
+            colorClass="border-red-500" 
+          />
+          <SummaryCard 
+            icon={<FiDollarSign className="text-green-500" />} 
+            title="Laba Kotor" 
+            value={formatCurrency(totalProfit)} 
+            colorClass="border-green-500" 
+          />
         </div>
       )}
 

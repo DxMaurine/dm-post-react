@@ -106,11 +106,11 @@ function App() {
           <Route path="tentang-aplikasi" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><TentangAplikasiPage /></ProtectedRoute>} />
           <Route path="shift" element={<ProtectedRoute allowedRoles={['admin', 'manager', 'kasir']}><ShiftManagementPage /></ProtectedRoute>} />
           <Route path="beban-operasional" element={<ProtectedRoute allowedRoles={['admin', 'manager', 'kasir']}><BebanOperasionalPage /></ProtectedRoute>} />
-          <Route path="print-barcode/:productId" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><PrintBarcodePage /></ProtectedRoute>} />
           <Route path="barcode-management" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><BarcodeManagementPage /></ProtectedRoute>} />
 
           <Route path="print-reports" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><PrintReportsPage /></ProtectedRoute>} />
         </Route>
+        <Route path="/print-barcode/:productId" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><PrintBarcodePage /></ProtectedRoute>} />
         <Route path="/print/barcodes" element={<ProtectedRoute allowedRoles={['admin', 'manager']}><BarcodePrintSheet /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

@@ -3,6 +3,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 import { formatDate } from '../utils';
 import { transactionAPI } from '../api';
 import React from 'react';
+import { FiDollarSign, FiFileText } from 'react-icons/fi';
 
 const RekapPenjualan = () => {
   const [chart, setChart] = useState([]);
@@ -10,6 +11,27 @@ const RekapPenjualan = () => {
   const [loading, setLoading] = useState(true);
   const [totalSales, setTotalSales] = useState(0);
   const [totalTransactions, setTotalTransactions] = useState(0);
+  const [lineColor, setLineColor] = useState('#2563eb'); // Default color
+
+  useEffect(() => {
+    const updateLineColor = () => {
+      const isDarkMode = document.documentElement.classList.contains('dark');
+      if (isDarkMode) {
+        const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+        setLineColor(primaryColor || '#8884d8');
+      } else {
+        setLineColor('#2563eb'); // Hardcoded visible blue for light mode
+      }
+    };
+
+    updateLineColor(); // Set initial color
+
+    // Observe theme changes
+    const observer = new MutationObserver(updateLineColor);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
 
   const titles = {
     daily: 'Harian',
@@ -52,6 +74,20 @@ const RekapPenjualan = () => {
     return null;
   };
 
+  const SummaryCard = ({ icon, title, value, colorClass }) => (
+    <div className={`bg-[var(--bg-secondary)] p-4 rounded-xl shadow-md border-l-4 ${colorClass}`}>
+      <div className="flex items-center">
+        <div className={`p-2 rounded-lg mr-4 bg-opacity-20 ${colorClass.replace('border', 'bg').replace('-500', '-500/10')}`}>
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-sm font-medium text-[var(--text-muted)]">{title}</h3>
+          <p className="text-xl font-bold mt-1 text-[var(--text-default)]">{value}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderChart = () => {
     if (loading) {
       return (
@@ -77,17 +113,18 @@ const RekapPenjualan = () => {
     return (
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Card 1: Total Penjualan */}
-          <div className="bg-[var(--primary-color)]/10 border border-[var(--primary-color)]/20 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-[var(--primary-color)]/80">Total Penjualan ({titles[mode]})</h3>
-            <p className="text-2xl font-bold mt-1 text-[var(--primary-color)]">{formatCurrency(totalSales)}</p>
-          </div>
-
-          {/* Card 2: Jumlah Transaksi */}
-          <div className="bg-[var(--bg-tertiary)] border border-[var(--border-default)] rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-[var(--text-muted)]">Jumlah Transaksi ({titles[mode]})</h3>
-            <p className="text-2xl font-bold mt-1 text-[var(--text-default)]">{totalTransactions}</p>
-          </div>
+          <SummaryCard 
+            icon={<FiDollarSign className="text-[var(--text-default)]" />} 
+            title={`Total Penjualan (${titles[mode]})`} 
+            value={formatCurrency(totalSales)} 
+            colorClass="border-[var(--primary-color)]" 
+          />
+          <SummaryCard 
+            icon={<FiFileText className="text-slate-500" />} 
+            title={`Jumlah Transaksi (${titles[mode]})`} 
+            value={totalTransactions} 
+            colorClass="border-slate-500" 
+          />
         </div>
 
         {/* Chart */}
@@ -116,10 +153,10 @@ const RekapPenjualan = () => {
               <Line 
                 type="monotone"
                 dataKey="total"
-                stroke="var(--primary-color)"
+                stroke={lineColor}
                 strokeWidth={2}
-                dot={{ r: 3, strokeWidth: 1, fill: 'var(--bg-default)', stroke: 'var(--primary-color)' }}
-                activeDot={{ r: 6, stroke: 'var(--primary-color)', strokeWidth: 2, fill: 'var(--bg-default)' }}
+                dot={{ r: 3, strokeWidth: 1, fill: 'var(--bg-default)', stroke: lineColor }}
+                activeDot={{ r: 6, stroke: lineColor, strokeWidth: 2, fill: 'var(--bg-default)' }}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -179,3 +216,4 @@ const RekapPenjualan = () => {
 };
 
 export default RekapPenjualan;
+

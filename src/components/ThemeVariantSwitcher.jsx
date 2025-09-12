@@ -15,7 +15,7 @@ const ThemeVariantSwitcher = ({ isCollapsed }) => {
   ];
 
   return (
-    <div className="p-3 border-t border-gray-200 dark:border-gray-700">
+    <div className="p-3 border-t border-gray-200 dark:border-[var(--border-default)]">
       <h3 className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 mb-3 tracking-wider">
         Gaya Tema Gelap
       </h3>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { FiPlus, FiTrash2, FiChevronDown, FiCalendar, FiUser, FiTruck, FiDollarSign } from 'react-icons/fi';
+import { FiPlus, FiTrash2, FiChevronDown, FiCalendar, FiUser, FiTruck, FiDollarSign, FiRepeat } from 'react-icons/fi';
 import PurchaseReturnList from '../components/PurchaseReturnList';
 import { purchaseReturnAPI, productAPI } from '../api';
 import React from 'react';
@@ -349,13 +349,27 @@ const ReturPembelianPage = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl p-6 md:p-1">
+      <div className="max-w-7xl mx-auto">
         
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-yellow-700 dark:to-green-800 rounded-xl p-6 mb-6 text-white shadow-lg">
+          <div className="flex items-center">
+            <div className="bg-white/20 p-3 rounded-xl mr-4">
+              <FiRepeat size={24} />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">Retur Pembelian</h1>
+              <p className="text-blue-100 dark:text-blue-200 mt-1">
+                Kelola dan buat data retur pembelian ke supplier
+              </p>
+            </div>
+          </div>
+        </div>
+
         <PurchaseReturnList returns={returns} onUpdateStatus={handleUpdateStatus} onDelete={handleDelete} />
 
-        <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-[var(--text-default)] mb-4">Form Retur Pembelian</h1>
+        <div className="mb-6 mt-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-[var(--text-default)] mb-4">Form Retur Pembelian Baru</h2>
           <p className="text-gray-600 dark:text-[var(--text-muted)]">Isi formulir retur pembelian dengan lengkap dan benar</p>
         </div>
 

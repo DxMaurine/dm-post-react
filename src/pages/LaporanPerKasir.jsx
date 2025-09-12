@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { reportAPI } from '../api';
 import React from 'react';
+import { FiUsers, FiDollarSign, FiFileText } from 'react-icons/fi';
 
 const formatRupiah = (amount) => {
   return 'Rp' + amount.toLocaleString('id-ID');
@@ -51,6 +52,20 @@ const LaporanPerKasir = () => {
     low: 'bg-[var(--bg-tertiary)]',
   }
 
+  const SummaryCard = ({ icon, title, value, colorClass }) => (
+    <div className={`bg-[var(--bg-secondary)] p-4 rounded-xl shadow-md border-l-4 ${colorClass}`}>
+      <div className="flex items-center">
+        <div className={`p-2 rounded-lg mr-4 bg-opacity-20 ${colorClass.replace('border', 'bg').replace('-500', '-500/10')}`}>
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-sm font-medium text-[var(--text-muted)]">{title}</h3>
+          <p className="text-xl font-bold mt-1 text-[var(--text-default)]">{value}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="w-full max-w-7xl mx-auto p-6 bg-[var(--bg-primary)] rounded-xl shadow-lg">
       <div className="flex justify-between items-center mb-8">
@@ -63,24 +78,24 @@ const LaporanPerKasir = () => {
       {/* Summary Cards */}
       {!loading && salesByCashier.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-[var(--bg-tertiary)] border border-[var(--border-default)] p-4 rounded-xl">
-            <div className="text-sm font-medium text-[var(--text-muted)]">Total Kasir Aktif</div>
-            <div className="text-2xl font-bold text-[var(--text-default)] mt-1">
-              {salesByCashier.length}
-            </div>
-          </div>
-          <div className="bg-[var(--primary-color)]/10 border border-[var(--primary-color)]/20 p-4 rounded-xl">
-            <div className="text-sm font-medium text-[var(--primary-color)]/80">Total Penjualan</div>
-            <div className="text-2xl font-bold text-[var(--primary-color)] mt-1">
-              {formatRupiah(salesByCashier.reduce((sum, cashier) => sum + parseFloat(cashier.total_sales), 0))}
-            </div>
-          </div>
-          <div className="bg-[var(--bg-tertiary)] border border-[var(--border-default)] p-4 rounded-xl">
-            <div className="text-sm font-medium text-[var(--text-muted)]">Total Transaksi</div>
-            <div className="text-2xl font-bold text-[var(--text-default)] mt-1">
-              {salesByCashier.reduce((sum, cashier) => sum + cashier.total_transactions, 0)}
-            </div>
-          </div>
+          <SummaryCard 
+            icon={<FiUsers className="text-slate-500" />} 
+            title="Total Kasir Aktif" 
+            value={salesByCashier.length} 
+            colorClass="border-slate-500" 
+          />
+          <SummaryCard 
+            icon={<FiDollarSign className="text-[var(--text-default)]" />} 
+            title="Total Penjualan" 
+            value={formatRupiah(salesByCashier.reduce((sum, cashier) => sum + parseFloat(cashier.total_sales), 0))} 
+            colorClass="border-[var(--primary-color)]" 
+          />
+          <SummaryCard 
+            icon={<FiFileText className="text-slate-500" />} 
+            title="Total Transaksi" 
+            value={salesByCashier.reduce((sum, cashier) => sum + cashier.total_transactions, 0)} 
+            colorClass="border-slate-500" 
+          />
         </div>
       )}
 
@@ -164,3 +179,4 @@ const LaporanPerKasir = () => {
 };
 
 export default LaporanPerKasir;
+

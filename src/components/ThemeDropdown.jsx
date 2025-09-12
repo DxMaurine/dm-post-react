@@ -127,8 +127,8 @@ const ThemeDropdown = ({ isCollapsed }) => {
         }
         
         .dark.theme-blue-ocean .neumorphic-btn {
-          --bg-color: #00c5c5;
-          --shadow-dark:rgb(0, 62, 121);
+          --bg-color: #01e0e0;
+          --shadow-dark:rgb(0, 130, 170);
           --shadow-light:rgb(3, 164, 185);
         }
         

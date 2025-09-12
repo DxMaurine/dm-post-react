@@ -36,8 +36,12 @@ git tag -a v1.5.20 -m "Release version 1.5.20"
 ### 5️⃣ Push ke GitHub
 ```bash
 # Push commit dan tag
+git add .
+git commit -m "chore: bump version to 1.2.5"
+git tag v1.2.5
 git push origin main
-git push origin v1.5.20
+git push origin v1.2.5
+
 ```
 
 ## 🔄 Proses GitHub Actions

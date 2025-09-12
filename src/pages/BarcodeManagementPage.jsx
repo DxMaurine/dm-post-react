@@ -86,7 +86,7 @@ const BarcodeManagementPage = () => {
   const totalLabels = printQueue.reduce((acc, item) => acc + (item.printQty || 0), 0);
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto">
       {/* Header Section */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-800 rounded-xl p-6 text-white shadow-lg">
         <div className="flex items-center">

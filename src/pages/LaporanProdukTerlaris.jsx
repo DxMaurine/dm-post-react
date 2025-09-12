@@ -48,18 +48,34 @@ const LaporanProdukTerlaris = () => {
       {/* Top 5 Products Summary Cards */}
       {!loading && topSellingProducts.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-          {topSellingProducts.slice(0, 5).map((product, index) => (
-            <div key={`card-${product.id || index}`} 
-                 className={`p-4 rounded-xl border-2 flex flex-col ${getRankClasses(index + 1).replace('text-', 'border-')}`}>
-              <div className="text-sm font-medium dark:text-white opacity-80">Peringkat #{index + 1}</div>
-              <div className="text-lg font-bold dark:text-white mt-1 truncate flex-grow" title={product.name}>
-                {product.name || '-'}
+          {topSellingProducts.slice(0, 5).map((product, index) => {
+            const rank = index + 1;
+            let cardClasses = 'p-4 rounded-xl flex flex-col transition-all duration-300 shadow-lg bg-[var(--bg-secondary)] ';
+            let textClasses = 'text-[var(--text-default)]';
+
+            if (rank === 1) { // Gold
+              cardClasses += 'border-t-4 border-amber-400';
+            } else if (rank === 2) { // Silver
+              cardClasses += 'border-t-4 border-slate-400';
+            } else if (rank === 3) { // Bronze
+              cardClasses += 'border-t-4 border-orange-500';
+            } else {
+              cardClasses += 'border border-[var(--border-default)]';
+              textClasses = 'text-[var(--text-muted)]';
+            }
+
+            return (
+              <div key={`card-${product.id || index}`} className={cardClasses}>
+                <div className={`text-sm font-medium ${rank > 3 ? 'text-[var(--text-muted)]' : 'text-[var(--text-default)]'}`}>Peringkat #{rank}</div>
+                <div className={`text-lg font-bold mt-1 truncate flex-grow ${textClasses}`} title={product.name}>
+                  {product.name || '-'}
+                </div>
+                <div className={`text-sm mt-2 ${rank > 3 ? 'text-[var(--text-muted)]' : 'text-[var(--text-default)]'}`}>
+                  {product.total_quantity_sold || 0} unit terjual
+                </div>
               </div>
-              <div className="text-sm  dark:text-white opacity-90 mt-2">
-                {product.total_quantity_sold || 0} unit terjual
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

@@ -90,12 +90,12 @@ const AccordionGroup = ({ group, isCollapsed, location, userRole }) => {
     <li className="mb-1">
       <button 
         onClick={handleToggle} 
-        className={`w-full flex justify-between items-center text-xs font-semibold uppercase tracking-wider py-3 px-4 rounded-lg transition-all ${isGroupActive 
+        className={`w-full flex items-center text-xs font-semibold uppercase tracking-wider py-3 px-4 rounded-lg transition-all ${isGroupActive 
             ? 'text-[var(--primary-color)] bg-[var(--primary-color)]/10' 
-            : 'text-[var(--text-muted)] dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-[var(--primary-color)]/20'}`}
+            : 'text-[var(--text-muted)] dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-[var(--primary-color)]/20'} ${isCollapsed ? 'justify-center' : 'justify-between'}`}
       >
         <div className="flex items-center">
-          <group.icon className={`h-5 w-5 flex-shrink-0 transition-colors duration-200 ${!isCollapsed ? 'mr-2' : ''}`} />
+          <group.icon className={`h-5 w-5 flex-shrink-0 transition-colors duration-200 ${!isCollapsed ? 'mr-2' : ''} ${isGroupActive ? '' : 'text-amber-500 dark:text-amber-400'}`} />
           {!isCollapsed && <span>{group.title}</span>}
         </div>
         {!isCollapsed && (
