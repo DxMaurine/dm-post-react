@@ -124,7 +124,7 @@ const QuickProductsSettings = () => {
           />
           <ul className="h-96 overflow-y-auto">
             {filteredProducts.map(product => (
-              <li key={product.id} className="flex items-center justify-between p-2 border-b dark:border-[var(--border-default)] text-gray-800 dark:text-[var(--text-muted)]">
+              <li key={product.id} className="flex items-center justify-between p-2 border-b dark:border-[var(--border-default)] text-gray-800 dark:text-[var(--text-default)]">
                 <span>{product.name}</span>
                 <button
                   onClick={() => handleAddProduct(product)}

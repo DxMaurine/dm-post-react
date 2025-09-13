@@ -160,7 +160,7 @@ const Sidebar = ({ onOpenCatalog }) => {
   const userRole = user?.role || 'kasir';
 
   return (
-    <div className={`relative z-10 bg-white dark:bg-[var(--bg-secondary)] border-r border-[var(--border-default)] dark:border-[var(--border-default)] transition-all duration-300 flex flex-col h-full ${isCollapsed ? 'w-20' : 'w-64'}`}>
+    <div className={`relative z-10 bg-white dark:bg-[var(--bg-secondary)] border-r-2 border-[var(--border-default)] dark:border-[var(--border-default)] transition-all duration-300 flex flex-col h-full ${isCollapsed ? 'w-20' : 'w-64'}`}>
       <div className={`flex items-center p-4 border-b border-[var(--border-default)] dark:border-[var(--border-default)] ${isCollapsed ? 'justify-center h-[69px]' : 'justify-between'}`}>
         {!isCollapsed ? (
           <div className="flex items-center space-x-3">
@@ -194,12 +194,12 @@ const Sidebar = ({ onOpenCatalog }) => {
       </div>
       <button 
         onClick={() => setIsCollapsed(!isCollapsed)} 
-        className={`absolute ${isCollapsed ? 'top-[50px]' : 'top-[66px]'} -right-3 z-20 p-1.5 rounded-full bg-white dark:bg-[var(--bg-secondary)] border-2 border-gray-200 dark:border-gray-100 text-gray-600 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-[var(--bg-default)] transition-all duration-300 shadow-md`}
+        className={`absolute ${isCollapsed ? 'top-[47px]' : 'top-[63px]'} -right-3 z-20 p-1.5 rounded-full bg-white dark:bg-[var(--bg-secondary)] border-2 border-gray-200 dark:border-gray-100 text-gray-600 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-[var(--bg-default)] transition-all duration-300 shadow-md`}
       >
         <FiChevronLeft size={16} className={`transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} />
       </button>
       
-      <div className="p-3 border-b border-gray-100 ">
+      <div className="p-3 border-2 border-gray-100 dark:border-[var(--border-default)] rounded-lg m-3 mb-2">
         <ul>
           {mainMenuItems.filter(item => item.roles.includes(userRole)).map(item => (
             <li key={item.name}>

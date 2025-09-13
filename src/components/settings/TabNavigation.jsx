@@ -25,7 +25,7 @@ const TabNavigation = ({ tabs, activeTab, setActiveTab }) => {
           className={`w-full flex items-center py-2.5 px-4 rounded-lg text-sm font-medium transition-colors duration-200 text-left ${
             activeTab === tab.id 
               ? 'bg-blue-100 dark:bg-[var(--primary-color)]/20 text-blue-700 dark:text-[var(--primary-color)]' 
-              : 'text-gray-600 dark:text-[var(--text-muted)] hover:bg-gray-100 dark:hover:bg-gray-700/50'
+              : 'text-gray-600 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-[var(--primary-color)] hover:text-gray-900 dark:hover:text-white'
           }`}
         >
           <span className="mr-3">{getIcon(tab.icon)}</span>

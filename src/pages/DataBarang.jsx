@@ -423,13 +423,13 @@ const DataBarang = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-800 dark:text-[var(--text-default)]">{product.name}</h3>
-                        <p className="text-sm text-gray-500 dark:text-[var(--text-muted)]">Code: {product.id} | Barcode: {product.barcode || '-'}</p>
+                        <p className="text-sm text-gray-500 dark:text-[var(--text-default)]">Code: {product.id} | Barcode: {product.barcode || '-'}</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-6">
                       <div className="text-right">
-                        <p className="font-medium text-gray-800 dark:text-[var(--text-default)]">Rp {product.price ? parseFloat(product.price).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</p>
-                        <p className="text-xs text-gray-500 dark:text-[var(--text-muted)]">Cost: Rp {product.harga_beli ? parseFloat(product.harga_beli).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</p>
+                        <p className="font-semibold text-gray-800 dark:text-[var(--text-default)]">Rp {product.price ? parseFloat(product.price).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</p>
+                        <p className="text-xs text-gray-500 dark:text-[var(--text-default)]">Cost: Rp {product.harga_beli ? parseFloat(product.harga_beli).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</p>
                       </div>
                       <div className="flex items-center">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -453,18 +453,18 @@ const DataBarang = () => {
                     <div className="p-4 bg-gray-50 dark:bg-[var(--bg-default)] border-t border-gray-200 dark:border-[var(--border-default)] rounded-b-lg">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <h4 className="text-sm font-medium text-gray-500 dark:text-[var(--text-muted)] mb-2">Product Details</h4>
+                          <h4 className="text-sm font-bold text-gray-500 dark:text-[var(--text-default)] mb-2">Product Details</h4>
                           <div className="space-y-1">
-                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-muted)]">Type:</span> {product.type || '-'}</p>
-                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-muted)]">Jenis:</span> {product.jenis || '-'}</p>
-                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-muted)]">Ukuran:</span> {product.ukuran || '-'}</p>
+                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-default)]">Type:</span> {product.type || '-'}</p>
+                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-default)]">Jenis:</span> {product.jenis || '-'}</p>
+                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-default)]">Ukuran:</span> {product.ukuran || '-'}</p>
                           </div>
                         </div>
                         <div>
-                          <h4 className="text-sm font-medium text-gray-500 dark:text-[var(--text-muted)] mb-2">Pricing</h4>
+                          <h4 className="text-sm font-bold text-gray-500 dark:text-[var(--text-default)] mb-2">Pricing</h4>
                           <div className="space-y-1">
-                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-muted)]">Harga Beli:</span> Rp {product.harga_beli ? parseFloat(product.harga_beli).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</p>
-                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-muted)]">Harga Jual:</span> Rp {product.price ? parseFloat(product.price).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</p>
+                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-default)]">Harga Beli:</span> Rp {product.harga_beli ? parseFloat(product.harga_beli).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</p>
+                            <p className="text-sm text-gray-800 dark:text-[var(--text-default)]"><span className="text-gray-500 dark:text-[var(--text-default)]">Harga Jual:</span> Rp {product.price ? parseFloat(product.price).toLocaleString('id-ID', { maximumFractionDigits: 0 }) : '0'}</p>
                           </div>
                         </div>
                         <div className="flex items-end justify-end">
@@ -507,7 +507,7 @@ const DataBarang = () => {
           {/* Pagination */}
         <div className="flex items-center justify-between mt-6">
           <div className="flex items-center space-x-4">
-            <span className="text-sm text-gray-500 dark:text-[var(--text-muted)]">
+            <span className="text-sm text-gray-500 dark:text-[var(--text-default)]">
               Showing {startItem}-{endItem} of {totalItems}
             </span>
             <span className="text-sm font-semibold text-gray-700 dark:text-[var(--text-default)] border-l pl-4 dark:border-[var(--border-default)]">

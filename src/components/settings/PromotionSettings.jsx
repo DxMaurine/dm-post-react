@@ -53,15 +53,15 @@ const PromotionSettings = ({ promoVideoFile, setPromoVideoFile, handleImageFileC
 
       {/* Video Upload Section */}
       <div className="bg-gray-50 dark:bg-[var(--bg-card)] p-6 rounded-lg shadow-sm border border-gray-200 dark:border-[var(--border-default)]">
-        <h3 className="text-xl font-medium text-gray-700 dark:text-gray-200 mb-4">Video Promosi</h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">Unggah video promosi yang akan ditampilkan di layar pelanggan.</p>
+        <h3 className="text-xl font-medium text-gray-700 dark:text-[var(--text-default)] mb-4">Video Promosi</h3>
+        <p className="text-gray-600 dark:text-[var(--text-default)] mb-4">Unggah video promosi yang akan ditampilkan di layar pelanggan.</p>
         
         <div className="flex items-center space-x-4">
           <input
             type="file"
             accept="video/*"
             onChange={handleFileChange}
-            className="block w-full text-sm text-gray-900 dark:text-gray-100
+            className="block w-full text-sm text-gray-900 dark:text-[var(--text-muted)]
               file:mr-4 file:py-2 file:px-4
               file:rounded-md file:border-0
               file:text-sm file:font-semibold
@@ -83,14 +83,14 @@ const PromotionSettings = ({ promoVideoFile, setPromoVideoFile, handleImageFileC
           </button>
         </div>
         {promoVideoFile && (
-          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">File terpilih: {promoVideoFile.name}</p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-[var(--text-muted)]">File terpilih: {promoVideoFile.name}</p>
         )}
       </div>
 
       {/* Promo Images Upload Section */}
       <div className="bg-gray-50 dark:bg-[var(--bg-card)] p-6 rounded-lg shadow-sm border border-gray-200 dark:border-[var(--border-default)]">
-        <h3 className="text-xl font-medium text-gray-700 dark:text-gray-200 mb-4">Gambar Promosi (Carousel)</h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">Unggah hingga 10 gambar untuk ditampilkan di layar pelanggan. Ukuran file maksimal 5MB per gambar.</p>
+        <h3 className="text-xl font-medium text-gray-700 dark:text-[var(--text-default)] mb-4">Gambar Promosi (Carousel)</h3>
+        <p className="text-gray-600 dark:text-[var(--text-default)] mb-4">Unggah hingga 10 gambar untuk ditampilkan di layar pelanggan. Ukuran file maksimal 5MB per gambar.</p>
         
         <div className="flex items-center space-x-4">
           <input

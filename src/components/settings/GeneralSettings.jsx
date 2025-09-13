@@ -260,7 +260,7 @@ const GeneralSettings = ({ formState, handleChange  }) => {
             >
               {isUploading ? 'Mengupload...' : 'Pilih Logo'}
             </label>
-            <p className="mt-2 text-sm text-gray-500 dark:text-[var(--text-muted)]">
+            <p className="mt-2 text-sm text-gray-500 dark:text-[var(--text-default)]">
               Format: JPG, PNG, GIF. Maksimal 5MB. Rekomendasi: 200x200px
             </p>
           </div>
