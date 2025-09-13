@@ -27,8 +27,23 @@ const LicenseStatusBadge = ({ onActivationClick = null }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   
   // App version from package.json
-  const appVersion = "1.5.22";
+  const [appVersion, setAppVersion] = useState('');// Ganti dengan cara yang sesuai untuk mendapatkan versi aplikasi Anda
   
+   useEffect(() => {
+      const fetchVersion = async () => {
+        if (window.electron) {
+          try {
+            const version = await window.electron.getAppVersion();
+            setAppVersion(version);
+          } catch (error) {
+            console.error('Gagal mendapatkan versi aplikasi:', error);
+          }
+        }
+      };
+      fetchVersion();
+    }, []);
+
+
   useEffect(() => {
     fetchLicenseStatus();
     
