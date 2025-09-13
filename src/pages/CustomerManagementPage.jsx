@@ -137,15 +137,15 @@ const CustomerManagementPage = () => {
     
     switch(type) {
       case 'Member':
-        bgColor = 'bg-indigo-100 dark:bg-indigo-900/50';
+        bgColor = 'bg-indigo-100 dark:bg-indigo-900';
         textColor = 'text-indigo-800 dark:text-indigo-300';
         break;
       case 'VIP':
-        bgColor = 'bg-amber-100 dark:bg-amber-900/50';
+        bgColor = 'bg-amber-100 dark:bg-amber-900';
         textColor = 'text-amber-800 dark:text-amber-300';
         break;
       default: // Umum
-        bgColor = 'bg-emerald-100 dark:bg-emerald-900/50';
+        bgColor = 'bg-emerald-100 dark:bg-emerald-900';
         textColor = 'text-emerald-800 dark:text-emerald-300';
     }
     
@@ -237,7 +237,7 @@ const CustomerManagementPage = () => {
                     <tr key={customer.id} className="hover:bg-gray-50 dark:hover:bg-[var(--bg-default)] transition-colors duration-150">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-300 font-bold">
+                          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-[var(--text-muted)] font-bold">
                             {customer.name.charAt(0).toUpperCase()}
                           </div>
                           <div className="ml-4">

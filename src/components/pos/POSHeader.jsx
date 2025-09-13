@@ -6,7 +6,7 @@ const POSHeader = ({ settings, isFullScreen, onFullscreenToggle, onOpenCustomerD
     <header className="w-full sticky top-0 z-10 bg-white dark:bg-[var(--bg-default)] shadow p-3 text-center flex justify-between items-center rounded-xl ">
       <div className="flex-shrink-0">
         <h1 className="text-2xl font-bold text-blue-700 dark:text-blue-700 mb-0.5">{settings.storeName}</h1>
-        <p className="font-normal text-left text-gray-500 dark:text-gray-200 text-sm">{settings.storeTagline}</p>
+        <p className="font-normal text-left text-gray-500 dark:text-[var(--text-muted)] text-sm">{settings.storeTagline}</p>
       </div>
       <div className="flex-grow min-w-0 mx-4">
         <RunningText 
@@ -18,14 +18,14 @@ const POSHeader = ({ settings, isFullScreen, onFullscreenToggle, onOpenCustomerD
       <div className="flex items-center gap-2">
         <button 
           onClick={onOpenCustomerDisplay}
-          className="flex-shrink-0 p-2 text-gray-500 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-600 rounded-lg transition-colors duration-200"
+          className="flex-shrink-0 p-2 text-gray-500 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-600 rounded-lg transition-colors duration-200"
           title="Buka Tampilan Pelanggan (Dual Monitor)"
         >
           <FiMonitor size={20} />
         </button>
         <button 
           onClick={onFullscreenToggle} 
-          className="flex-shrink-0 p-2 text-gray-500 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-600 rounded-lg transition-colors duration-200" 
+          className="flex-shrink-0 p-2 text-gray-500 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-600 rounded-lg transition-colors duration-200" 
           title={isFullScreen ? 'Keluar Layar Penuh (ESC)' : 'Aktifkan Layar Penuh'}
         >
           {isFullScreen ? (

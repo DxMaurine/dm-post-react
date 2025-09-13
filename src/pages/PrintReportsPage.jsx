@@ -312,14 +312,14 @@ const PrintReportsPage = () => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Tanggal Mulai</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiCalendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+                      <FiCalendar className="h-5 w-5 text-gray-400 dark:text-[var(--text-default)]" />
                     </div>
                     <input
                       type="date"
                       name="startDate"
                       value={dates.startDate}
                       onChange={handleDateChange}
-                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)] focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                     />
                   </div>
                 </div>
@@ -327,14 +327,14 @@ const PrintReportsPage = () => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Tanggal Akhir</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiCalendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+                      <FiCalendar className="h-5 w-5 text-gray-400 dark:text-[var(--text-default)]" />
                     </div>
                     <input
                       type="date"
                       name="endDate"
                       value={dates.endDate}
                       onChange={handleDateChange}
-                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)] focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                     />
                   </div>
                 </div>

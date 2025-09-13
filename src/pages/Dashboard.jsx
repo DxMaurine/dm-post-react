@@ -224,12 +224,12 @@ const Dashboard = () => {
       {/* Header */}
       <header className="bg-white dark:bg-[var(--bg-secondary)] shadow-sm rounded-xl">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600 dark:text-white">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-blue-600 dark:text-[var(--text-default)]">Dashboard</h1>
           <div className="flex items-center space-x-4">
             {/* License Status Badge */}
             <LicenseStatusBadge onActivationClick={() => setShowActivationModal(true)} />
             
-            <div className="text-sm bg-blue-50 dark:bg-[var(--bg-secondary)] dark:text-slate-100 text-blue-600 px-3 py-1 rounded-full font-medium flex items-center gap-2">
+            <div className="text-sm bg-blue-50 dark:bg-[var(--bg-default)] dark:text-[var(--text-default)] text-blue-600 px-3 py-1 rounded-full font-medium flex items-center gap-2">
               <span>
                 {new Date().toLocaleDateString('id-ID', { 
                   weekday: 'long', 
@@ -319,7 +319,7 @@ const Dashboard = () => {
           {/* Sales Chart */}
           <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-md lg:col-span-2">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Top 5 Best Selling Products</h2>
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-muted)]">Top 5 Best Selling Products</h2>
               <div className="flex space-x-2">
                 <button className="px-3 py-1 text-xs bg-blue-50 dark:bg-slate-500 dark:text-white text-blue-600 rounded-full">This Week</button>
                 <button className="px-3 py-1 text-xs bg-gray-50 dark:bg-slate-500 dark:text-white text-gray-600 rounded-full">Last Week</button>
@@ -361,16 +361,16 @@ const Dashboard = () => {
                 </thead>
                 <tbody>
                   {dashboardData.recentTransactions.map((transaction) => (
-                    <tr key={transaction.id} className="border-b border-gray-100 dark:border-slate-900 hover:bg-gray-50 dark:hover:bg-slate-700">
-                      <td className="px-4 py-2 font-medium text-gray-800 dark:text-white">#{transaction.id}</td>
-                      <td className="px-4 py-2 text-gray-600 dark:text-white">
+                    <tr key={transaction.id} className="border-b border-gray-100 dark:border-slate-900 hover:bg-gray-50 dark:hover:bg-[var(--primary-color-hover)]">
+                      <td className="px-4 py-2 font-medium text-gray-800 dark:text-[var(--text-muted)]">#{transaction.id}</td>
+                      <td className="px-4 py-2 text-gray-600 dark:text-[var(--text-muted)]">
                         {formatDate(transaction.date)}
                       </td>
-                      <td className="px-4 py-2 text-gray-600 dark:text-white">{transaction.paymentMethod}</td>
-                      <td className="px-4 py-2 text-right text-gray-800 dark:text-white font-semibold">
+                      <td className="px-4 py-2 text-gray-600 dark:text-[var(--text-muted)]">{transaction.paymentMethod}</td>
+                      <td className="px-4 py-2 text-right text-gray-800 dark:text-[var(--text-muted)] font-semibold">
                         {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(transaction.total)}
                       </td>
-                      <td className="px-4 py-2 text-right text-gray-600 dark:text-white">{transaction.items}</td>
+                      <td className="px-4 py-2 text-right text-gray-600 dark:text-[var(--text-muted)]">{transaction.items}</td>
                     </tr>
                   ))}
                 </tbody>

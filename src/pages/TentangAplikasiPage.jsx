@@ -176,7 +176,7 @@ const TentangAplikasiPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-white text-center">Tentang Aplikasi</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-[var(--text-muted)] text-center">Tentang Aplikasi</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Kolom Kiri - Informasi Aplikasi */}
@@ -186,18 +186,18 @@ const TentangAplikasiPage = () => {
               <FiPackage className="h-8 w-8 text-white" />
             </div>
             <div className="ml-4">
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">DM-POS System</h2>
-              <p className="text-gray-600 dark:text-gray-100">Versi {appVersion || 'Loading...'}</p>
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-muted)]">DM-POS System</h2>
+              <p className="text-gray-600 dark:text-[var(--text-muted)]">Versi {appVersion || 'Loading...'}</p>
             </div>
           </div>
           
-          <p className="text-gray-600 dark:text-[var(--text-default)] mb-6 text-lg leading-relaxed">
+          <p className="text-gray-600 dark:text-[var(--text-muted)] mb-6 text-lg leading-relaxed">
             DM-POS adalah sistem kasir modern yang membantu Anda mengelola bisnis retail dengan lebih efisien. 
             Dirancang khusus untuk memberikan pengalaman terbaik dalam pengelolaan transaksi harian, 
             manajemen stok, dan pelaporan bisnis yang lengkap.
           </p>
           
-          <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Fitur Bisnis</h3>
+          <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-[var(--text-muted)]">Fitur Bisnis</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {featureCards.map((card, index) => (
               <div key={index} className={`${card.color} text-white rounded-xl p-4 shadow-lg transform transition-transform duration-300 hover:scale-105`}>
@@ -225,7 +225,7 @@ const TentangAplikasiPage = () => {
         <div className="space-y-8">
           {/* Status Lisensi */}
           <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)]">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Status Lisensi</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-[var(--text-muted)]">Status Lisensi</h2>
             
             {loading ? (
               <div className="flex justify-center items-center py-8">
@@ -238,7 +238,7 @@ const TentangAplikasiPage = () => {
                   <span className="ml-2">{getLicenseStatusText(licenseStatus.status)}</span>
                 </div>
                 
-                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-5 space-y-4 shadow-inner">
+                <div className="bg-gray-50 dark:bg-[var(--bg-default)] rounded-xl p-5 space-y-4 shadow-inner">
                   {licenseStatus.serialNumber && (
                     <div className="flex justify-between items-center">
                       <span className="font-medium text-gray-700 dark:text-[var(--text-muted)]">Serial Number:</span>
@@ -293,7 +293,7 @@ const TentangAplikasiPage = () => {
 
           {/* Pembaruan Aplikasi */}
           <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)]">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Pembaruan Aplikasi</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-[var(--text-muted)]">Pembaruan Aplikasi</h2>
             
             {updateInfo?.status && (
               <div className="mb-4">
@@ -364,7 +364,7 @@ const TentangAplikasiPage = () => {
 
           {/* Bantuan & Dukungan */}
           <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)]">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Bantuan & Dukungan</h3>
+            <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-[var(--text-muted)]">Bantuan & Dukungan</h3>
             <div className="bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 p-5 rounded-xl shadow-sm">
               <div className="flex items-start">
                 <FiHelpCircle className="h-6 w-6 text-indigo-600 dark:text-indigo-200 mt-1 mr-4" />

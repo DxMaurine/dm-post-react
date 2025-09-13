@@ -120,10 +120,10 @@ const RekapPenjualan = () => {
             colorClass="border-[var(--primary-color)]" 
           />
           <SummaryCard 
-            icon={<FiFileText className="text-slate-500" />} 
+            icon={<FiFileText className="text-[var(--text-default)]" />} 
             title={`Jumlah Transaksi (${titles[mode]})`} 
             value={totalTransactions} 
-            colorClass="border-slate-500" 
+            colorClass="border-[var(--primary-color)]" 
           />
         </div>
 

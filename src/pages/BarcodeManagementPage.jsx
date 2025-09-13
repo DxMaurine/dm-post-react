@@ -108,8 +108,8 @@ const BarcodeManagementPage = () => {
         <div className="lg:col-span-2 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)] flex flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-3">
-              <div className="bg-blue-100 dark:bg-[var(--bg-default)] p-2 rounded-lg mr-3">
-                <FiSearch className="text-blue-600 dark:text-[var(--text-muted)]" size={18} />
+              <div className="bg-blue-100 dark:bg-yellow-500 p-2 rounded-lg mr-3">
+                <FiSearch className="text-blue-600 dark:text-[var(--text-default)]" size={18} />
               </div>
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">
                 Daftar Produk
@@ -195,8 +195,8 @@ const BarcodeManagementPage = () => {
         <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)] flex flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-3">
-              <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg mr-3">
-                <FiPrinter className="text-purple-600 dark:text-amber-400" size={18} />
+              <div className="bg-purple-100 dark:bg-green-500 p-2 rounded-lg mr-3">
+                <FiPrinter className="text-purple-600 dark:text-[var(--text-default)]" size={18} />
               </div>
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">
                 Daftar Cetak

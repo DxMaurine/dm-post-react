@@ -4,11 +4,14 @@ import { useTheme } from '../hooks/use-theme';
 import { FiSun, FiMoon, FiMonitor, FiChevronDown } from 'react-icons/fi';
 
 const themes = [
-  { name: 'Light', value: 'light', icon: FiSun },
+  { name: 'Light', value: 'light', variant: 'default', icon: FiSun },
+  { name: 'Light Mint', value: 'light', variant: 'theme-midnight', icon: FiSun },
+  { name: 'Light Forest', value: 'light', variant: 'theme-forest', icon: FiSun },
+  { name: 'Light Ocean', value: 'light', variant: 'theme-blue-ocean', icon: FiSun },
   { name: 'Dark Azure', value: 'dark', variant: 'default', icon: FiMonitor },
-  { name: 'Olive', value: 'dark', variant: 'theme-midnight', icon: FiMoon },
-  { name: 'Fusion', value: 'dark', variant: 'theme-forest', icon: FiMoon },
-  { name: 'Blue Ocean', value: 'dark', variant: 'theme-blue-ocean', icon: FiSun },
+  { name: 'Dark Olive', value: 'dark', variant: 'theme-midnight', icon: FiMoon },
+  { name: 'Dark Fusion', value: 'dark', variant: 'theme-forest', icon: FiMoon },
+  { name: 'Dark Ocean', value: 'dark', variant: 'theme-blue-ocean', icon: FiMoon },
 ];
 
 const ThemeDropdown = ({ isCollapsed }) => {
@@ -17,20 +20,15 @@ const ThemeDropdown = ({ isCollapsed }) => {
   const dropdownRef = useRef(null);
 
   const currentThemeName = () => {
-    if (!isDarkMode) return 'Light';
-    if (themeVariant === 'theme-midnight') return 'Olive';
-    if (themeVariant === 'theme-forest') return 'Fusion';
-    if (themeVariant === 'theme-blue-ocean') return 'Blue Ocean';
-    return 'Dark Azure';
+    const currentTheme = themes.find(
+      theme => theme.value === (isDarkMode ? 'dark' : 'light') && theme.variant === (themeVariant || 'default')
+    );
+    return currentTheme ? currentTheme.name : isDarkMode ? 'Dark Azure' : 'Light';
   };
 
   const handleThemeChange = (theme) => {
-    if (theme.value === 'light') {
-      setIsDarkMode(false);
-    } else {
-      setIsDarkMode(true);
-      setThemeVariant(theme.variant);
-    }
+    setIsDarkMode(theme.value === 'dark');
+    setThemeVariant(theme.variant || 'default');
     setIsOpen(false);
   };
 
@@ -56,20 +54,20 @@ const ThemeDropdown = ({ isCollapsed }) => {
               <FiMoon className="h-5 w-5 text-slate-500 dark:text-yellow-300 fill-slate-400 dark:fill-yellow-700" /> : 
               <FiSun className="h-5 w-5 text-yellow-500 dark:text-yellow-400 fill-yellow-400 dark:fill-yellow-500" />
             }
-            {!isCollapsed && <span className="ml-3 font-medium text-sm text-gray-600 dark:text-gray-300">{currentThemeName()}</span>}
+            {!isCollapsed && <span className="ml-3 font-bold text-sm text-gray-600 dark:text-[var(--text-default)]">{currentThemeName()}</span>}
           </div>
           {!isCollapsed && <FiChevronDown className={`h-5 w-5 text-gray-900 dark:text-white transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
         </button>
       </div>
 
       {isOpen && !isCollapsed && (
-        <div className="absolute bottom-full mb-2 w-[calc(100%-1.5rem)] left-3 bg-white dark:bg-[var(--layout-bg-dark)] rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-10 neumorphic-dropdown transform transition-all duration-300 scale-100 opacity-100">
+        <div className="absolute bottom-full mb-2 w-[calc(100%-1.5rem)] left-3 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-2xl border-2 border-gray-200 dark:border-[var(--primary-bg-dark)] z-10 neumorphic-dropdown transform transition-all duration-300 scale-100 opacity-100">
           <ul>
             {themes.map((theme) => (
               <li key={theme.name}>
                 <button
                   onClick={() => handleThemeChange(theme)}
-                  className="w-full flex items-center px-4 py-3 text-sm text-gray-700 dark:text-yellow-400 hover:bg-gray-100 dark:hover:bg-gray-500/50 transition-all duration-200 rounded-lg"
+                  className="w-full flex items-center px-4 py-3 text-sm text-gray-700 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-gray-500/50 transition-all duration-200 rounded-lg"
                 >
                   <theme.icon className="h-4 w-4 mr-3" />
                   {theme.name}
@@ -108,6 +106,32 @@ const ThemeDropdown = ({ isCollapsed }) => {
           animation: dropdownAppear 0.3s ease forwards;
         }
         
+        /* Light Theme Variants */
+        .light .neumorphic-btn {
+          --bg-color: #ffffff;
+          --shadow-dark: #d1d5db;
+          --shadow-light: #ffffff;
+        }
+        
+        .light.theme-midnight .neumorphic-btn {
+          --bg-color: #f3f7f3;
+          --shadow-dark: #d5e3d5;
+          --shadow-light: #ffffff;
+        }
+        
+        .light.theme-forest .neumorphic-btn {
+          --bg-color: #fafbfc;
+          --shadow-dark: #e2e8f0;
+          --shadow-light: #ffffff;
+        }
+        
+        .light.theme-blue-ocean .neumorphic-btn {
+          --bg-color: #f0f7fa;
+          --shadow-dark: #bfe3f3;
+          --shadow-light: #ffffff;
+        }
+
+        /* Dark Theme Variants */
         .dark .neumorphic-btn {
           --bg-color: #252526;
           --shadow-dark:rgb(20, 21, 22);
@@ -127,11 +151,16 @@ const ThemeDropdown = ({ isCollapsed }) => {
         }
         
         .dark.theme-blue-ocean .neumorphic-btn {
-          --bg-color: #005c97;
+          --bg-color: #01e0e0;
           --shadow-dark:rgb(0, 130, 170);
-          --shadow-light:rgb(3, 164, 185);
+          --shadow-light:rgb(142, 242, 255);
         }
         
+        .light .neumorphic-dropdown {
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        }
+
         .dark .neumorphic-dropdown {
           box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2),
                       inset 0 1px 0 rgba(255, 255, 255, 0.1);

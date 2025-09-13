@@ -218,13 +218,13 @@ const PointManagementPage = () => {
       <form onSubmit={handleRedeemSearch} className="mb-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl p-4 shadow-md border-2 border-gray-200 dark:border-[var(--border-default)]"> 
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-grow">
-            <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white" />
+            <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-[var(--text-default)]" />
             <input 
               type="text"
               value={redeemSearchTerm}
               onChange={(e) => setRedeemSearchTerm(e.target.value)}
               placeholder="Cari nama pelanggan..."
-              className="w-full pl-10 p-3 border rounded-xl bg-gray-50 dark:bg-[var(--bg-secondary)]focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-[var(--border-default)]"
+              className="w-full pl-10 p-3 border rounded-xl bg-gray-50 dark:bg-[var(--bg-secondary)]focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
             />
           </div>
           <button type="submit" className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-xl hover:from-blue-600 hover:to-indigo-700 flex items-center gap-2 shadow-md transition-all duration-300 transform hover:scale-102">
@@ -434,7 +434,7 @@ const PointManagementPage = () => {
   return (
     <div className="p-4 md:p-6 bg-gray-50 dark:bg-[var(--bg-secondary)] min-h-50vh rounded-xl shadow-md">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Manajemen Poin</h1>
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)] mb-2">Manajemen Poin</h1>
         <p className="text-gray-600 dark:text-[var(--text-muted)] mb-6">Manajemen penukaran dan transfer poin pelanggan</p>
         
         {/* Tabs */}

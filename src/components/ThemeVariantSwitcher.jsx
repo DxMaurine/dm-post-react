@@ -9,7 +9,7 @@ const ThemeVariantSwitcher = ({ isCollapsed }) => {
   }
 
   const themes = [
-    { name: 'Default', value: 'default' },
+    { name: 'Default', value: 'light' },
     { name: 'Midnight', value: 'theme-midnight' },
     { name: 'Forest', value: 'theme-forest' },
   ];
@@ -55,6 +55,11 @@ const ThemeVariantSwitcher = ({ isCollapsed }) => {
           --bg-color: #2d3748;
           --shadow-dark: #222731;
           --shadow-light: #384152;
+        }
+        .light .neumorphic-btn {
+          --bg-color: #e6e9ef;
+          --shadow-dark: #c9ccd1;
+          --shadow-light: #ffffff;
         }
       `}</style>
     </div>

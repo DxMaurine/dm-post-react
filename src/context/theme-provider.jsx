@@ -23,12 +23,14 @@ export function ThemeProvider({ children }) {
     const htmlElement = document.documentElement;
     const themeClasses = ['theme-midnight', 'theme-forest', 'theme-blue-ocean']; // Add all your theme variant classes here
 
-    // Apply dark mode class
+    // Apply dark/light mode class
     if (isDarkMode) {
       htmlElement.classList.add('dark');
+      htmlElement.classList.remove('light');
       localStorage.setItem('darkMode', 'enabled');
     } else {
       htmlElement.classList.remove('dark');
+      htmlElement.classList.add('light');
       localStorage.setItem('darkMode', 'disabled');
     }
 

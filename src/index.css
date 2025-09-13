@@ -1,7 +1,94 @@
 /* Import Tailwind base styles */
 @import 'tailwindcss';
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* 
+  Light Theme Variants
+  Desain terang yang nyaman untuk mata dan profesional
+*/
+/* BASE LIGHT – REDUP */
+.light {
+  --bg-default: #f7f7f7;
+  --bg-secondary: #efefef;
+  --text-default: #2e2e2e;
+  --text-muted: #4d4d4d;
+  --border-default: #d6d6d6;
+  --primary-color: #0078d4;
+  --primary-color-hover: #106ebe;
+  --selection-bg: #d6eaf8;
+
+  /* Component-specific variables */
+  --sidebar-bg-dark: #f2f2f2;
+  --layout-bg-dark: #f7f7f7;
+  --card-bg-dark: #ffffff;
+  --primary-bg-dark: #0078d4;
+  --danger-color: #c62828;  /* lebih soft */
+  --warning-color: #e69500;
+  --success-color: #0b6b0b;
+}
+
+/* MIDNIGHT – REDUP */
+.light.theme-midnight {
+  --bg-default: #f4f6f4;
+  --bg-secondary: #e9efe9;
+  --text-default: #344034;
+  --text-muted: #607060;
+  --border-default: #c8d4c9;
+  --primary-color: #2e7030;
+  --primary-color-hover: #357a37;
+  --selection-bg: #d4e6d4;
+
+  /* Component-specific variables */
+  --sidebar-bg-dark: #e9efe9;
+  --layout-bg-dark: #f4f6f4;
+  --card-bg-dark: #ffffff;
+  --primary-bg-dark: #2e7030;
+  --danger-color: #c62828;
+  --warning-color: #e69500;
+  --success-color: #0b6b0b;
+}
+
+/* FOREST – REDUP */
+.light.theme-forest {
+  --bg-default: #f8f9fa;
+  --bg-secondary: #f1f3f5;
+  --text-default: #1f2d40;
+  --text-muted: #5a6a80;
+  --border-default: #d3d7de;
+  --primary-color: #0047b2;
+  --primary-color-hover: #0058cc;
+  --selection-bg: #dce6f9;
+
+  /* Component-specific variables */
+  --sidebar-bg-dark: #f1f3f5;
+  --layout-bg-dark: #f8f9fa;
+  --card-bg-dark: #ffffff;
+  --primary-bg-dark: #0047b2;
+  --danger-color: #c62828;
+  --warning-color: #e68a1a;
+  --success-color: #056633;
+}
+
+/* BLUE OCEAN – REDUP */
+.light.theme-blue-ocean {
+  --bg-default: #f3f8fa;
+  --bg-secondary: #e8f3fb;
+  --text-default: #1c2a70;
+  --text-muted: #4156a3;
+  --border-default: #b5cde6;
+  --primary-color: #186dc6;
+  --primary-color-hover: #145aa5;
+  --selection-bg: #a8cdef;
+
+  /* Component-specific variables */
+  --sidebar-bg-dark: #e8f3fb;
+  --layout-bg-dark: #f3f8fa;
+  --card-bg-dark: #ffffff;
+  --primary-bg-dark: #186dc6;
+  --danger-color: #c62828;
+  --warning-color: #e66a00;
+  --success-color: #2f7c32;
+}
+
 
 /* 
   Varian 1: Default (VS Code Inspired)
