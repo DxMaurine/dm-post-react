@@ -54,7 +54,7 @@ const KartuStokPage = () => {
   return (
     <div className="w-full max-w-7xl mx-auto">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-yellow-600 to-indigo-700 dark:from-yellow-700 dark:to-indigo-800 rounded-xl p-6 mb-6 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-yellow-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-800 rounded-xl p-6 mb-6 text-white shadow-lg">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
             <div className="bg-white/20 p-3 rounded-xl mr-4">
@@ -70,7 +70,7 @@ const KartuStokPage = () => {
       
       {!selectedProduct ? (
         /* Search Section */
-        <div className="bg-[var(--bg-primary)] p-6 rounded-xl shadow-lg border border-[var(--border-default)]">
+        <div className="bg-[var(--bg-primary)] p-6 rounded-xl shadow-lg border-2 border-[var(--border-default)]">
           <div className="flex items-center mb-6">
             <div className="bg-[var(--primary-color)]/10 p-2 rounded-lg mr-3">
               <FiSearch className="text-[var(--primary-color)]" size={20} />

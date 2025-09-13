@@ -105,7 +105,7 @@ const BarcodeManagementPage = () => {
       <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg mb-6 "></div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-grow ">
         {/* Product List Section */}
-        <div className="lg:col-span-2 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] flex flex-col">
+        <div className="lg:col-span-2 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)] flex flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-3">
               <div className="bg-blue-100 dark:bg-[var(--bg-default)] p-2 rounded-lg mr-3">
@@ -192,7 +192,7 @@ const BarcodeManagementPage = () => {
         </div>
 
         {/* Print Queue Section */}
-        <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] flex flex-col">
+        <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)] flex flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-3">
               <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg mr-3">
@@ -218,7 +218,7 @@ const BarcodeManagementPage = () => {
               </div>
             ) : (
               printQueue.map(item => (
-                <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl border border-gray-200 dark:border-[var(--border-default)] hover:border-blue-300 dark:hover:border-[var(--primary-color)] transition-colors">
+                <div key={item.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl border-2 border-gray-200 dark:border-[var(--border-default)] hover:border-blue-300 dark:hover:border-[var(--primary-color)] transition-colors">
                   <div className="flex-grow min-w-0">
                     <p className="font-semibold text-sm text-gray-800 dark:text-[var(--text-default)] truncate">{item.name}</p>
                     <p className="text-xs text-gray-500 dark:text-[var(--text-muted)] font-mono truncate">{item.barcode || 'No barcode'}</p>

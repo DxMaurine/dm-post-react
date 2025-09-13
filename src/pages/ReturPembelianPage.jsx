@@ -352,7 +352,7 @@ const ReturPembelianPage = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl p-6 md:p-1">
       <div className="max-w-7xl mx-auto">
         
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-yellow-700 dark:to-green-800 rounded-xl p-6 mb-6 text-white shadow-lg">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-800 rounded-xl p-6 mb-6 text-white shadow-lg">
           <div className="flex items-center">
             <div className="bg-white/20 p-3 rounded-xl mr-4">
               <FiRepeat size={24} />
@@ -370,7 +370,7 @@ const ReturPembelianPage = () => {
 
         <div className="mb-6 mt-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-[var(--text-default)] mb-4">Form Retur Pembelian Baru</h2>
-          <p className="text-gray-600 dark:text-[var(--text-muted)]">Isi formulir retur pembelian dengan lengkap dan benar</p>
+          <p className="text-gray-600 dark:text-[var(--text-default)]">Isi formulir retur pembelian dengan lengkap dan benar</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

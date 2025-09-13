@@ -98,7 +98,7 @@ const TentangAplikasiPage = () => {
             customClass: {
               popup: 'dark:bg-[var(--bg-default)] dark:text-white',
               title: 'dark:text-white',
-              htmlContainer: 'dark:text-gray-300',
+              htmlContainer: 'dark:text-[var(--text-muted)]',
               confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded'
             }
           });
@@ -112,7 +112,7 @@ const TentangAplikasiPage = () => {
             customClass: {
               popup: 'dark:bg-[var(--bg-default)] dark:text-white',
               title: 'dark:text-white',
-              htmlContainer: 'dark:text-gray-300',
+              htmlContainer: 'dark:text-[var(--text-muted)]',
               confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded'
             }
           });
@@ -241,25 +241,25 @@ const TentangAplikasiPage = () => {
                 <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-5 space-y-4 shadow-inner">
                   {licenseStatus.serialNumber && (
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-700 dark:text-gray-300">Serial Number:</span>
-                      <span className="font-mono text-gray-600 dark:text-gray-400">****{licenseStatus.serialNumber.slice(-4)}</span>
+                      <span className="font-medium text-gray-700 dark:text-[var(--text-muted)]">Serial Number:</span>
+                      <span className="font-mono text-gray-600 dark:text-[var(--text-muted)]">****{licenseStatus.serialNumber.slice(-4)}</span>
                     </div>
                   )}
                   {licenseStatus.activationDate && (
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-700 dark:text-gray-300">Tanggal Aktivasi:</span>
-                      <span className="text-gray-600 dark:text-gray-400">{new Date(licenseStatus.activationDate).toLocaleDateString('id-ID')}</span>
+                      <span className="font-medium text-gray-700 dark:text-[var(--text-muted)]">Tanggal Aktivasi:</span>
+                      <span className="text-gray-600 dark:text-[var(--text-muted)]">{new Date(licenseStatus.activationDate).toLocaleDateString('id-ID')}</span>
                     </div>
                   )}
                   {licenseStatus.expires && (
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-700 dark:text-gray-300">Berakhir:</span>
-                      <span className="text-gray-600 dark:text-gray-400">{new Date(licenseStatus.expires).toLocaleDateString('id-ID')}</span>
+                      <span className="font-medium text-gray-700 dark:text-[var(--text-muted)]">Berakhir:</span>
+                      <span className="text-gray-600 dark:text-[var(--text-muted)]">{new Date(licenseStatus.expires).toLocaleDateString('id-ID')}</span>
                     </div>
                   )}
                   <div className="flex justify-between items-center">
-                    <span className="font-medium text-gray-700 dark:text-gray-300">Total Transaksi:</span>
-                    <span className="text-gray-600 dark:text-gray-400">
+                    <span className="font-medium text-gray-700 dark:text-[var(--text-muted)]">Total Transaksi:</span>
+                    <span className="text-gray-600 dark:text-[var(--text-muted)]">
                       {licenseStatus.status === 'activated' ? 'Unlimited' : 
                         (licenseStatus.status === 'trial' ? `${licenseStatus.remaining}/99` : '-')}
                     </span>
@@ -297,7 +297,7 @@ const TentangAplikasiPage = () => {
             
             {updateInfo?.status && (
               <div className="mb-4">
-                <p className={`text-sm mb-2 font-medium ${updateInfo.status === 'error' ? 'text-red-500' : 'text-gray-600 dark:text-gray-300'}`}>
+                <p className={`text-sm mb-2 font-medium ${updateInfo.status === 'error' ? 'text-red-500' : 'text-gray-600 dark:text-[var(--text-muted)]'}`}>
                   {updateInfo.message || updateInfo.status}
                 </p>
                 {typeof updateInfo.percent === 'number' && (

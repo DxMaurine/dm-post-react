@@ -327,29 +327,29 @@ const DataBarang = () => {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg mb-6 border border-gray-200 dark:border-[var(--border-default)]">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg mb-6 border-2 border-gray-200 dark:border-[var(--border-default)]">
         <div className="p-6 max-h-screen overflow-y-auto">
           {/* Controls Section */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <div className="mb-4 md:mb-0">
               <div className="flex items-center">
-                <span className="text-sm font-semibold text-gray-600 dark:text-[var(--text-muted)] mr-4">Product Type</span>
+                <span className="text-sm font-semibold text-gray-600 dark:text-[var(--text-default)] mr-4">Product Type</span>
                 <div className="flex space-x-2">
                   <button 
                     onClick={() => setActiveTab('all')}
-                    className={`px-3 py-1 text-sm rounded-md ${activeTab === 'all' ? 'bg-[var(--primary-color)] text-white' : 'bg-gray-100 dark:bg-[var(--bg-secondary)] text-gray-700 dark:text-[var(--text-muted)] hover:bg-gray-200 dark:hover:bg-[var(--bg-secondary)]'}`}
+                    className={`px-3 py-1 text-sm rounded-md ${activeTab === 'all' ? 'bg-[var(--primary-color)] text-white' : 'bg-gray-100 dark:bg-[var(--bg-secondary)] text-gray-700 dark:text-[var(--text-default)] hover:bg-gray-200 dark:hover:bg-[var(--bg-secondary)]'}`}
                   >
                     All
                   </button>
                   <button 
                     onClick={() => setActiveTab('standard')}
-                    className={`px-3 py-1 text-sm rounded-md ${activeTab === 'standard' ? 'bg-[var(--primary-color)] text-white' : 'bg-gray-100 dark:bg-[var(--bg-secondary)] text-gray-700 dark:text-[var(--text-muted)] hover:bg-gray-200 dark:hover:bg-[var(--bg-secondary)]'}`}
+                    className={`px-3 py-1 text-sm rounded-md ${activeTab === 'standard' ? 'bg-[var(--primary-color)] text-white' : 'bg-gray-100 dark:bg-[var(--bg-secondary)] text-gray-700 dark:text-[var(--text-default)] hover:bg-gray-200 dark:hover:bg-[var(--bg-secondary)]'}`}
                   >
                     Standard
                   </button>
                   <button 
                     onClick={() => setActiveTab('inventory')}
-                    className={`px-3 py-1 text-sm rounded-md ${activeTab === 'inventory' ? 'bg-[var(--primary-color)] text-white' : 'bg-gray-100 dark:bg-[var(--bg-secondary)] text-gray-700 dark:text-[var(--text-muted)] hover:bg-gray-200 dark:hover:bg-[var(--bg-secondary)]'}`}
+                    className={`px-3 py-1 text-sm rounded-md ${activeTab === 'inventory' ? 'bg-[var(--primary-color)] text-white' : 'bg-gray-100 dark:bg-[var(--bg-secondary)] text-gray-700 dark:text-[var(--text-default)] hover:bg-gray-200 dark:hover:bg-[var(--bg-secondary)]'}`}
                   >
                     Inventory
                   </button>

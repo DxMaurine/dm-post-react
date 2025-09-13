@@ -94,7 +94,7 @@ const PenerimaanBarang = () => {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] p-6">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)] p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Product Selection */}

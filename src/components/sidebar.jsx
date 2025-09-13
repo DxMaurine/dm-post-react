@@ -194,7 +194,7 @@ const Sidebar = ({ onOpenCatalog }) => {
       </div>
       <button 
         onClick={() => setIsCollapsed(!isCollapsed)} 
-        className={`absolute ${isCollapsed ? 'top-[50px]' : 'top-[66px]'} -right-3 z-20 p-1.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 shadow-md`}
+        className={`absolute ${isCollapsed ? 'top-[50px]' : 'top-[66px]'} -right-3 z-20 p-1.5 rounded-full bg-white dark:bg-[var(--bg-secondary)] border-2 border-gray-200 dark:border-gray-100 text-gray-600 dark:text-[var(--text-default)] hover:bg-gray-100 dark:hover:bg-[var(--bg-default)] transition-all duration-300 shadow-md`}
       >
         <FiChevronLeft size={16} className={`transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} />
       </button>

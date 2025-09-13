@@ -106,7 +106,7 @@ const SalesReturnPage = () => {
     <div className="w-full max-w-7xl mx-auto">
       <div className="">
         {/* Header Section */}
-        <div className="bg-gradient-to-r from-red-600 to-indigo-700 dark:from-red-700 dark:to-blue-800 rounded-xl p-6 mb-6 text-white shadow-lg">
+        <div className="bg-gradient-to-r from-red-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-800 rounded-xl p-6 mb-6 text-white shadow-lg">
           <div className="flex items-center">
             <div className="bg-white/20 p-3 rounded-xl mr-4">
               <FiArchive size={24} />
