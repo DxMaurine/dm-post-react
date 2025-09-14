@@ -116,7 +116,7 @@ const BarcodeManagementPage = () => {
               </h2>
             </div>
             <div className="relative">
-              <FiSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 dark:text-[var(--text-muted)]" />
+              <FiSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 dark:text-[var(--text-default)]" />
               <input
                 type="text"
                 placeholder="Cari produk berdasarkan nama atau barcode..."
@@ -179,7 +179,7 @@ const BarcodeManagementPage = () => {
                   </div>
                 ) : (
                   <div className="p-8 text-center text-gray-500 dark:text-[var(--text-muted)]">
-                    <FiSearch className="mx-auto text-gray-300 dark:text-gray-600 mb-3" size={32} />
+                    <FiSearch className="mx-auto text-gray-300 dark:text-[var(--text-muted)] mb-3" size={32} />
                     <p>{searchTerm ? 'Produk tidak ditemukan' : 'Gunakan kolom pencarian untuk menemukan produk'}</p>
                     {searchTerm && (
                       <p className="text-sm mt-1">Coba dengan kata kunci yang berbeda</p>

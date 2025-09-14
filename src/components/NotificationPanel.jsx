@@ -14,7 +14,7 @@ const NotificationPanel = ({ notifications }) => {
 
   return (
     <div className="relative">
-      <button onClick={() => setIsOpen(!isOpen)} className="relative p-2 rounded-full hover:bg-gray-200 dark:bg-[var(--bg-secondary)] dark:hover:bg-[var(--primary-color)]">
+      <button onClick={() => setIsOpen(!isOpen)} className="relative p-2 rounded-full hover:bg-gray-200 dark:bg-[var(--bg-secondary)] dark:hover:bg-[var(--primary-color)]/30">
         <FiBell className="text-gray-600 dark:text-[var(--text-default)]" />
         {notifications.length > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-1 py-0.5">

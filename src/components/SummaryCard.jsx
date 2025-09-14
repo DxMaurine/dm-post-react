@@ -1,13 +1,14 @@
 
 // Enhanced Summary Card Component
 import React from 'react';
+
 const SummaryCard = ({ title, value, subtitle, icon, color, trend, percentage }) => {
   const colorMap = {
-    blue: { iconBg: 'bg-blue-100 dark:bg-blue-900/50', iconColor: 'text-blue-600 dark:text-blue-300' },
-    green: { iconBg: 'bg-green-100 dark:bg-green-900/50', iconColor: 'text-green-600 dark:text-green-300' },
-    orange: { iconBg: 'bg-orange-100 dark:bg-orange-900/50', iconColor: 'text-orange-600 dark:text-orange-300' },
-    red: { iconBg: 'bg-red-100 dark:bg-red-900/50', iconColor: 'text-red-600 dark:text-red-300' },
-    purple: { iconBg: 'bg-purple-100 dark:bg-purple-900/50', iconColor: 'text-purple-600 dark:text-purple-300' },
+    blue: { iconBg: 'bg-blue-100 dark:bg-blue-900', iconColor: 'text-blue-600 dark:text-[var(--warning-color)]'},
+    green: { iconBg: 'bg-green-100 dark:bg-green-900', iconColor: 'text-green-600 dark:text-green-300' },
+    orange: { iconBg: 'bg-orange-100 dark:bg-orange-900', iconColor: 'text-orange-600 dark:text-orange-300' },
+    red: { iconBg: 'bg-red-100 dark:bg-red-900', iconColor: 'text-red-600 dark:text-red-300' },
+    purple: { iconBg: 'bg-purple-100 dark:bg-purple-900', iconColor: 'text-purple-600 dark:text-purple-300' },
   };
 
   const iconMap = {
@@ -31,13 +32,29 @@ const SummaryCard = ({ title, value, subtitle, icon, color, trend, percentage })
     )
   };
 
+  const renderValue = () => {
+    if (typeof value === 'string' && value.startsWith('Rp')) {
+      const currencySymbol = value.substring(0, 2);
+      const amount = value.substring(2);
+      return (
+        <>
+          <span className={`${colorMap[color].iconColor} mr-1`}>{currencySymbol}</span>
+          <span className="text-gray-900 dark:text-[var(--text-default)]">{amount}</span>
+        </>
+      );
+    }
+    return <span className="text-gray-900 dark:text-[var(--text-default)]">{value}</span>;
+  };
+
   return (
     <div className={`p-5 rounded-xl shadow-sm  bg-white dark:bg-[var(--bg-secondary)] hover:shadow-md transition`}>
       <div className="flex justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">{title}</p>
-          <p className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">{value}</p>
-          {subtitle && <p className="text-xs text-gray-500 dark:text-gray-400">{subtitle}</p>}
+          <p className="text-sm font-medium text-gray-500 dark:text-[var(--text-muted)] mb-1">{title}</p>
+          <p className="text-2xl font-bold mb-1">
+            {renderValue()}
+          </p>
+          {subtitle && <p className="text-xs text-gray-500 dark:text-[var(--text-muted)]">{subtitle}</p>}
         </div>
         <div className={`h-12 w-12 rounded-lg flex items-center justify-center ${colorMap[color].iconBg} ${colorMap[color].iconColor}`}>
           {iconMap[icon]}
@@ -45,7 +62,7 @@ const SummaryCard = ({ title, value, subtitle, icon, color, trend, percentage })
       </div>
       {trend && (
         <div className="mt-4 flex items-center">
-          <span className={`text-sm font-medium ${trend === 'up' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+          <span className={`text-sm font-medium ${trend === 'up' ? 'text-green-600 dark:text-green-600' : 'text-red-600 dark:text-red-600'}`}>
             {percentage} {trend === 'up' ? '↑' : '↓'} Dari hari sebelumnya
           </span>
         </div>

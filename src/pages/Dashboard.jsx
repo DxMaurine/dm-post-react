@@ -319,7 +319,7 @@ const Dashboard = () => {
           {/* Sales Chart */}
           <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-md lg:col-span-2">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-muted)]">Top 5 Best Selling Products</h2>
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Top 5 Best Selling Products</h2>
               <div className="flex space-x-2">
                 <button className="px-3 py-1 text-xs bg-blue-50 dark:bg-slate-500 dark:text-white text-blue-600 rounded-full">This Week</button>
                 <button className="px-3 py-1 text-xs bg-gray-50 dark:bg-slate-500 dark:text-white text-gray-600 rounded-full">Last Week</button>
@@ -342,35 +342,35 @@ const Dashboard = () => {
 
           {/* Recent Transactions */}
           <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-md">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Recent Transactions</h2>
-              <button onClick={() => navigate('/history')} className="text-sm font-medium transition text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] dark:text-[var(--primary-color)] dark:hover:text-[var(--primary-color-hover)]">
+              <button onClick={() => navigate('/history')} className="text-sm font-medium transition text-[var(--primary-color)] hover:text-[var(--primary-color-hover)]">
                 View All
               </button>
             </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-sm">
+            <div className="overflow-x-auto -mx-6">
+              <table className="min-w-full">
                 <thead>
-                  <tr className="bg-blue-50 dark:bg-slate-700 dark:text-white text-blue-700">
-                    <th className="px-4 py-2 text-left font-semibold">ID</th>
-                    <th className="px-4 py-2 text-left font-semibold">Date</th>
-                    <th className="px-4 py-2 text-left font-semibold">Payment</th>
-                    <th className="px-4 py-2 text-right font-semibold">Total</th>
-                    <th className="px-4 py-2 text-right font-semibold">Items</th>
+                  <tr className="border-b-2 border-gray-100 dark:border-gray-700">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Transaction</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Payment</th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Total</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                   {dashboardData.recentTransactions.map((transaction) => (
-                    <tr key={transaction.id} className="border-b border-gray-100 dark:border-slate-900 hover:bg-gray-50 dark:hover:bg-[var(--primary-color-hover)]">
-                      <td className="px-4 py-2 font-medium text-gray-800 dark:text-[var(--text-muted)]">#{transaction.id}</td>
-                      <td className="px-4 py-2 text-gray-600 dark:text-[var(--text-muted)]">
-                        {formatDate(transaction.date)}
+                    <tr key={transaction.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors duration-150">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-semibold text-gray-900 dark:text-[var(--text-default)]">#{transaction.id}</div>
+                        <div className="text-xs text-gray-500 dark:text-[var(--text-muted)]">{formatDate(transaction.date)}</div>
                       </td>
-                      <td className="px-4 py-2 text-gray-600 dark:text-[var(--text-muted)]">{transaction.paymentMethod}</td>
-                      <td className="px-4 py-2 text-right text-gray-800 dark:text-[var(--text-muted)] font-semibold">
-                        {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(transaction.total)}
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-[var(--text-muted)]">{transaction.paymentMethod}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right">
+                        <div className="text-sm font-semibold text-gray-900 dark:text-[var(--text-default)]">
+                          {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(transaction.total)}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-[var(--text-muted)]">{transaction.items} items</div>
                       </td>
-                      <td className="px-4 py-2 text-right text-gray-600 dark:text-[var(--text-muted)]">{transaction.items}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -397,67 +397,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
-
-
-// Enhanced Bar Chart Component
-const EnhancedBarChart = ({ data }) => {
-  const maxValue = Math.max(...data.map(item => item.sales), 10) || 1;
-  const colors = ['bg-blue-500', 'bg-blue-400', 'bg-blue-300', 'bg-blue-200', 'bg-blue-100'];
-
-  return (
-    <div className="h-full">
-      <div className="flex items-end h-48 space-x-4">
-        {data.map((item, index) => (
-          <div key={index} className="flex-1 flex flex-col items-center">
-            <div className="w-full flex flex-col items-center">
-              <div 
-                className={`w-3/4 ${colors[index]} rounded-t hover:opacity-90 transition`}
-                style={{ height: `${(item.sales / maxValue) * 100}%` }}
-              ></div>
-              <p className="text-xs text-gray-500 mt-2">{item.date}</p>
-              <p className="text-xs font-medium text-gray-700 mt-1">
-                {item.sales > 0 ? 
-                  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(item.sales) 
-                  : '-'}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-// Transaction Item Component
-const TransactionItem = ({ transaction }) => {
-  return (
-    <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition cursor-pointer">
-      <div className="flex items-center">
-        <div className="p-2 bg-blue-50 rounded-lg mr-3">
-          <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-          </svg>
-        </div>
-        <div>
-          <p className="font-medium text-gray-800">#{transaction.id}</p>
-          <div className="flex items-center text-xs text-gray-500 mt-1">
-            <span>{transaction.date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
-            <span className="mx-1">•</span>
-            <span>{transaction.paymentMethod}</span>
-          </div>
-        </div>
-      </div>
-      <div className="text-right">
-        <p className="font-semibold text-gray-800">
-          {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(transaction.total)}
-        </p>
-        <p className="text-xs text-gray-500">{transaction.items} items</p>
-      </div>
-    </div>
-  );
-};
-
-
 
 export default Dashboard;

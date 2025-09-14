@@ -73,14 +73,14 @@ const KartuStokPage = () => {
         <div className="bg-[var(--bg-primary)] p-6 rounded-xl shadow-lg border-2 border-[var(--border-default)]">
           <div className="flex items-center mb-6">
             <div className="bg-[var(--primary-color)]/10 p-2 rounded-lg mr-3">
-              <FiSearch className="text-[var(--primary-color)]" size={20} />
+              <FiSearch className="text-[var(--text-default)]" size={20} />
             </div>
             <h2 className="text-xl font-semibold text-[var(--text-default)]">Cari Produk</h2>
           </div>
           
           <form onSubmit={handleSearch} className="mb-6">
             <div className={`flex items-center border ${searchFocused ? 'border-[var(--primary-color)] ring-2 ring-[var(--primary-color)]/20' : 'border-[var(--border-default)]'} rounded-xl transition-all duration-200 overflow-hidden`}>
-              <div className="pl-4 text-[var(--text-muted)]">
+              <div className="pl-4 text-[var(--text-default)]">
                 <FiSearch size={18} />
               </div>
               <input
@@ -95,14 +95,14 @@ const KartuStokPage = () => {
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
                 placeholder="Masukkan nama atau kode produk..."
-                className="flex-grow px-4 py-4 focus:outline-none bg-transparent text-[var(--text-default)] placeholder-[var(--text-muted)]/80"
+                className="flex-grow px-4 py-4 focus:outline-none bg-transparent text-[var(--text-default)] placeholder-[var(--text-default)]/80"
               />
               <button 
                 type="submit" 
                 disabled={!searchTerm.trim() || isLoading}
                 className={`px-6 py-4 m-1 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 ${
                   (!searchTerm.trim() || isLoading) 
-                    ? 'bg-[var(--bg-tertiary)] cursor-not-allowed text-[var(--text-muted)]' 
+                    ? 'bg-[var(--bg-tertiary)] cursor-not-allowed text-[var(--text-default)]' 
                     : 'bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)] text-white'
                 }`}
               >
@@ -151,16 +151,16 @@ const KartuStokPage = () => {
 
           {searchTerm && searchResults.length === 0 && !isLoading && (
             <div className="text-center py-8 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-default)]">
-              <FiBox className="mx-auto text-[var(--text-muted)] mb-3" size={32} />
-              <p className="text-[var(--text-muted)]">Tidak ada produk yang ditemukan untuk "{searchTerm}"</p>
-              <p className="text-sm text-[var(--text-muted)]/80 mt-1">Coba dengan kata kunci yang berbeda</p>
+              <FiBox className="mx-auto text-[var(--text-default)] mb-3" size={32} />
+              <p className="text-[var(--text-default)]">Tidak ada produk yang ditemukan untuk "{searchTerm}"</p>
+              <p className="text-sm text-[var(--text-default)]/80 mt-1">Coba dengan kata kunci yang berbeda</p>
             </div>
           )}
 
           {!searchTerm && (
             <div className="text-center py-8 bg-gradient-to-br from-[var(--bg-secondary)] to-[var(--primary-color)]/5 rounded-xl border border-dashed border-[var(--border-default)]">
-              <FiSearch className="mx-auto text-[var(--text-muted)] mb-3" size={32} />
-              <p className="text-[var(--text-muted)]">Masukkan nama atau kode produk untuk memulai pencarian</p>
+              <FiSearch className="mx-auto text-[var(--text-default)] mb-3" size={32} />
+              <p className="text-[var(--text-default)]">Masukkan nama atau kode produk untuk memulai pencarian</p>
             </div>
           )}
         </div>
@@ -199,7 +199,7 @@ const KartuStokPage = () => {
                   <h3 className="font-bold text-[var(--text-default)]">{selectedProduct.name}</h3>
                   <div className="flex items-center space-x-4 mt-1">
                     <span className="text-sm text-[var(--text-muted)]">Kode: {selectedProduct.id}</span>
-                    <span className={`text-sm font-medium px-2 py-1 rounded-full dark:text-[var(--text-muted)] ${getStockBgColor(selectedProduct.stock)} ${getStockColor(selectedProduct.stock)}`}>
+                    <span className={`text-sm font-medium px-2 py-1 rounded-full  dark:text-[var(--text-default)] ${getStockBgColor(selectedProduct.stock)} ${getStockColor(selectedProduct.stock)}`}>
                       Stok: {selectedProduct.stock}
                     </span>
                   </div>

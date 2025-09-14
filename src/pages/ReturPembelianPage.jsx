@@ -477,14 +477,14 @@ const ReturPembelianPage = () => {
               <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
                 <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
                   <tr>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Kode Barang</th>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Nama Barang</th>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Jumlah</th>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Satuan</th>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Harga Satuan</th>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Total</th>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Alasan Retur</th>
-                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-muted)] uppercase tracking-wider">Aksi</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Kode Barang</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Nama Barang</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Jumlah</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Satuan</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Harga Satuan</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Total</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Alasan Retur</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Aksi</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">

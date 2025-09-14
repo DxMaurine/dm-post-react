@@ -104,7 +104,7 @@ const PenerimaanBarang = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiPackage className="text-gray-400 dark:text-[var(--text-muted)]" size={18} />
+                  <FiPackage className="text-gray-400 dark:text-[var(--text-default)]" size={18} />
                 </div>
                 <select
                   value={selectedProduct}
@@ -129,7 +129,7 @@ const PenerimaanBarang = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiPlus className="text-gray-400 dark:text-[var(--text-muted)]" size={18} />
+                  <FiPlus className="text-gray-400 dark:text-[var(--text-default)]" size={18} />
                 </div>
                 <input
                   type="number"
@@ -150,7 +150,7 @@ const PenerimaanBarang = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiTruck className="text-gray-400 dark:text-[var(--text-muted)]" size={18} />
+                  <FiTruck className="text-gray-400 dark:text-[var(--text-default)]" size={18} />
                 </div>
                 <input
                   type="text"
@@ -168,7 +168,7 @@ const PenerimaanBarang = () => {
               <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-default)]">Catatan</label>
               <div className="relative">
                 <div className="absolute top-3 left-3">
-                  <svg className="h-5 w-5 text-gray-400 dark:text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5 text-gray-400 dark:text-[var(--text-default)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
                 </div>

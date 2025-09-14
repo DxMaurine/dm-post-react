@@ -118,7 +118,7 @@ const StockOpname = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiPackage className="text-gray-400 dark:text-[var(--text-muted)]" size={18} />
+                  <FiPackage className="text-gray-400  dark:text-[var(--text-default)]" size={18} />
                 </div>
                 <select
                   value={selectedProduct}
@@ -139,7 +139,7 @@ const StockOpname = () => {
                     ))
                   )}
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-[var(--text-muted)]">
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700  dark:text-[var(--text-default)]">
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
@@ -154,7 +154,7 @@ const StockOpname = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiTrendingUp className="text-gray-400 dark:text-[var(--text-muted)]" size={18} />
+                  <FiTrendingUp className="text-gray-400  dark:text-[var(--text-default)]" size={18} />
                 </div>
                 <input
                   type="number"
@@ -175,7 +175,7 @@ const StockOpname = () => {
               </label>
               <div className="relative">
                 <div className="absolute top-3 left-3">
-                  <svg className="h-5 w-5 text-gray-400 dark:text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5 text-gray-400  dark:text-[var(--text-default)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
                 </div>
@@ -221,13 +221,13 @@ const StockOpname = () => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-white dark:bg-[var(--bg-default)] p-4 rounded-lg shadow-sm border border-gray-200 dark:border-[var(--border-default)]">
-                <div className="text-sm text-gray-500 dark:text-[var(--text-muted)] mb-2">Stok Sistem</div>
+                <div className="text-sm text-gray-500  dark:text-[var(--text-default)] mb-2">Stok Sistem</div>
                 <div className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)]">
                   {systemStock}
                 </div>
               </div>
               <div className="bg-white dark:bg-[var(--bg-default)] p-4 rounded-lg shadow-sm border border-gray-200 dark:border-[var(--border-default)]">
-                <div className="text-sm text-gray-500 dark:text-[var(--text-muted)] mb-2">Stok Fisik</div>
+                <div className="text-sm text-gray-500  dark:text-[var(--text-default)] mb-2">Stok Fisik</div>
                 <div className={`text-2xl font-bold ${
                   physicalStock > systemStock ? 'text-green-600 dark:text-green-700' : 
                   physicalStock < systemStock ? 'text-red-600 dark:text-red-600' : 'text-gray-800 dark:text-[var(--text-default)]'
@@ -236,7 +236,7 @@ const StockOpname = () => {
                 </div>
               </div>
               <div className="bg-white dark:bg-[var(--bg-default)] p-4 rounded-lg shadow-sm border border-gray-200 dark:border-[var(--border-default)]">
-                <div className="text-sm text-gray-500 dark:text-[var(--text-muted)] mb-2">Selisih</div>
+                <div className="text-sm text-gray-500  dark:text-[var(--text-default)] mb-2">Selisih</div>
                 <div className={`text-2xl font-bold flex items-center ${
                   difference > 0 ? 'text-green-600 dark:text-green-700' : 
                   difference < 0 ? 'text-red-600 dark:text-red-600' : 'text-gray-800 dark:text-[var(--text-default)]'

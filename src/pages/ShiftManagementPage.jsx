@@ -289,9 +289,9 @@ const ShiftManagementPage = () => {
             
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-blue-50 dark:bg-[var(--primary-color)]/20 p-4 rounded-lg border border-blue-200 dark:border-[var(--primary-color)]/50">
-                  <p className="text-sm text-blue-700 dark:text-[var(--primary-color)]">Durasi Shift</p>
-                  <p className="text-2xl font-bold font-mono text-blue-800 dark:text-[var(--text-default)] mt-1">{duration}</p>
+                <div className="bg-blue-50 dark:bg-[var(--sidebar-bg-dark)] p-4 rounded-lg border border-blue-200 dark:border-[var(--primary-color)]/50">
+                  <p className="text-sm text-blue-700 dark:text-[var(--text-muted)]">Durasi Shift</p>
+                  <p className="text-2xl font-medium font-mono text-blue-800 dark:text-[var(--text-muted)] mt-1">{duration}</p>
                 </div>
                 
                 <div className="bg-green-50 dark:bg-green-700 p-4 rounded-lg border border-green-200 dark:border-green-800">
@@ -301,7 +301,7 @@ const ShiftManagementPage = () => {
                   </p>
                 </div>
                 
-                <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+                <div className="bg-purple-50 dark:bg-purple-900 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
                   <p className="text-sm text-purple-700 dark:text-purple-300">Perkiraan Kas Akhir</p>
                   <p className="text-xl font-bold text-purple-800 dark:text-purple-200 mt-1">
                     {expectedCash ? formatRupiah(expectedCash) : 'Menghitung...'}
@@ -311,7 +311,7 @@ const ShiftManagementPage = () => {
               
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="closingCash" className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-2">
+                  <label htmlFor="closingCash" className="block text-sm font-medium text-gray-700 dark:text-[var(--text-default)] mb-2">
                     Jumlah Uang Fisik di Laci Kas <span className="ml-2 bg-red-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Wajib</span>
                   </label>
                   <NumericFormat 
@@ -328,11 +328,11 @@ const ShiftManagementPage = () => {
                 </div>
                 
                 {expectedCash !== null && (
-                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-700 flex items-center gap-3">
+                  <div className="bg-green-50 dark:bg-green-900 p-4 rounded-lg border border-green-200 dark:border-green-700 flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-green-700 dark:text-green-300">Kas Sistem Seharusnya:</p>
-                      <p className="font-bold text-green-800 dark:text-green-200">{formatRupiah(expectedCash)}</p>
+                      <p className="text-sm font-medium text-green-700 dark:text-[var(--text-muted)]">Kas Sistem Seharusnya:</p>
+                      <p className="font-bold text-green-800 dark:text-[var(--text-muted)]">{formatRupiah(expectedCash)}</p>
                     </div>
                   </div>
                 )}
