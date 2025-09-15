@@ -1592,6 +1592,7 @@ app.get('/api/rekap', authenticateToken, async (req, res) => {
     const salesReturnQuery = `
         SELECT 
             sr.id, sr.return_date, sr.return_time, sr.total_amount, sr.transaction_id,
+            sr.status, sr.cancellation_reason,
             u.username as cashier_name, 
             'sales_return' as record_type,
             CONCAT(sr.return_date, ' ', sr.return_time) as datetime
