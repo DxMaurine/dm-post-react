@@ -316,21 +316,21 @@ const PointManagementPage = () => {
         </div>
       </div>
 
-      <form onSubmit={handleTransfer} className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <form onSubmit={handleTransfer} className="max-w-xxl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 w-full">
           {/* From Customer */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)]">
-            <label className="block text-sm font-bold text-gray-700 dark:text-white mb-3">Dari Pelanggan</label>
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)] ">
+            <label className="block text-sm font-bold text-gray-700 dark:text-[var(--text-default)] mb-3">Dari Pelanggan</label>
             <div className="flex items-center gap-2 mb-4">
               <div className="relative flex-grow">
-                <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-[var(--text-muted)]" />
+                <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-[var(--text-default)]" />
                 <input 
                   type="text"
                   value={transferFromSearch}
                   onChange={(e) => setTransferFromSearch(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleTransferSearch('from', transferFromSearch); } }}
                   placeholder="Cari pengirim..."
-                  className="w-full pl-10 p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-[var(--border-default)]"
+                  className="w-full pl-10 p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
                 />
               </div>
               <button 
@@ -342,11 +342,11 @@ const PointManagementPage = () => {
               </button>
             </div>
             {selectedTransferFrom && (
-              <div className={`p-4 rounded-xl ${!selectedTransferFrom.notFound ? 'bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30' : 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30'}`}>
+              <div className={`p-4 rounded-xl ${!selectedTransferFrom.notFound ? 'bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900' : 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900 dark:to-orange-900'}`}>
                 {!selectedTransferFrom.notFound ? (
                   <div>
-                    <p className="font-semibold dark:text-white">{selectedTransferFrom.name}</p>
-                    <p className="text-sm text-green-500 font-medium">Poin: {selectedTransferFrom.loyalty_points.toLocaleString('id-ID')}</p>
+                    <p className="font-semibold dark:text-[var(--text-muted)]">{selectedTransferFrom.name}</p>
+                    <p className="text-sm text-green-500 dark:text-[var(--text-muted)] font-medium">Poin: {selectedTransferFrom.loyalty_points.toLocaleString('id-ID')}</p>
                   </div>
                 ) : <p className="text-sm text-red-500">Tidak ditemukan</p>}
               </div>
@@ -355,17 +355,17 @@ const PointManagementPage = () => {
 
           {/* To Customer */}
           <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)]">
-            <label className="block text-sm font-bold text-gray-700 dark:text-white mb-3">Ke Pelanggan</label>
+            <label className="block text-sm font-bold text-gray-700 dark:text-[var(--text-default)] mb-3">Ke Pelanggan</label>
             <div className="flex items-center gap-2 mb-4">
               <div className="relative flex-grow">
-                <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white" />
+                <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-[var(--text-default)]" />
                 <input 
                   type="text"
                   value={transferToSearch}
                   onChange={(e) => setTransferToSearch(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleTransferSearch('to', transferToSearch); } }}
                   placeholder="Cari penerima..."
-                  className="w-full pl-10 p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-[var(--border-default)]"
+                  className="w-full pl-10 p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
                 />
               </div>
               <button 
@@ -377,11 +377,11 @@ const PointManagementPage = () => {
               </button>
             </div>
             {selectedTransferTo && (
-              <div className={`p-4 rounded-xl ${!selectedTransferTo.notFound ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30' : 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30'}`}>
+              <div className={`p-4 rounded-xl ${!selectedTransferTo.notFound ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900' : 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900 dark:to-orange-900'}`}>
                 {!selectedTransferTo.notFound ? (
                   <div>
-                    <p className="font-semibold dark:text-white">{selectedTransferTo.name}</p>
-                    <p className="text-sm text-green-500 font-medium">Poin: {selectedTransferTo.loyalty_points?.toLocaleString('id-ID') || '0'}</p>
+                    <p className="font-semibold dark:text-[var(--text-muted)]">{selectedTransferTo.name}</p>
+                    <p className="text-sm text-green-700 dark:text-[var(--text-muted)] font-medium">Poin: {selectedTransferTo.loyalty_points?.toLocaleString('id-ID') || '0'}</p>
                   </div>
                 ) : <p className="text-sm text-red-500">Tidak ditemukan</p>}
               </div>
@@ -391,14 +391,14 @@ const PointManagementPage = () => {
 
         {/* Amount & Action */}
         <div className="bg-white dark:bg-[var(--bg-secondary)] p-5 rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)]">
-          <label className="block text-sm font-bold text-gray-700 dark:text-white mb-3">Jumlah Poin</label>
+          <label className="block text-sm font-bold text-gray-700 dark:text-[var(--text-default)] mb-3">Jumlah Poin</label>
           <div className="relative">
             <input 
               type="number"
               value={transferAmount}
               onChange={(e) => setTransferAmount(e.target.value)}
               placeholder="0"
-              className="w-full p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-white dark:border-[var(--border-default)]"
+              className="w-full p-3 border rounded-xl bg-gray-50 border-gray-200 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-default)] dark:border-[var(--border-default)]"
             />
           </div>
           {transferError && <p className="text-red-500 text-sm mt-2 bg-red-50 dark:bg-red-900/20 p-2 rounded-lg">{transferError}</p>}
@@ -435,7 +435,7 @@ const PointManagementPage = () => {
     <div className="p-4 md:p-6 bg-gray-50 dark:bg-[var(--bg-secondary)] min-h-50vh rounded-xl shadow-md">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)] mb-2">Manajemen Poin</h1>
-        <p className="text-gray-600 dark:text-[var(--text-muted)] mb-6">Manajemen penukaran dan transfer poin pelanggan</p>
+        <p className="text-gray-600 dark:text-[var(--text-default)] mb-6">Manajemen penukaran dan transfer poin pelanggan</p>
         
         {/* Tabs */}
         <div className="mb-8 bg-white dark:bg-[var(--bg-secondary)] rounded-xl p-1 shadow-md border-2 border-gray-200 dark:border-[var(--border-default)] inline-flex">
@@ -444,7 +444,7 @@ const PointManagementPage = () => {
             className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
               activeTab === 'redeem' 
                 ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md' 
-                : 'text-gray-600 dark:text-[var(--text-muted)] hover:text-gray-800 dark:hover:text-white'
+                : 'text-gray-600 dark:text-[var(--text-default)] hover:text-gray-800 dark:text-[var(--text-default)]'
             }`}
           >
             <div className="flex items-center gap-2">
@@ -457,7 +457,7 @@ const PointManagementPage = () => {
             className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
               activeTab === 'transfer' 
                 ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-md' 
-                : 'text-gray-600 dark:text-[var(--text-muted)] hover:text-gray-800 dark:hover:text-white'
+                : 'text-gray-600 dark:text-[var(--text-default)] hover:text-gray-800 dark:text-[var(--text-default)]'
             }`}
           >
             <div className="flex items-center gap-2">
