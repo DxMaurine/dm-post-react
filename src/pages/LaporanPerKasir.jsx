@@ -100,7 +100,7 @@ const LaporanPerKasir = () => {
       )}
 
       {/* Cashier Table */}
-      <div className="overflow-x-auto rounded-xl shadow-sm border border-[var(--border-default)]">
+      <div className="overflow-x-auto rounded-xl shadow-sm border-2 border-[var(--border-default)]">
         <table className="min-w-full divide-y divide-[var(--border-default)]">
           <thead className="bg-[var(--bg-tertiary)]">
             <tr>

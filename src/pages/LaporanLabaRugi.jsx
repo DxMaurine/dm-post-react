@@ -88,7 +88,7 @@ const LaporanLabaRugi = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
           <h2 className="text-3xl font-bold text-[var(--text-default)] mb-2">Laporan Laba & Rugi</h2>
-          <p className="text-[var(--text-muted)]">Pantau profitabilitas bisnis Anda</p>
+          <p className="text-[var(--text-default)]">Pantau profitabilitas bisnis Anda</p>
         </div>
         <div className="flex gap-2 mt-4 md:mt-0 bg-[var(--bg-tertiary)] rounded-lg p-1">
           <button onClick={() => setMode('daily')} className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${mode === 'daily' ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow' : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'}`}>
@@ -126,7 +126,7 @@ const LaporanLabaRugi = () => {
         </div>
       )}
 
-      <div className="bg-[var(--bg-primary)] rounded-xl shadow-sm border border-[var(--border-default)] p-6 mb-8">
+      <div className="bg-[var(--bg-primary)] rounded-xl shadow-sm border-2 border-[var(--border-default)] p-6 mb-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-[var(--text-default)]">Analisis Laba Rugi</h2>
           {loading && <div className="text-sm text-[var(--text-muted)]">Memuat data...</div>}
@@ -207,7 +207,7 @@ const LaporanLabaRugi = () => {
             </table>
           </div>
         ) : (
-          <div className="rounded-lg border border-[var(--border-default)] p-8 text-center">
+          <div className="rounded-lg border-2 border-[var(--border-default)] p-8 text-center">
             <svg className="mx-auto h-12 w-12 text-[var(--text-muted)]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
             <h3 className="mt-2 text-sm font-medium text-[var(--text-muted)]">Tidak ada data</h3>
             <p className="mt-1 text-sm text-[var(--text-muted)]/80">Tidak ada data laba rugi yang tersedia untuk ditampilkan.</p>

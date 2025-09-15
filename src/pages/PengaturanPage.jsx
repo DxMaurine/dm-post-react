@@ -247,7 +247,7 @@ const PengaturanPage = () => {
         </div>
       )}
 
-      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-2xl shadow-lg overflow-hidden mx-auto border border-gray-200 dark:border-[var(--border-default)] flex flex-col md:flex-row ">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-2xl shadow-lg overflow-hidden mx-auto border-2 border-gray-200 dark:border-[var(--border-default)] flex flex-col md:flex-row ">
         <aside className="w-full md:w-1/4 lg:w-1/5 p-4 border-b md:border-b-0 md:border-r border-gray-200 dark:border-[var(--border-default)]">
           <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
         </aside>

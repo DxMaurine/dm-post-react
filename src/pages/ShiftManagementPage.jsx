@@ -264,7 +264,7 @@ const ShiftManagementPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white dark:bg-[var(--card-bg-dark)] rounded-2xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] overflow-hidden">
+      <div className="bg-white dark:bg-[var(--card-bg-dark)] rounded-2xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)] overflow-hidden">
         {shiftStatus.isActive ? (
           <form onSubmit={handleEndShift}>
             <div className="bg-gradient-to-r from-yellow-600 to-yellow-700 dark:from-yellow-800 dark:to-yellow-900 p-6 text-white">

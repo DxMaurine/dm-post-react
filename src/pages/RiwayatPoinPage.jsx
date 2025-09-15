@@ -70,7 +70,7 @@ const RiwayatPoinPage = () => {
       </div>
 
       {/* Filters */}
-      <div className="p-4 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-default)] mb-6">
+      <div className="p-4 bg-[var(--bg-secondary)] rounded-xl border-2 border-[var(--border-default)] mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Date Filters */}
           <div>
@@ -118,7 +118,7 @@ const RiwayatPoinPage = () => {
       </div>
 
       {/* History Table */}
-      <div className="overflow-auto rounded-lg border border-[var(--border-default)]">
+      <div className="overflow-auto rounded-lg border-2 border-[var(--border-default)]">
         <table className="min-w-full divide-y divide-[var(--border-default)]">
           <thead className="bg-[var(--bg-default)]">
             <tr>

@@ -98,7 +98,7 @@ const PurchaseReturnList = ({ returns, onUpdateStatus, onDelete }) => {
 
   if (!returns || returns.length === 0) {
     return (
-      <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border border-gray-100 dark:border-[var(--border-default)] mb-6">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border-2 border-gray-100 dark:border-[var(--border-default)] mb-6">
         <div className="flex items-center mb-4">
           <div className="w-1 h-6 bg-blue-600 dark:bg-blue-500 mr-3 rounded-full"></div>
           <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Retur Pembelian Terakhir</h2>
@@ -110,7 +110,7 @@ const PurchaseReturnList = ({ returns, onUpdateStatus, onDelete }) => {
 
   return (
     <>
-      <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border border-gray-100 dark:border-[var(--border-default)] mb-6">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border-2 border-gray-100 dark:border-[var(--border-default)] mb-6">
         <div className="flex items-center mb-4">
           <FiList className="text-blue-600 dark:text-blue-400 mr-3" size={20} />
           <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Retur Pembelian Terakhir</h2>

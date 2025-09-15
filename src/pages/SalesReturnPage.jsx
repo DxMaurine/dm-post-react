@@ -185,7 +185,7 @@ const SalesReturnPage = () => {
         </div>
 
         {/* Filter Controls */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl border border-gray-200 dark:border-[var(--border-default)] shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-xl border-2 border-gray-200 dark:border-[var(--border-default)] shadow-sm">
           <div className="md:col-span-2">
             <label htmlFor="search" className="block text-sm font-medium text-gray-700 dark:text-[var(--text-default)] mb-1">Search</label>
             <div className="relative">
@@ -278,7 +278,7 @@ const SalesReturnPage = () => {
 
         {/* Returns Table */}
         {!loading && !error && (
-          <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-[var(--border-default)]">
+          <div className="overflow-x-auto rounded-lg border-2 border-gray-200 dark:border-[var(--border-default)]">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
               <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
                 <tr>

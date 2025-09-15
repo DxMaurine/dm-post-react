@@ -209,7 +209,7 @@ const ManajemenPengguna = () => {
       </div>
 
       {/* Tabel Pengguna */}
-      <div className="overflow-x-auto rounded-xl shadow-sm border border-gray-100 dark:border-[var(--border-default)] bg-white dark:bg-[var(--bg-secondary)]">
+      <div className="overflow-x-auto rounded-xl shadow-sm border-2 border-gray-100 dark:border-[var(--border-default)] bg-white dark:bg-[var(--bg-secondary)]">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
           <thead className="bg-gray-50 dark:bg-[var(--bg-secondary)]">
             <tr>

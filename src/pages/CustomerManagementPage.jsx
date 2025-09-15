@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { customerAPI } from '../api'; // Pastikan path sesuai
 import Swal from 'sweetalert2';
+import {FiUsers } from 'react-icons/fi';
 import React from 'react';
 
 const CustomerManagementPage = () => {
@@ -177,13 +178,11 @@ const CustomerManagementPage = () => {
         </div>
 
         {/* Main Content */}
-        <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm border border-gray-200 dark:border-[var(--border-default)] flex-1 flex flex-col overflow-hidden">
+        <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm border-2 border-gray-200 dark:border-[var(--border-default)] flex-1 flex flex-col overflow-hidden">
           {/* Table Header */}
           <div className="px-6 py-4 border-b border-gray-200 dark:border-[var(--border-default)] bg-gray-50 dark:bg-[var(--bg-secondary)] flex justify-between items-center">
             <div className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 dark:text-gray-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-              </svg>
+             <FiUsers className="h-5 w-5 text-gray-400 dark:text-[var(--text-default)] mr-2" />
               <span className="font-medium text-gray-800 dark:text-[var(--text-default)]">Customer List</span>
             </div>
             <div className="relative">

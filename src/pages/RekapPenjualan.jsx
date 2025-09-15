@@ -171,7 +171,7 @@ const RekapPenjualan = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
           <h2 className="text-2xl font-bold text-[var(--text-default)] mb-1">Rekap Penjualan</h2>
-          <p className="text-[var(--text-muted)]">Analisis performa penjualan Anda</p>
+          <p className="text-[var(--text-default)]">Analisis performa penjualan Anda</p>
         </div>
         
         {/* Filter Buttons */}

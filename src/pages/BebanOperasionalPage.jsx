@@ -184,7 +184,7 @@ const BebanOperasionalPage = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto p-6 dark:bg-[var(--bg-secondary)] min-h-screen rounded-xl">
-      <div className="bg-white dark:bg-[var(--bg-secondary)] p-8 rounded-xl shadow-lg mb-8 border border-gray-200 dark:border-[var(--border-default)]">
+      <div className="bg-white dark:bg-[var(--bg-secondary)] p-8 rounded-xl shadow-lg mb-8 border-2 border-gray-200 dark:border-[var(--border-default)]">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)] mb-6 flex items-center">
           <FaMoneyBillWave className="mr-3 text-green-500 dark:text-green-400" /> Catat Beban Operasional
         </h2>
@@ -260,7 +260,7 @@ const BebanOperasionalPage = () => {
 
       {(user.role === 'admin' || user.role === 'manager') && (
         <>
-          <div className="bg-white dark:bg-[var(--bg-secondary)] p-8 rounded-xl shadow-lg border border-gray-200 dark:border-[var(--border-default)] mb-8">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-8 rounded-xl shadow-lg border-2 border-gray-200 dark:border-[var(--border-default)] mb-8">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)]">Riwayat Beban Operasional</h2>
               <div className="flex space-x-2">

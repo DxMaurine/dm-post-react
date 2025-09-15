@@ -77,7 +77,7 @@ const PrintReportsPage = () => {
       });
       Swal.fire({
         title: 'Laporan Siap!',
-        html: 'Pratinjau laporan Anda tersedia di bawah. <br>Gunakan tombol <b>Cetak Laporan</b> untuk mencetak atau <b>Export ke Excel</b> untuk menyimpannya.',
+        html: 'Pratinjau laporan Anda tersedia.!! <br>Gunakan tombol <b>Cetak Laporan</b> untuk mencetak atau <b>Export ke Excel</b> untuk menyimpannya.',
         icon: 'info',
         confirmButtonText: 'Mengerti'
       });
@@ -253,144 +253,162 @@ const PrintReportsPage = () => {
 
   const availableReportOptions = reportOptions.filter(opt => userRole && opt.roles.includes(userRole));
 
-  return (
-    <>
-      {/* The main UI for selecting reports and dates */}
-      <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-sm dark:shadow-gray-700/50">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-          <div className="mb-6 md:mb-0">
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)]">Cetak Laporan Terpusat</h1>
-            <p className="text-sm text-gray-600 dark:text-[var(--text-muted)] mt-1">
-              Pilih laporan dan periode untuk menghasilkan laporan terpadu
-            </p>
-          </div>
-
-         
+ return (
+  <>
+    <div className="w-full max-w-7xl p-6 bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg dark:shadow-gray-800/30">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+        <div className="mb-6 md:mb-0">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-[var(--text-default)]">Laporan Terpusat</h1>
+          <p className="text-sm text-gray-600 dark:text-[var(--text-default)] mt-1">
+            Pilih jenis laporan dan periode untuk menghasilkan laporan terpadu
+          </p>
         </div>
+        
+        {reportData && (
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={handleExportExcel}
+              className="flex items-center bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-md"
+            >
+              <FiFileText className="h-4 w-4 mr-2" />
+              Export Excel
+            </button>
+            <button
+              onClick={handlePrint}
+              className="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-md"
+            >
+              <FiPrinter className="h-4 w-4 mr-2" />
+              Cetak
+            </button>
+          </div>
+        )}
+      </div>
 
-        {/* Control Form */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Report Selection */}
-          <div className="lg:col-span-1">
-            <div className="bg-gray-50 dark:bg-[var(--bg-secondary)] p-4 rounded-lg border dark:border-[var(--border-default)]">
-              <h3 className="font-semibold text-gray-700 dark:text-[var(--text-default)] mb-3 flex items-center gap-2">
-                <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 rounded-full w-6 h-6 flex items-center justify-center text-sm">1</span>
-                Pilih Jenis Laporan
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        {/* Report Selection Panel */}
+        <div className="xl:col-span-5">
+          <div className="bg-gray-50 dark:bg-[var(--bg-secondary)] p-5 rounded-xl border-2 dark:border-[var(--border-default)] shadow-sm">
+            <div className="flex items-center mb-5">
+              <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 rounded-lg w-8 h-8 flex items-center justify-center mr-3">
+                <span className="font-semibold">1</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">
+                Jenis Laporan
               </h3>
-              <div className="space-y-2">
-                {availableReportOptions.map(opt => (
-                  <label
-                    key={opt.id}
-                    className={`flex items-center p-3  rounded-lg transition-colors cursor-pointer border ${selectedReports.includes(opt.id)
-                      ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700'
-                      : 'bg-white dark:bg-[var(--bg-secondary)]  hover:bg-gray-100 dark:hover:bg-[var(--bg-default)] border-gray-200 dark:border-gray-600'}`}
-                  >
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {availableReportOptions.map(opt => (
+                <div
+                  key={opt.id}
+                  className={`relative p-4 rounded-lg border transition-all cursor-pointer ${
+                    selectedReports.includes(opt.id)
+                      ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700 shadow-sm'
+                      : 'bg-white dark:bg-[var(--bg-default)] border-gray-200 dark:border-gray-600 hover:shadow-md'
+                  }`}
+                  onClick={() => handleCheckboxChange(opt.id)}
+                >
+                  <div className="flex items-start">
                     <input
                       type="checkbox"
                       checked={selectedReports.includes(opt.id)}
-                      onChange={() => handleCheckboxChange(opt.id)}
-                      className="h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-blue-600 dark:text-blue-400 focus:ring-blue-500 dark:focus:ring-blue-600 bg-white dark:bg-gray-700"
+                      onChange={() => {}}
+                      className="h-4 w-4 mt-1 rounded border-gray-300 dark:border-gray-500 text-blue-600 dark:text-[var(--text-default)] focus:ring-blue-500 dark:focus:ring-blue-600 bg-white dark:bg-gray-700"
                     />
-                    <opt.icon className={`h-5 w-5 mx-3 ${selectedReports.includes(opt.id) ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'}`} />
-                    <span className="text-sm font-medium text-gray-800 dark:text-[var(--text-default)]">{opt.label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Date Range */}
-          <div className="lg:col-span-2">
-            <div className="bg-gray-50 dark:bg-[var(--bg-secondary)] p-4 rounded-lg border dark:border-[var(--border-default)]">
-              <h3 className="font-semibold text-gray-700 dark:text-[var(--text-default)] mb-3 flex items-center gap-2">
-                <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 rounded-full w-6 h-6 flex items-center justify-center text-sm">2</span>
-                Tentukan Periode
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Tanggal Mulai</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiCalendar className="h-5 w-5 text-gray-400 dark:text-[var(--text-default)]" />
+                    <div className="ml-3">
+                      <div className={`flex items-center mb-1 ${selectedReports.includes(opt.id) ? 'text-blue-600 dark:text-[var(--text-default)]' : 'text-gray-600 dark:text-[var(--text-default)]'}`}>
+                        <opt.icon className="h-4 w-4 mr-2" />
+                        <span className="text-sm font-medium">{opt.label}</span>
+                      </div>
                     </div>
-                    <input
-                      type="date"
-                      name="startDate"
-                      value={dates.startDate}
-                      onChange={handleDateChange}
-                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)] focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                    />
                   </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Tanggal Akhir</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiCalendar className="h-5 w-5 text-gray-400 dark:text-[var(--text-default)]" />
-                    </div>
-                    <input
-                      type="date"
-                      name="endDate"
-                      value={dates.endDate}
-                      onChange={handleDateChange}
-                      className="block w-full pl-10 p-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)] focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={handleGenerateReport}
-                disabled={loading}
-                className="mt-6 w-full bg-blue-600 hover:bg-blue-700 dark:bg-[var(--primary-bg-dark)] dark:hover:bg-[var(--primary-color)] text-white font-bold py-3 px-4 rounded-lg transition-colors shadow-md disabled:bg-gray-400 dark:disabled:bg-gray-600 flex items-center justify-center gap-2"
-              >
-                {loading ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Memproses...
-                  </>
-                ) : (
-                  <>
-                    <FiBarChart2 className="h-4 w-4 " />
-                    Buat Laporan
-                  </>
-                )}
-              </button>
-
-              {reportData && (
-                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                   <h3 className="font-semibold text-gray-700 dark:text-[var(--text-default)] mb-3 flex items-center gap-2">
-                    <span className="bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200 rounded-full w-6 h-6 flex items-center justify-center text-sm">3</span>
-                    Aksi Lanjutan
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                     <button
-                        onClick={handleExportExcel}
-                        className="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-md"
-                      >
-                        <FiFileText className="h-5 w-5 mr-2" />
-                        Export ke Excel
-                      </button>
-                      <button
-                        onClick={handlePrint}
-                        className="flex items-center justify-center bg-gray-600 hover:bg-gray-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 shadow-md"
-                      >
-                        <FiPrinter className="h-5 w-5 mr-2" />
-                        Cetak Laporan
-                      </button>
-                  </div>
-                </div>
-              )}
+              ))}
             </div>
           </div>
         </div>
+
+        {/* Date Range & Actions Panel */}
+        <div className="xl:col-span-7">
+          <div className="bg-gray-50 dark:bg-[var(--bg-secondary)] p-5 rounded-xl border-2 dark:border-[var(--border-default)] shadow-sm">
+            <div className="flex items-center mb-5">
+              <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 rounded-lg w-8 h-8 flex items-center justify-center mr-3">
+                <span className="font-semibold">2</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">
+                Periode Laporan
+              </h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-default)] mb-2">
+                  Tanggal Mulai
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FiCalendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+                  </div>
+                  <input
+                    type="date"
+                    name="startDate"
+                    value={dates.startDate}
+                    onChange={handleDateChange}
+                    className="block w-full pl-10 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-colors" 
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-default)] mb-2">
+                  Tanggal Akhir
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FiCalendar className="h-5 w-5 text-gray-400 dark:text-gray-500" />
+                  </div>
+                  <input
+                    type="date"
+                    name="endDate"
+                    value={dates.endDate}
+                    onChange={handleDateChange}
+                    className="block w-full pl-10 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[var(--bg-secondary)] text-gray-900 dark:text-[var(--text-default)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-colors" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={handleGenerateReport}
+              disabled={loading || selectedReports.length === 0}
+              className={`w-full py-3.5 px-4 rounded-xl font-semibold transition-all duration-200 shadow-md ${
+                loading || selectedReports.length === 0
+                  ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white hover:shadow-lg'
+              } flex items-center justify-center gap-2`}
+            >
+              {loading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Memproses...
+                </>
+              ) : (
+                <>
+                  <FiBarChart2 className="h-5 w-5" />
+                  Buat Laporan
+                </>
+              )}
+            </button>
+          </div>
+        </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 };
 
 export default PrintReportsPage;

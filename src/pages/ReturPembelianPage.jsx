@@ -375,7 +375,7 @@ const ReturPembelianPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Document Header */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border border-gray-100 dark:border-[var(--border-default)]">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border-2 border-gray-100 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-4">
               <div className="w-1 h-6 bg-[var(--primary-color)] mr-3 rounded-full"></div>
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Informasi Dokumen</h2>
@@ -467,7 +467,7 @@ const ReturPembelianPage = () => {
           </div>
 
           {/* Items Section */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border border-gray-100 dark:border-[var(--border-default)]">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border-2 border-gray-100 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-4">
               <div className="w-1 h-6 bg-[var(--primary-color)] mr-3 rounded-full"></div>
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Barang Diretur</h2>
@@ -587,7 +587,7 @@ const ReturPembelianPage = () => {
           </div>
 
           {/* Financial Summary */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border border-gray-100 dark:border-[var(--border-default)]">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border-2 border-gray-100 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-4">
               <div className="w-1 h-6 bg-[var(--primary-color)] mr-3 rounded-full"></div>
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Ringkasan Keuangan</h2>
@@ -686,7 +686,7 @@ const ReturPembelianPage = () => {
           </div>
 
           {/* Approval and Notes */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border border-gray-100 dark:border-[var(--border-default)]">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-sm border-2 border-gray-100 dark:border-[var(--border-default)]">
             <div className="flex items-center mb-4">
               <div className="w-1 h-6 bg-[var(--primary-color)] mr-3 rounded-full"></div>
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Persetujuan & Catatan</h2>

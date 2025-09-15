@@ -176,11 +176,11 @@ const TentangAplikasiPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-[var(--text-muted)] text-center">Tentang Aplikasi</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-[var(--text-default)] text-center">Tentang Aplikasi</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Kolom Kiri - Informasi Aplikasi */}
-        <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)]">
+        <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border-2 border-[var(--border-default)]">
           <div className="flex items-center mb-6">
             <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-3 rounded-xl shadow-md">
               <FiPackage className="h-8 w-8 text-white" />
@@ -224,7 +224,7 @@ const TentangAplikasiPage = () => {
         {/* Kolom Kanan - Informasi Sistem */}
         <div className="space-y-8">
           {/* Status Lisensi */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)]">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border-2 border-[var(--border-default)]">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-[var(--text-muted)]">Status Lisensi</h2>
             
             {loading ? (
@@ -292,7 +292,7 @@ const TentangAplikasiPage = () => {
           </div>
 
           {/* Pembaruan Aplikasi */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)]">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border-2 border-[var(--border-default)]">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-[var(--text-muted)]">Pembaruan Aplikasi</h2>
             
             {updateInfo?.status && (
@@ -363,7 +363,7 @@ const TentangAplikasiPage = () => {
           </div>
 
           {/* Bantuan & Dukungan */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)]">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border-2 border-[var(--border-default)]">
             <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-[var(--text-muted)]">Bantuan & Dukungan</h3>
             <div className="bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 p-5 rounded-xl shadow-sm">
               <div className="flex items-start">
@@ -384,7 +384,7 @@ const TentangAplikasiPage = () => {
           </div>
 
           {/* Footer */}
-          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border border-[var(--border-default)] text-center">
+          <div className="bg-white dark:bg-[var(--bg-secondary)] rounded-xl shadow-lg p-6 border-2 border-[var(--border-default)] text-center">
             <p className="text-sm text-gray-600 dark:text-[var(--text-default)]">
               © 2025 DM-POS. All rights reserved.
               <br />

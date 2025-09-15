@@ -171,7 +171,7 @@ const DiscountManagementPage = () => {
       </div>
 
       {/* Form Section */}
-      <form onSubmit={handleSubmit} className="mb-8 p-6 border border-gray-200 dark:border-[var(--border-default)] rounded-xl bg-gray-50 dark:bg-[var(--bg-secondary)] shadow-sm">
+      <form onSubmit={handleSubmit} className="mb-8 p-6 border-2 border-gray-200 dark:border-[var(--border-default)] rounded-xl bg-gray-50 dark:bg-[var(--bg-secondary)] shadow-sm">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-semibold text-gray-800 dark:text-[var(--text-default)]">
             {editingDiscount ? 'Edit Diskon' : 'Tambah Diskon Baru'}
@@ -300,7 +300,7 @@ const DiscountManagementPage = () => {
       </form>
 
       {/* Discounts Table */}
-      <div className="overflow-x-auto rounded-xl overflow-hidden shadow-sm border border-gray-100 dark:border-[var(--border-default)]">
+      <div className="overflow-x-auto rounded-xl overflow-hidden shadow-sm border-2 border-gray-100 dark:border-[var(--border-default)]">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-[var(--border-default)]">
           <thead className="bg-gray-50 dark:bg-[var(--bg-default)]">
             <tr>

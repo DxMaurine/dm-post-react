@@ -242,7 +242,7 @@ const HistoryPage = () => {
         </div>
 
         {/* Chart Section */}
-        <div className="bg-[var(--bg-primary)] rounded-xl shadow-sm border border-[var(--border-default)] p-6 mb-8">
+        <div className="bg-[var(--bg-primary)] rounded-xl shadow-sm border-2 border-[var(--border-default)] p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-[var(--text-default)]">Performa Penjualan</h2>
           </div>
@@ -295,7 +295,7 @@ const HistoryPage = () => {
         </div>
 
         {/* Transaction Table */}
-        <div className="bg-[var(--bg-primary)] rounded-xl shadow-sm border border-[var(--border-default)] p-6">
+        <div className="bg-[var(--bg-primary)] rounded-xl shadow-sm border-2 border-[var(--border-default)] p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-[var(--text-default)]">Detail Transaksi</h2>
             <div className="text-sm text-[var(--text-muted)]">{history.length} data ditemukan</div>
