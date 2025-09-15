@@ -330,25 +330,36 @@ const HistoryPage = () => {
                       </tr>
                     );
                   } else if (item.record_type === 'sales_return') {
+                    const isCancelled = item.status === 'CANCELLED';
                     return (
-                      <tr key={`return-${item.id}`} className="bg-red-500/10 hover:bg-red-500/20 transition-colors">
-                        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-red-500">{formatDate(item.return_date)}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-500/80">{item.return_time}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-500"><span className="font-semibold">[RETUR]</span> Trx #{item.transaction_id}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-right font-medium text-red-500">-Rp {(parseFloat(item.total_amount) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-500/80">{item.cashier_name || 'N/A'}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--primary-color)] align-top">
-                          <details className="cursor-pointer">
-                            <summary className="hover:underline">Lihat item</summary>
-                            <ul className="mt-2 pl-4 space-y-1 text-[var(--text-muted)]">
-                              {item.items?.map((itemDetail, i) => (
-                                <li key={i} className="flex justify-between">
-                                  <span>{itemDetail.name} × {itemDetail.qty}</span>
-                                  <span>Rp {(parseFloat(itemDetail.price) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </details>
+                      <tr key={`return-${item.id}`} className={`${isCancelled ? 'bg-gray-500/10 opacity-60' : 'bg-red-500/10'} hover:bg-red-500/20 transition-colors`}>
+                        <td className={`px-4 py-3 whitespace-nowrap text-sm font-medium ${isCancelled ? 'text-gray-500 line-through' : 'text-red-500'}`}>{formatDate(item.return_date)}</td>
+                        <td className={`px-4 py-3 whitespace-nowrap text-sm ${isCancelled ? 'text-gray-500 line-through' : 'text-red-500/80'}`}>{item.return_time}</td>
+                        <td className={`px-4 py-3 whitespace-nowrap text-sm ${isCancelled ? 'text-gray-500 line-through' : 'text-red-500'}`}>
+                          <span className="font-semibold">[RETUR]</span> Trx #{item.transaction_id}
+                          {isCancelled && <span className="ml-2 text-xs font-bold text-gray-500 py-0.5 px-2 rounded-full bg-gray-200">DIBATALKAN</span>}
+                        </td>
+                        <td className={`px-4 py-3 whitespace-nowrap text-sm text-right font-medium ${isCancelled ? 'text-gray-500 line-through' : 'text-red-500'}`}>-Rp {(parseFloat(item.total_amount) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</td>
+                        <td className={`px-4 py-3 whitespace-nowrap text-sm ${isCancelled ? 'text-gray-500 line-through' : 'text-red-500/80'}`}>{item.cashier_name || 'N/A'}</td>
+                        <td className="px-4 py-3 text-sm text-[var(--text-muted)] align-top">
+                          {isCancelled ? (
+                            <div>
+                              <p className="font-semibold text-gray-600">Alasan Batal:</p>
+                              <p className="text-xs">{item.cancellation_reason}</p>
+                            </div>
+                          ) : (
+                            <details className="cursor-pointer">
+                              <summary className="hover:underline text-[var(--primary-color)]">Lihat item</summary>
+                              <ul className="mt-2 pl-4 space-y-1">
+                                {item.items?.map((itemDetail, i) => (
+                                  <li key={i} className="flex justify-between text-xs">
+                                    <span>{itemDetail.name} × {itemDetail.qty}</span>
+                                    <span>Rp {(parseFloat(itemDetail.price) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </details>
+                          )}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm"></td>
                       </tr>

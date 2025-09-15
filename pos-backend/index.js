@@ -1989,6 +1989,12 @@ app.post('/api/returns', authenticateToken, async (req, res) => {
 // PUT cancel a sales return
 app.put('/api/returns/:id/cancel', authenticateToken, async (req, res) => {
   const { id } = req.params;
+  const { reason } = req.body; // Ambil alasan dari body request
+
+  if (!reason) {
+    return res.status(400).json({ message: 'Alasan pembatalan wajib diisi.' });
+  }
+
   const conn = await pool.getConnection();
   try {
     await conn.beginTransaction();
@@ -2006,8 +2012,11 @@ app.put('/api/returns/:id/cancel', authenticateToken, async (req, res) => {
       return res.status(409).json({ message: 'Retur ini sudah pernah dibatalkan' });
     }
 
-    // 2. Update the return status to CANCELLED
-    await conn.query('UPDATE sales_returns SET status = ? WHERE id = ?', ['CANCELLED', id]);
+    // 2. Update status, reason, and cancellation date
+    await conn.query(
+      'UPDATE sales_returns SET status = ?, cancellation_reason = ?, cancelled_at = NOW() WHERE id = ?',
+      ['CANCELLED', reason, id]
+    );
 
     // 3. Get all items from the return
     const [items] = await conn.query('SELECT * FROM sales_return_items WHERE return_id = ?', [id]);

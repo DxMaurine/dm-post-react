@@ -44,23 +44,41 @@ const SalesReturnPage = () => {
 
   const handleCancelReturn = (returnId) => {
     Swal.fire({
-      title: 'Anda Yakin?',
-      text: "Retur ini akan dibatalkan dan stok akan disesuaikan. Aksi ini tidak dapat diurungkan.",
+      title: 'Batalkan Retur Penjualan',
+      text: "Anda yakin ingin membatalkan retur ini? Stok akan disesuaikan kembali.",
       icon: 'warning',
+      input: 'textarea',
+      inputLabel: 'Alasan Pembatalan',
+      inputPlaceholder: 'Contoh: Salah input, barang tidak jadi diretur, dll...',
+      inputAttributes: {
+        'aria-label': 'Type your reason here'
+      },
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
       confirmButtonText: 'Ya, Batalkan!',
-      cancelButtonText: 'Tidak'
+      cancelButtonText: 'Tidak',
+      didOpen: () => {
+        const confirmButton = Swal.getConfirmButton();
+        const input = Swal.getInput();
+        if (confirmButton && input) {
+            confirmButton.disabled = true;
+            input.addEventListener('input', () => {
+                confirmButton.disabled = !input.value.trim();
+            });
+        }
+      },
+      inputValidator: (value) => {
+        if (!value.trim()) {
+          return 'Alasan pembatalan wajib diisi!';
+        }
+      }
     }).then(async (result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed && result.value) {
+        const reason = result.value;
         try {
-          await salesReturnAPI.cancel(returnId);
-          setReturns(prevReturns =>
-            prevReturns.map(r =>
-              r.id === returnId ? { ...r, status: 'CANCELLED' } : r
-            )
-          );
+          await salesReturnAPI.cancel(returnId, { reason });
+          fetchReturns(); // Refresh data from server
           Swal.fire(
             'Dibatalkan!',
             'Retur telah berhasil dibatalkan.',
@@ -288,7 +306,15 @@ const SalesReturnPage = () => {
                       <td className={`px-4 py-3 whitespace-nowrap text-sm text-right font-semibold text-green-600 dark:text-[var(--text-muted)] ${ret.status === 'CANCELLED' ? 'line-through' : ''}`}>
                         Rp {parseFloat(ret.total_amount || 0).toLocaleString('id-ID')}
                       </td>
-                      <td className={`px-4 py-3 text-sm text-gray-500 dark:text-[var(--text-muted)] whitespace-nowrap overflow-hidden max-w-xs truncate ${ret.status === 'CANCELLED' ? 'line-through' : ''}`}>{ret.notes || '-'}</td>
+                      <td className={`px-4 py-3 text-sm text-gray-500 dark:text-[var(--text-muted)] whitespace-nowrap overflow-hidden max-w-xs truncate`}>
+                        {ret.status === 'CANCELLED' ? (
+                          <span className="text-red-600 dark:text-red-400" title={ret.cancellation_reason}>
+                            Dibatalkan: {ret.cancellation_reason}
+                          </span>
+                        ) : (
+                          ret.notes || '-'
+                        )}
+                      </td>
                       <td className={`px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-[var(--text-muted)] ${ret.status === 'CANCELLED' ? 'line-through' : ''}`}>
                         <div className="flex items-center">
                           <FaUser className="mr-2 text-gray-400 dark:text-[var(--text-muted)]" />
