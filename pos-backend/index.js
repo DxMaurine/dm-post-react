@@ -1986,6 +1986,49 @@ app.post('/api/returns', authenticateToken, async (req, res) => {
   }
 });
 
+// PUT cancel a sales return
+app.put('/api/returns/:id/cancel', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const conn = await pool.getConnection();
+  try {
+    await conn.beginTransaction();
+
+    // 1. Lock and check the return status
+    const [returns] = await conn.query('SELECT * FROM sales_returns WHERE id = ? FOR UPDATE', [id]);
+    if (!returns.length) {
+      await conn.rollback();
+      return res.status(404).json({ message: 'Retur penjualan tidak ditemukan' });
+    }
+    const saleReturn = returns[0];
+
+    if (saleReturn.status === 'CANCELLED') {
+      await conn.rollback();
+      return res.status(409).json({ message: 'Retur ini sudah pernah dibatalkan' });
+    }
+
+    // 2. Update the return status to CANCELLED
+    await conn.query('UPDATE sales_returns SET status = ? WHERE id = ?', ['CANCELLED', id]);
+
+    // 3. Get all items from the return
+    const [items] = await conn.query('SELECT * FROM sales_return_items WHERE return_id = ?', [id]);
+
+    // 4. Revert stock for each item
+    for (const item of items) {
+      await conn.query('UPDATE products SET stock = stock - ? WHERE id = ?', [item.qty, item.product_id]);
+    }
+
+    await conn.commit();
+    res.json({ success: true, message: 'Retur penjualan berhasil dibatalkan dan stok telah dikembalikan.' });
+
+  } catch (e) {
+    await conn.rollback();
+    console.error("Cancel Sales Return Error:", e);
+    res.status(500).json({ message: e.message });
+  } finally {
+    conn.release();
+  }
+});
+
 // STOCK ADJUSTMENT
 app.post('/api/stock/adjustment', authenticateToken, authorizeAdminOrManager, async (req, res) => {
   // eslint-disable-next-line no-unused-vars

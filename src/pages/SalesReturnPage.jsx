@@ -1,10 +1,11 @@
 import React from 'react';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { FaSearch, FaCalendarAlt, FaTimesCircle, FaFileInvoiceDollar, FaUser, FaExchangeAlt, FaPlus } from 'react-icons/fa';
+import { FaSearch, FaCalendarAlt, FaTimesCircle, FaFileInvoiceDollar, FaUser, FaExchangeAlt, FaPlus, FaUndo } from 'react-icons/fa';
 import { FiArchive } from 'react-icons/fi';
 import { format } from 'date-fns';
 import id from 'date-fns/locale/id';
+import Swal from 'sweetalert2';
 import CreateReturnModal from '../components/CreateReturnModal';
 import { salesReturnAPI } from '../api'; // Import the API service
 
@@ -18,12 +19,11 @@ const SalesReturnPage = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // Token removed as it's now handled by api.js interceptor
 
   const fetchReturns = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await salesReturnAPI.getAll(); // Using the API service
+      const response = await salesReturnAPI.getAll();
       setReturns(response.data);
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message;
@@ -42,6 +42,42 @@ const SalesReturnPage = () => {
     fetchReturns(); // Refresh the list of returns
   };
 
+  const handleCancelReturn = (returnId) => {
+    Swal.fire({
+      title: 'Anda Yakin?',
+      text: "Retur ini akan dibatalkan dan stok akan disesuaikan. Aksi ini tidak dapat diurungkan.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Ya, Batalkan!',
+      cancelButtonText: 'Tidak'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await salesReturnAPI.cancel(returnId);
+          setReturns(prevReturns =>
+            prevReturns.map(r =>
+              r.id === returnId ? { ...r, status: 'CANCELLED' } : r
+            )
+          );
+          Swal.fire(
+            'Dibatalkan!',
+            'Retur telah berhasil dibatalkan.',
+            'success'
+          );
+        } catch (err) {
+          const errorMessage = err.response?.data?.message || err.message;
+          Swal.fire(
+            'Gagal!',
+            `Gagal membatalkan retur: ${errorMessage}`,
+            'error'
+          );
+        }
+      }
+    });
+  };
+
   const filteredReturns = useMemo(() => {
     return returns.filter(ret => {
       if (!ret.return_date) return false;
@@ -54,11 +90,10 @@ const SalesReturnPage = () => {
       }
       if (endDate) {
         const end = new Date(endDate);
-        end.setHours(23, 59, 59, 999); // Include entire end date
+        end.setHours(23, 59, 59, 999);
         if (returnDate > end) return false;
       }
 
-      // Filter by search term
       const searchTermLower = searchTerm.trim().toLowerCase();
       if (searchTermLower) {
         const transactionIdMatch = ret.transaction_id?.toString().toLowerCase().includes(searchTermLower);
@@ -77,7 +112,10 @@ const SalesReturnPage = () => {
   };
 
   const totalReturnedValue = useMemo(() => {
-    return filteredReturns.reduce((acc, curr) => acc + parseFloat(curr.total_amount || 0), 0);
+    // Only calculate total for completed returns
+    return filteredReturns
+      .filter(r => r.status !== 'CANCELLED')
+      .reduce((acc, curr) => acc + parseFloat(curr.total_amount || 0), 0);
   }, [filteredReturns]);
 
   const formatDateTime = (dateString, timeString) => {
@@ -85,9 +123,6 @@ const SalesReturnPage = () => {
       if (!dateString) {
         return 'Invalid date';
       }
-
-      // The dateString from MySQL DATE type can be a full ISO string like '2023-10-27T00:00:00.000Z'.
-      // We only need the 'YYYY-MM-DD' part to avoid parsing issues.
       const datePart = dateString.slice(0, 10);
       const timePart = timeString || '00:00:00';
       const date = new Date(`${datePart}T${timePart}`);
@@ -192,8 +227,8 @@ const SalesReturnPage = () => {
                 <FaExchangeAlt className="text-white text-xl" />
               </div>
               <div>
-                <p className="text-sm text-indigo-100">Total Returns</p>
-                <p className="text-xl font-semibold text-white">{filteredReturns.length}</p>
+                <p className="text-sm text-indigo-100">Total Returns (Completed)</p>
+                <p className="text-xl font-semibold text-white">{filteredReturns.filter(r => r.status !== 'CANCELLED').length}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 mb-2 md:mb-0">
@@ -201,7 +236,7 @@ const SalesReturnPage = () => {
                 <FaFileInvoiceDollar className="text-white text-xl" />
               </div>
               <div>
-                <p className="text-sm text-indigo-100">Total Return Value</p>
+                <p className="text-sm text-indigo-100">Total Return Value (Completed)</p>
                 <p className="text-xl font-semibold text-white">
                   Rp {totalReturnedValue.toLocaleString('id-ID')}
                 </p>
@@ -235,32 +270,48 @@ const SalesReturnPage = () => {
                   <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Amount</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Reason</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Cashier</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-[var(--text-default)] uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-[var(--bg-secondary)] divide-y divide-gray-200 dark:divide-[var(--border-default)]">
                 {filteredReturns.length > 0 ? (
                   filteredReturns.map((ret) => (
-                    <tr key={ret.id} className="hover:bg-gray-50 dark:hover:bg-[var(--bg-default)] transition-colors">
-                      <td className="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-[var(--text-muted)]">{ret.id}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-[var(--text-muted)]">{ret.transaction_code || ret.transaction_id}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-[var(--text-muted)]">
+                    <tr key={ret.id} className={`hover:bg-gray-50 dark:hover:bg-[var(--bg-default)] transition-colors ${ret.status === 'CANCELLED' ? 'bg-red-50 dark:bg-red-900/20 opacity-60' : ''}`}>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-[var(--text-muted)]">
+                        {ret.id}
+                        {ret.status === 'CANCELLED' && <span className="ml-2 text-xs font-bold text-red-500 dark:text-red-400 py-0.5 px-2 rounded-full bg-red-100 dark:bg-red-500/20">CANCELLED</span>}
+                      </td>
+                      <td className={`px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-[var(--text-muted)] ${ret.status === 'CANCELLED' ? 'line-through' : ''}`}>{ret.transaction_code || ret.transaction_id}</td>
+                      <td className={`px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-[var(--text-muted)] ${ret.status === 'CANCELLED' ? 'line-through' : ''}`}>
                         {formatDateTime(ret.return_date, ret.return_time)}
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-right font-semibold text-green-600 dark:text-[var(--text-muted)]">
+                      <td className={`px-4 py-3 whitespace-nowrap text-sm text-right font-semibold text-green-600 dark:text-[var(--text-muted)] ${ret.status === 'CANCELLED' ? 'line-through' : ''}`}>
                         Rp {parseFloat(ret.total_amount || 0).toLocaleString('id-ID')}
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-500 dark:text-[var(--text-muted)] whitespace-nowrap overflow-hidden max-w-xs truncate">{ret.notes || '-'}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-[var(--text-muted)]">
+                      <td className={`px-4 py-3 text-sm text-gray-500 dark:text-[var(--text-muted)] whitespace-nowrap overflow-hidden max-w-xs truncate ${ret.status === 'CANCELLED' ? 'line-through' : ''}`}>{ret.notes || '-'}</td>
+                      <td className={`px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-[var(--text-muted)] ${ret.status === 'CANCELLED' ? 'line-through' : ''}`}>
                         <div className="flex items-center">
                           <FaUser className="mr-2 text-gray-400 dark:text-[var(--text-muted)]" />
                           {ret.user_name || 'N/A'}
                         </div>
                       </td>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm">
+                        {ret.status !== 'CANCELLED' && (
+                          <button 
+                            onClick={() => handleCancelReturn(ret.id)}
+                            className="bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-800/50 dark:text-red-300 dark:hover:bg-red-800/80 font-medium py-1 px-3 rounded-lg flex items-center gap-1.5 transition-colors text-xs"
+                            title="Cancel this return"
+                          >
+                            <FaUndo />
+                            Batalkan
+                          </button>
+                        )}
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" className="px-4 py-6 text-center text-gray-500 dark:text-[var(--text-muted)]">
+                    <td colSpan="7" className="px-4 py-6 text-center text-gray-500 dark:text-[var(--text-muted)]">
                       No matching return records found.
                     </td>
                   </tr>
@@ -269,12 +320,12 @@ const SalesReturnPage = () => {
               <tfoot className="bg-gray-50 dark:bg-[var(--bg-secondary)] border-t border-gray-200 dark:border-[var(--border-default)]">
                 <tr>
                   <td colSpan="3" className="px-4 py-3 text-base font-semibold text-gray-700 dark:text-[var(--text-default)] text-right">
-                    Total:
+                    Total (Completed):
                   </td>
                   <td className="px-4 py-3 text-base font-bold text-green-600 dark:text-[var(--text-default)] text-right">
                     Rp {totalReturnedValue.toLocaleString('id-ID')}
                   </td>
-                  <td colSpan="2"></td>
+                  <td colSpan="3"></td>
                 </tr>
               </tfoot>
             </table>

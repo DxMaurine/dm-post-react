@@ -118,6 +118,7 @@ export const transactionAPI = {
 export const salesReturnAPI = {
   getAll: () => api.get('/api/returns'),
   create: (returnData) => api.post('/api/returns', returnData),
+  cancel: (id) => api.put(`/api/returns/${id}/cancel`),
 };
 
 // PURCHASE RETURNS API
