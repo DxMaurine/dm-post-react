@@ -1,7 +1,7 @@
 {
   "name": "dm-pos-retail",
   "private": true,
-  "version": "1.6.5",
+  "version": "1.6.6",
   "author": "dmpos.dev@gmail.com",
   "description": "A desktop application for managing sales, inventory, and customers in a retail environment.",
   "main": "electron/main.js",
@@ -100,7 +100,8 @@
       "output": "release"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "pos-backend/public/favicon.ico"
     },
     "mac": {
       "target": "dmg"
@@ -112,8 +113,8 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "installerIcon": "pos-backend/public/favicon.ico",
-      "uninstallerIcon": "pos-backend/public/favicon.ico",
-      "icon": "pos-backend/public/favicon.ico"
+      "uninstallerIcon": "pos-backend/public/favicon.ico"
+      
     }
   }
 }
