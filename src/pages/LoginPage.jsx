@@ -510,18 +510,18 @@ function LoginPage() {
                   </svg>
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-default)]">DM POS</h1>
-                  <p className="mt-1 text-gray-500 dark:text-emerald-500 text-sm">Sign in to access your dashboard</p>
+                  <h1 className="text-3xl font-bold text-gray-800 dark:text-[var(--text-muted)]">DM POS</h1>
+                  <p className="mt-1 text-gray-500 dark:text-[var(--text-default)] text-sm">Sign in to access your dashboard</p>
                 </div>
               </div>
             </div>
 
             <form className="space-y-6" onSubmit={handleLogin}>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Username</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-default)] mb-1">Username</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-5 w-5 text-gray-400 dark:text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <svg className="h-5 w-5 text-gray-400 dark:text-[var(--text-default)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -529,17 +529,17 @@ function LoginPage() {
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:placeholder-gray-400 dark:text-[var(--text-default)]"
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:placeholder-[var(--text-default)] dark:text-[var(--text-default)]"
                     placeholder="Enter your username"
                     required />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-muted)] mb-1">Password</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-[var(--text-default)] mb-1">Password</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-5 w-5 text-gray-400 dark:text-[var(--text-muted)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <svg className="h-5 w-5 text-gray-400 dark:text-[var(--text-default)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -547,7 +547,7 @@ function LoginPage() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:placeholder-gray-400 dark:text-[var(--text-default)]"
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] bg-white dark:bg-[var(--bg-default)] dark:border-[var(--border-default)] dark:placeholder-[var(--text-default)] dark:text-[var(--text-default)]"
                     placeholder="Enter your password"
                     required />
                 </div>
@@ -581,7 +581,7 @@ function LoginPage() {
               </div>
             </form>
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-500 dark:text-[var(--text-muted)]">
+              <p className="text-sm text-gray-500 dark:text-[var(--text-default)]">
                 Belum punya akun?{' '}
                 <button
                   type="button"
@@ -593,7 +593,7 @@ function LoginPage() {
               </p>
             </div>
 
-            <div className="mt-4 text-center text-sm text-gray-500 dark:text-[var(--text-muted)]">
+            <div className="mt-4 text-center text-sm text-gray-500 dark:text-[var(--text-default)]">
               <p>© {new Date().getFullYear()} DM POS SOLUTION. All rights reserved.</p>
             </div>
           </div>

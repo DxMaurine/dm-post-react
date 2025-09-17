@@ -568,7 +568,7 @@ const POSPage = () => {
   if (!shiftStatus.isActive) {
     return (
       <div className="flex flex-col items-center justify-center h-screen text-center p-10 bg-gray-50 dark:bg-[var(--bg-secondary)] rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-red-600 dark:text-[var(--text-default)] mb-4">Shift Belum Dimulai</h2>
+        <h2 className="text-2xl font-bold text-red-600 dark:text-[var(--text-muted)] mb-4">Shift Belum Dimulai</h2>
         <p className="text-gray-600 dark:text-[var(--text-default] mb-6">
           Anda harus memulai shift terlebih dahulu sebelum dapat melakukan transaksi.
         </p>

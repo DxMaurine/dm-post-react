@@ -64,7 +64,7 @@ const RekapPenjualan = () => {
     if (active && payload && payload.length) {
       return (
         <div className="p-3 bg-[var(--bg-primary)]/90 dark:bg-[var(--bg-secondary)]/90 backdrop-blur-sm shadow-lg rounded-lg border border-[var(--border-default)]">
-          <p className="label text-sm text-[var(--text-muted)]">{formatDate(label)}</p>
+          <p className="label text-sm text-[var(--text-default)]">{formatDate(label)}</p>
           <p className="intro text-lg font-bold text-[var(--primary-color)]">
             {formatCurrency(payload[0].value)}
           </p>
@@ -81,7 +81,7 @@ const RekapPenjualan = () => {
           {icon}
         </div>
         <div>
-          <h3 className="text-sm font-medium text-[var(--text-muted)]">{title}</h3>
+          <h3 className="text-sm font-medium text-[var(--text-default)]">{title}</h3>
           <p className="text-xl font-bold mt-1 text-[var(--text-default)]">{value}</p>
         </div>
       </div>
@@ -101,8 +101,8 @@ const RekapPenjualan = () => {
     }
     if (chart.length === 0) {
       return (
-        <div className="flex flex-col items-center justify-center h-64 text-[var(--text-muted)]">
-          <svg className="w-12 h-12 mb-4 text-[var(--text-muted)]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="flex flex-col items-center justify-center h-64 text-[var(--text-default)]">
+          <svg className="w-12 h-12 mb-4 text-[var(--text-default)]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <p>Tidak ada data untuk ditampilkan</p>
@@ -135,21 +135,21 @@ const RekapPenjualan = () => {
               <XAxis 
                 dataKey="label"
                 tickFormatter={(label) => formatDate(label)}
-                tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                tick={{ fontSize: 11, fill: 'var(--text-default)' }}
                 axisLine={{ stroke: 'var(--border-default)' }}
                 tickLine={{ stroke: 'var(--border-default)' }}
                 interval={Math.max(0, Math.floor(chart.length / 10) -1)}
               />
               <YAxis 
                 tickFormatter={val => `Rp${val.toLocaleString('id-ID', { notation: 'compact' })}`}
-                tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                tick={{ fontSize: 11, fill: 'var(--text-default)' }}
                 width={80}
                 stroke="var(--border-default)"
                 axisLine={false}
                 tickLine={false}
               />
               <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'var(--primary-color)', strokeDasharray: '3 3' }} />
-              <Legend wrapperStyle={{ color: 'var(--text-muted)' }}/>
+              <Legend wrapperStyle={{ color: 'var(--text-default)' }}/>
               <Line 
                 type="monotone"
                 dataKey="total"
@@ -175,13 +175,13 @@ const RekapPenjualan = () => {
         </div>
         
         {/* Filter Buttons */}
-        <div className="flex gap-2 mt-4 md:mt-0 bg-[var(--bg-tertiary)] rounded-lg p-1">
+        <div className="flex gap-2 mt-4 md:mt-0 bg-[var(--bg-default)] rounded-lg p-1">
           <button 
             onClick={() => setMode('daily')} 
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
               mode === 'daily' 
-                ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow' 
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'
+                ? 'bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow' 
+                : 'text-[var(--text-default)] hover:bg-[var(--bg-primary)]'
             }`}
           >
             Harian
@@ -190,8 +190,8 @@ const RekapPenjualan = () => {
             onClick={() => setMode('monthly')} 
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
               mode === 'monthly' 
-                ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow' 
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'
+                ? 'bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow' 
+                : 'text-[var(--text-default)] hover:bg-[var(--bg-primary)]'
             }`}
           >
             Bulanan
@@ -200,8 +200,8 @@ const RekapPenjualan = () => {
             onClick={() => setMode('yearly')} 
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
               mode === 'yearly' 
-                ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow' 
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'
+                ? 'bg-[var(--bg-secondary)] text-[var(--primary-color)] shadow' 
+                : 'text-[var(--text-default)] hover:bg-[var(--bg-primary)]'
             }`}
           >
             Tahunan

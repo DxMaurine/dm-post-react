@@ -264,19 +264,19 @@ const Dashboard = () => {
         <div className="flex border-b border-gray-200 mb-8">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`px-4 py-2 font-bold text-sm ${activeTab === 'overview' ? ' dark:text-green-600 text-green-600 border-b-2 border-green-600' : 'text-white hover:text-white'}`}
+            className={`px-4 py-2 font-bold text-sm ${activeTab === 'overview' ? ' dark:text-green-600 text-green-600 border-b-2 border-green-600' : 'text-gray-500 hover:text-white'}`}
           >
             Overview
           </button>
           <button
             onClick={() => setActiveTab('sales')}
-            className={`px-4 py-2 font-bold text-sm ${activeTab === 'sales' ? 'dark:text-blue text-blue-600 border-b-2 border-blue-600' : 'text-white hover:text-white'}`}
+            className={`px-4 py-2 font-bold text-sm ${activeTab === 'sales' ? 'dark:text-blue text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-white'}`}
           >
             Sales Analytics
           </button>
           <button
             onClick={() => setActiveTab('inventory')}
-            className={`px-4 py-2 font-bold text-sm ${activeTab === 'inventory' ? 'dark:text-yellow text-yellow-600 border-b-2 border-yellow-600' : 'text-white hover:text-white'}`}
+            className={`px-4 py-2 font-bold text-sm ${activeTab === 'inventory' ? 'dark:text-yellow text-yellow-600 border-b-2 border-yellow-600' : 'text-gray-500 hover:text-white'}`}
           >
             Inventory
           </button>
@@ -344,7 +344,7 @@ const Dashboard = () => {
           <div className="bg-white dark:bg-[var(--bg-secondary)] p-6 rounded-xl shadow-md">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-gray-800 dark:text-[var(--text-default)]">Recent Transactions</h2>
-              <button onClick={() => navigate('/history')} className="text-sm font-medium transition text-[var(--primary-color)] hover:text-[var(--bg-default)] text-xs bg-blue-50 dark:bg-[var(--primary-color)] dark:text-white text-blue-600 rounded-full px-4 py-1">
+              <button onClick={() => navigate('/history')} className=" font-medium transition hover:text-[var(--bg-default)] text-xs bg-blue-50 dark:bg-[var(--primary-color)] dark:text-white text-blue-600 rounded-full px-4 py-1">
                 View All
               </button>
             </div>

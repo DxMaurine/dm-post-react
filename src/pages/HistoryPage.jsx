@@ -135,7 +135,7 @@ const HistoryPage = () => {
     if (active && payload && payload.length) {
       return (
         <div className="p-3 bg-[var(--bg-primary)]/90 dark:bg-[var(--bg-secondary)]/90 backdrop-blur-sm shadow-lg rounded-lg border border-[var(--border-default)]">
-          <p className="label text-sm text-[var(--text-muted)]">{formatDate(label)}</p>
+          <p className="label text-sm text-[var(--text-default)]">{formatDate(label)}</p>
           <p className="intro text-lg font-bold text-[var(--primary-color)]">
             {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(payload[0].value)}
           </p>
@@ -152,7 +152,7 @@ const HistoryPage = () => {
           {icon}
         </div>
         <div>
-          <h3 className="text-sm font-medium text-[var(--text-muted)]">{title}</h3>
+          <h3 className="text-sm font-medium text-[var(--text-default)]">{title}</h3>
           <p className="text-xl font-bold mt-1 text-[var(--text-default)]">{value}</p>
         </div>
       </div>
@@ -166,7 +166,7 @@ const HistoryPage = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-[var(--text-default)] mb-2">Histori Transaksi</h1>
-            <p className="text-[var(--text-muted)]">Lihat semua catatan transaksi dan retur penjualan.</p>
+            <p className="text-[var(--text-default)]">Lihat semua catatan transaksi dan retur penjualan.</p>
           </div>
           <div className="flex flex-wrap gap-2 mt-4 md:mt-0 bg-[var(--bg-tertiary)] rounded-lg p-1">
             {/* Filter by Date */}
@@ -174,7 +174,7 @@ const HistoryPage = () => {
               onClick={() => setFilter('daily')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === 'daily'
                 ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow'
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'}`}
+                : 'text-[var(--text-default)] hover:bg-[var(--bg-primary)]'}`}
             >
               Harian
             </button>
@@ -182,7 +182,7 @@ const HistoryPage = () => {
               onClick={() => setFilter('monthly')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === 'monthly'
                 ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow'
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'}`}
+                : 'text-[var(--text-default)] hover:bg-[var(--bg-primary)]'}`}
             >
               Bulanan
             </button>
@@ -190,7 +190,7 @@ const HistoryPage = () => {
               onClick={() => setFilter('yearly')}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filter === 'yearly'
                 ? 'bg-[var(--bg-primary)] text-[var(--primary-color)] shadow'
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-primary)]'}`}
+                : 'text-[var(--text-default)] hover:bg-[var(--bg-primary)]'}`}
             >
               Tahunan
             </button>
@@ -216,7 +216,7 @@ const HistoryPage = () => {
         {/* Stats Card */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <SummaryCard 
-            icon={<FiFileText className="text-slate-500 dark:text-[var(--text-muted)]" />} 
+            icon={<FiFileText className="text-slate-500 dark:text-[var(--text-default)]" />} 
             title="Total Transaksi" 
             value={transactionCount} 
             colorClass="border-slate-500" 
@@ -268,7 +268,7 @@ const HistoryPage = () => {
                       const date = new Date(label);
                       return isNaN(date) ? label : date.getFullYear().toString();
                     }}
-                    tick={{ angle: filter === 'daily' ? -45 : 0, textAnchor: filter === 'daily' ? 'end' : 'middle', fontSize: 11, fill: 'var(--text-muted)' }}
+                    tick={{ angle: filter === 'daily' ? -45 : 0, textAnchor: filter === 'daily' ? 'end' : 'middle', fontSize: 11, fill: 'var(--text-default)' }}
                     height={filter === 'daily' ? 70 : filter === 'monthly' ? 50 : 40}
                     axisLine={{ stroke: 'var(--border-default)' }}
                     tickLine={{ stroke: 'var(--border-default)' }}
@@ -277,18 +277,18 @@ const HistoryPage = () => {
                   <YAxis
                     tickFormatter={(value) => `Rp ${new Intl.NumberFormat('id-ID', { notation: 'compact' }).format(value)}`}
                     stroke="var(--border-default)"
-                    tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
+                    tick={{ fontSize: 11, fill: 'var(--text-default)' }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--bg-default)' }} />
-                  <Legend wrapperStyle={{ paddingTop: '20px', color: 'var(--text-muted)' }}/>
+                  <Legend wrapperStyle={{ paddingTop: '20px', color: 'var(--text-default)' }}/>
                   <Bar dataKey="total" fill="var(--primary-color)" name="Total Sales" radius={[4, 4, 0, 0]}/>
                 </BarChart>
               </ResponsiveContainer>
             ) : (
               <div className="flex items-center justify-center h-full">
-                <span className="text-[var(--text-muted)]">Tidak ada data untuk ditampilkan pada grafik.</span>
+                <span className="text-[var(--text-default)]">Tidak ada data untuk ditampilkan pada grafik.</span>
               </div>
             )}
           </div>
@@ -298,26 +298,26 @@ const HistoryPage = () => {
         <div className="bg-[var(--bg-primary)] rounded-xl shadow-sm border-2 border-[var(--border-default)] p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-[var(--text-default)]">Detail Transaksi</h2>
-            <div className="text-sm text-[var(--text-muted)]">{history.length} data ditemukan</div>
+            <div className="text-sm text-[var(--text-default)]">{history.length} data ditemukan</div>
           </div>
 
           <div className="overflow-auto rounded-lg border border-[var(--border-default)]">
             <table className="min-w-full divide-y divide-[var(--border-default)]">
-              <thead className="bg-[var(--bg-tertiary)] sticky top-0">
+              <thead className="bg-[var(--bg-default)] sticky top-0">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Tanggal</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Waktu</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Tipe/Pelanggan</th>
-                  <th className="px-4 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Jumlah</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Kasir</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Detail</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Aksi</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Tanggal</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Waktu</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Tipe/Pelanggan</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Jumlah</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Kasir</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Detail</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Aksi</th>
                 </tr>
               </thead>
               <tbody className="bg-[var(--bg-primary)] divide-y divide-[var(--border-default)]">
                 {history.length === 0 && !loading && (
                   <tr>
-                    <td colSpan="7" className="px-4 py-6 text-center text-[var(--text-muted)]">Tidak ada riwayat transaksi</td>
+                    <td colSpan="7" className="px-4 py-6 text-center text-[var(--text-default)]">Tidak ada riwayat transaksi</td>
                   </tr>
                 )}
                 {history.map((item) => {
@@ -341,7 +341,7 @@ const HistoryPage = () => {
                         </td>
                         <td className={`px-4 py-3 whitespace-nowrap text-sm text-right font-medium ${isCancelled ? 'text-gray-500 line-through' : 'text-red-500'}`}>-Rp {(parseFloat(item.total_amount) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</td>
                         <td className={`px-4 py-3 whitespace-nowrap text-sm ${isCancelled ? 'text-gray-500 line-through' : 'text-red-500/80'}`}>{item.cashier_name || 'N/A'}</td>
-                        <td className="px-4 py-3 text-sm text-[var(--text-muted)] align-top">
+                        <td className="px-4 py-3 text-sm text-[var(--text-default)] align-top">
                           {isCancelled ? (
                             <div>
                               <p className="font-semibold text-gray-600">Alasan Batal:</p>
@@ -369,14 +369,14 @@ const HistoryPage = () => {
                     return (
                       <tr key={item.id} className="hover:bg-[var(--bg-tertiary)] transition-colors">
                         <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-[var(--text-default)]">{formatDate(item.tanggal)}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-muted)]">{item.jam}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-default)]">{item.jam}</td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-default)]">{(typeof item.customer === 'string' ? item.customer : item.customer?.name) || item.customer_type || 'Guest'}</td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-right font-medium text-[var(--text-default)]">Rp {(parseFloat(item.total) || 0).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-muted)]">{item.cashier_name || 'N/A'}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-default)]">{item.cashier_name || 'N/A'}</td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--primary-color)] align-top">
                           <details className="cursor-pointer">
                             <summary className="hover:underline">Lihat item</summary>
-                            <ul className="mt-2 pl-4 space-y-1 text-[var(--text-muted)]">
+                            <ul className="mt-2 pl-4 space-y-1 text-[var(--text-default)]">
                               {item.items?.map((itemDetail, i) => (
                                 <li key={i} className="flex justify-between">
                                   <span>{itemDetail.name} × {itemDetail.qty}</span>

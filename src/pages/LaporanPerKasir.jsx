@@ -43,7 +43,7 @@ const LaporanPerKasir = () => {
   const performanceClasses = {
     high: 'bg-[var(--success-color)]/10 text-[var(--success-color)]',
     medium: 'bg-[var(--primary-color)]/10 text-[var(--primary-color)]',
-    low: 'bg-[var(--bg-tertiary)] text-[var(--text-muted)]',
+    low: 'bg-[var(--bg-tertiary)] text-[var(--text-default)]',
   };
 
   const legendClasses = {
@@ -59,7 +59,7 @@ const LaporanPerKasir = () => {
           {icon}
         </div>
         <div>
-          <h3 className="text-sm font-medium text-[var(--text-muted)]">{title}</h3>
+          <h3 className="text-sm font-medium text-[var(--text-default)]">{title}</h3>
           <p className="text-xl font-bold mt-1 text-[var(--text-default)]">{value}</p>
         </div>
       </div>
@@ -71,7 +71,7 @@ const LaporanPerKasir = () => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h2 className="text-3xl font-bold text-[var(--text-default)]">Laporan Penjualan per Kasir</h2>
-          <p className="text-[var(--text-muted)] mt-2">Ringkasan performa penjualan masing-masing kasir</p>
+          <p className="text-[var(--text-default)] mt-2">Ringkasan performa penjualan masing-masing kasir</p>
         </div>
       </div>
 
@@ -102,12 +102,12 @@ const LaporanPerKasir = () => {
       {/* Cashier Table */}
       <div className="overflow-x-auto rounded-xl shadow-sm border-2 border-[var(--border-default)]">
         <table className="min-w-full divide-y divide-[var(--border-default)]">
-          <thead className="bg-[var(--bg-tertiary)]">
+          <thead className="bg-[var(--bg-default)]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider rounded-tl-xl">Kasir</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Total Penjualan</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Transaksi</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider rounded-tr-xl">Rata-rata</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider rounded-tl-xl">Kasir</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Total Penjualan</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Transaksi</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-[var(--text-default)] uppercase tracking-wider rounded-tr-xl">Rata-rata</th>
             </tr>
           </thead>
           <tbody className="bg-[var(--bg-primary)] divide-y divide-[var(--border-default)]">
@@ -129,7 +129,7 @@ const LaporanPerKasir = () => {
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-[var(--text-default)]">{cashier.cashier_name}</div>
-                        <div className="text-sm text-[var(--text-muted)]">ID: {cashier.cashier_id || '-'}</div>
+                        <div className="text-sm text-[var(--text-default)]">ID: {cashier.cashier_id || '-'}</div>
                       </div>
                     </div>
                   </td>
@@ -148,7 +148,7 @@ const LaporanPerKasir = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="px-6 py-4 text-center text-sm text-[var(--text-muted)]">
+                <td colSpan="4" className="px-6 py-4 text-center text-sm text-[var(--text-default)]">
                   Tidak ada data penjualan per kasir yang tersedia
                 </td>
               </tr>
@@ -159,7 +159,7 @@ const LaporanPerKasir = () => {
 
       {/* Performance Legend */}
       {!loading && salesByCashier.length > 0 && (
-        <div className="mt-4 flex flex-wrap items-center text-xs text-[var(--text-muted)]">
+        <div className="mt-4 flex flex-wrap items-center text-xs text-[var(--text-default)]">
           <span className="mr-4 mb-2 flex items-center">
             <span className={`w-3 h-3 rounded-full mr-2 ${legendClasses.high}`}></span>
             Penjualan &gt; 10jt

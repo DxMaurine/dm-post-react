@@ -33,7 +33,7 @@ const LaporanProdukTerlaris = () => {
   const getRankClasses = (rank) => {
     if (rank === 1) return 'bg-[var(--primary-color)]/20 text-[var(--primary-color)]';
     if (rank === 2 || rank === 3) return 'bg-[var(--primary-color)]/10 text-[var(--primary-color)]/80';
-    return 'bg-[var(--bg-tertiary)] text-[var(--text-muted)]';
+    return 'bg-[var(--bg-tertiary)] text-[var(--text-default)]';
   };
 
   return (
@@ -41,7 +41,7 @@ const LaporanProdukTerlaris = () => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h2 className="text-3xl font-bold text-[var(--text-default)]">Laporan Produk Terlaris</h2>
-          <p className="text-[var(--text-muted)]">Daftar produk dengan penjualan tertinggi</p>
+          <p className="text-[var(--text-default)]">Daftar produk dengan penjualan tertinggi</p>
         </div>
       </div>
 
@@ -61,16 +61,16 @@ const LaporanProdukTerlaris = () => {
               cardClasses += 'border-t-4 border-orange-500';
             } else {
               cardClasses += 'border border-[var(--border-default)]';
-              textClasses = 'text-[var(--text-muted)]';
+              textClasses = 'text-[var(--text-default)]';
             }
 
             return (
               <div key={`card-${product.id || index}`} className={cardClasses}>
-                <div className={`text-sm font-medium ${rank > 3 ? 'text-[var(--text-muted)]' : 'text-[var(--text-default)]'}`}>Peringkat #{rank}</div>
+                <div className={`text-sm font-medium ${rank > 3 ? 'text-[var(--text-default)]' : 'text-[var(--text-default)]'}`}>Peringkat #{rank}</div>
                 <div className={`text-lg font-bold mt-1 truncate flex-grow ${textClasses}`} title={product.name}>
                   {product.name || '-'}
                 </div>
-                <div className={`text-sm mt-2 ${rank > 3 ? 'text-[var(--text-muted)]' : 'text-[var(--text-default)]'}`}>
+                <div className={`text-sm mt-2 ${rank > 3 ? 'text-[var(--text-default)]' : 'text-[var(--text-default)]'}`}>
                   {product.total_quantity_sold || 0} unit terjual
                 </div>
               </div>
@@ -81,11 +81,11 @@ const LaporanProdukTerlaris = () => {
 
       <div className="overflow-x-auto rounded-xl shadow-sm border-2 border-[var(--border-default)]">
         <table className="min-w-full divide-y divide-[var(--border-default)]">
-          <thead className="bg-[var(--bg-tertiary)]">
+          <thead className="bg-[var(--bg-default)]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider rounded-tl-xl">Peringkat</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Produk</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider rounded-tr-xl">Jumlah Terjual</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider rounded-tl-xl">Peringkat</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Produk</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-[var(--text-default)] uppercase tracking-wider rounded-tr-xl">Jumlah Terjual</th>
             </tr>
           </thead>
           <tbody className="bg-[var(--bg-primary)] divide-y divide-[var(--border-default)]">
@@ -124,19 +124,19 @@ const LaporanProdukTerlaris = () => {
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-[var(--text-default)]">{product.name}</div>
-                        <div className="text-sm text-[var(--text-muted)]">SKU: {product.sku || '-'}</div>
+                        <div className="text-sm text-[var(--text-default)]">SKU: {product.sku || '-'}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right">
                     <div className="text-lg font-bold text-[var(--text-default)]">{product.total_quantity_sold}</div>
-                    <div className="text-sm text-[var(--text-muted)]">unit terjual</div>
+                    <div className="text-sm text-[var(--text-default)]">unit terjual</div>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="3" className="px-6 py-4 text-center text-sm text-[var(--text-muted)]">
+                <td colSpan="3" className="px-6 py-4 text-center text-sm text-[var(--text-default)]">
                   Tidak ada data produk terlaris yang tersedia
                 </td>
               </tr>

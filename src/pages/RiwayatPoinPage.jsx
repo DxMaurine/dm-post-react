@@ -54,7 +54,7 @@ const RiwayatPoinPage = () => {
     redeem_discount: { text: 'Tukar Diskon', className: 'text-[var(--danger-color)]', icon: <FiTrendingDown /> },
     transfer_in: { text: 'Transfer Masuk', className: 'text-[var(--primary-color)]', icon: <FiRepeat /> },
     transfer_out: { text: 'Transfer Keluar', className: 'text-[var(--warning-color)]', icon: <FiRepeat /> },
-    default: { text: 'Lainnya', className: 'text-[var(--text-muted)]', icon: null },
+    default: { text: 'Lainnya', className: 'text-[var(--text-default)]', icon: null },
   };
 
   const getTransactionTypeInfo = (type) => {
@@ -66,7 +66,7 @@ const RiwayatPoinPage = () => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-[var(--text-default)]">Riwayat Poin Pelanggan</h1>
-        <p className="text-[var(--text-muted)]">Lacak semua pergerakan poin, termasuk perolehan, penukaran, dan transfer.</p>
+        <p className="text-[var(--text-default)]">Lacak semua pergerakan poin, termasuk perolehan, penukaran, dan transfer.</p>
       </div>
 
       {/* Filters */}
@@ -74,25 +74,25 @@ const RiwayatPoinPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Date Filters */}
           <div>
-            <label className="block text-sm font-medium text-[var(--text-muted)] mb-1">Tanggal Mulai</label>
+            <label className="block text-sm font-medium text-[var(--text-default)] mb-1">Tanggal Mulai</label>
             <div className="relative">
-              <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]/70" />
+              <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-default)]/70" />
               <input type="date" name="startDate" value={filters.startDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-[var(--bg-primary)] text-[var(--text-default)] border-[var(--border-default)]" />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-[var(--text-muted)] mb-1">Tanggal Akhir</label>
+            <label className="block text-sm font-medium text-[var(--text-default)] mb-1">Tanggal Akhir</label>
             <div className="relative">
-              <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]/70" />
+              <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-default)]/70" />
               <input type="date" name="endDate" value={filters.endDate} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-[var(--bg-primary)] text-[var(--text-default)] border-[var(--border-default)]" />
             </div>
           </div>
 
           {/* Type Filter */}
           <div>
-            <label className="block text-sm font-medium text-[var(--text-muted)] mb-1">Jenis Transaksi</label>
+            <label className="block text-sm font-medium text-[var(--text-default)] mb-1">Jenis Transaksi</label>
             <div className="relative">
-              <FiFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]/70" />
+              <FiFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-default)]/70" />
               <select name="type" value={filters.type} onChange={handleFilterChange} className="w-full pl-10 p-2 border rounded-lg bg-[var(--bg-primary)] text-[var(--text-default)] border-[var(--border-default)]">
                 <option value="">Semua Jenis</option>
                 <option value="earn">Dapat Poin</option>
@@ -106,10 +106,10 @@ const RiwayatPoinPage = () => {
 
           {/* Customer Search */}
           <div>
-            <label className="block text-sm font-medium text-[var(--text-muted)] mb-1">Nama Pelanggan</label>
+            <label className="block text-sm font-medium text-[var(--text-default)] mb-1">Nama Pelanggan</label>
             <form onSubmit={handleSearchSubmit} className="flex gap-2">
               <div className="relative flex-grow">
-                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]/70" />
+                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-default)]/70" />
                 <input type="text" placeholder="Cari pelanggan..." value={searchTerm} onChange={handleSearchChange} className="w-full pl-10 p-2 border rounded-lg bg-[var(--bg-primary)] text-[var(--text-default)] border-[var(--border-default)]" />
               </div>
             </form>
@@ -122,12 +122,12 @@ const RiwayatPoinPage = () => {
         <table className="min-w-full divide-y divide-[var(--border-default)]">
           <thead className="bg-[var(--bg-default)]">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Tanggal & Waktu</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Pelanggan</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Jenis</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Deskripsi</th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Perubahan Poin</th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">Sisa Poin</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Tanggal & Waktu</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Pelanggan</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Jenis</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Deskripsi</th>
+              <th className="px-4 py-3 text-right text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Perubahan Poin</th>
+              <th className="px-4 py-3 text-right text-xs font-medium text-[var(--text-default)] uppercase tracking-wider">Sisa Poin</th>
             </tr>
           </thead>
           <tbody className="bg-[var(--bg-primary)] divide-y divide-[var(--border-default)]">
@@ -138,7 +138,7 @@ const RiwayatPoinPage = () => {
                 const typeInfo = getTransactionTypeInfo(item.type);
                 return (
                   <tr key={item.id} className="hover:bg-[var(--bg-secondary)]">
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-muted)]">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-default)]">
                       {format(new Date(item.created_at), 'dd MMM yyyy, HH:mm')}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-[var(--text-default)]">
@@ -150,7 +150,7 @@ const RiwayatPoinPage = () => {
                         <span>{typeInfo.text}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-muted)]">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-[var(--text-default)]">
                       {item.description}
                     </td>
                     <td className={`px-4 py-3 whitespace-nowrap text-sm text-right font-bold ${item.points_change > 0 ? 'text-[var(--success-color)]' : 'text-[var(--danger-color)]'}`}>
@@ -164,7 +164,7 @@ const RiwayatPoinPage = () => {
               })
             ) : (
               <tr>
-                <td colSpan="6" className="text-center py-10 text-[var(--text-muted)]">
+                <td colSpan="6" className="text-center py-10 text-[var(--text-default)]">
                   <FiInbox className="mx-auto text-4xl mb-2" />
                   Tidak ada riwayat poin yang ditemukan.
                 </td>
